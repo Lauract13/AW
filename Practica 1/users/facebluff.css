@@ -1,0 +1,30 @@
+body {
+    background-image: url("../img/Fondo.jpg");
+    background-size: cover;
+}
+
+img.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+}
+
+@font-face {
+    font-family: "Facebluff";
+    src: url("../fonts/GloriaHallelujah.ttf");
+}
+
+div.menu {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+}
+
+div.optMenu {
+    font-family: "Facebluff";
+    font-size: 160%;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
