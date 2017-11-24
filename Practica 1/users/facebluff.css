@@ -1,6 +1,6 @@
 body {
     background-image: url("../img/Fondo.jpg");
-    background-size: cover;
+    background-size: 120%;
 }
 
 img.logo {
@@ -18,7 +18,6 @@ img.logo {
 div.menu {
     display: flex;
     flex-direction: row;
-    margin: auto;
 }
 
 div.optMenu {
