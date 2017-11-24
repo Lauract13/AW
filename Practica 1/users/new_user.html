@@ -19,26 +19,33 @@
     </div>
 	<p class=encPag>Nuevo Usuario</p>
 	<div class=formulario>
-		<form action="ProcesarFormulario.html" method="metodo">
-			<div class=email> 
-				Email: <input type="text" name="email_campo">
+		<form action="newuserForm.html" method="POST">
+			<div class=celdFormulario> 
+				<div class=formOpt> Email:</div> <div> <input type="text" name="email_campo"> </div>
 			</div>
-			<div class=contraseña>
-				Contraseña: <input type="text" name="contraseña_campo">
+			<div class=celdFormulario>
+				<div class=formOpt> Contraseña:</div> <div> <input type="text" name="contraseña_campo"></div>
 			</div>
-			<div class=nombreCompleto>
-				Nombre Completo: <input type="text" name="nombre_campo">
+			<div class=celdFormulario>
+				<div class=formOpt> Nombre Completo:</div> <div><input type="text" name="nombre_campo"></div>
 			</div>
-			<div class=sexo>
-				Sexo:
+			<div class=celdFormulario>
+				<div class=formOpt> Sexo: </div><div>
 				<input type="radio" name="sexo_campo" value="Masculino" checked> Masculino
 				<input type="radio" name="sexo_campo" value="Femenino"> Femenino
-				<input type="radio" name="sexo_campo" value="Otro"> Otro
+				<input type="radio" name="sexo_campo" value="Otro"> Otro</div>
+			</div>
+			<div class=celdFormulario>
+				<div class=formOpt>Fecha de nacimiento:</div><div><input type="date" name="fecha_nacimiento"></div>
+			</div>
+			<div class=celdFormulario>
+				<div class=formOpt>Imagen de perfil: </div><div><input type="button" name="imagen_campo" value="Seleccionar archivo"></div>
 			</div>
 			
-			
-			
-		<input type="button" value="Crear Usuario">
+			<div class=celdFormularioBtn>
+				<input type="button" value="Crear Usuario">
+			</div>
+		
 	</form>
 	</div>
 	
