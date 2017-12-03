@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Bienvenido a Facebluff</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/facebluff.css" />
+</head>
+
+<body>
+    <img class=logo src="../img/Logo.png">
+    <div class=menu>
+        <div class=optMenu>
+            <a href="login.html" class="menuLinks">Entrar</a>
+        </div>
+        <div class=optMenu>
+            <a href="new_user.html" class="menuLinks">Nuevo usuario</a>
+        </div>
+    </div>
+    <p class=encPag>Entrar</p>
+    <div class=formulario>
+        <form action="loginForm.ejs" method="POST">
+            <div class=celdFormulario>
+                <div class=formOpt>Email</div>
+                <div class=formTxt><input class=formTxt type="text" name="email"></div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt>Contraseña</div>
+                <div class=formTxt><input class=formTxt type="text" name="password"></div>
+            </div>
+            <div class=celdFormularioBtn>
+                <input class=formBtn type="submit" value="Conectar">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
