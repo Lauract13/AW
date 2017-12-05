@@ -16,7 +16,12 @@ app.get("/", (request, response) => {
     response.redirect("users/login.html");
 });
 
-app.post("/users/loginpost.html", bodyParser.urlencoded({extended:false}), function(request, response){
+app.post("/users/loginpost", bodyParser.urlencoded({extended:false}), function(request, response){
+    console.log(request.body);
+    response.end();
+});
+
+app.post("/users/newUserForm", bodyParser.urlencoded({extended:false}), function(request, response){
     console.log(request.body);
     response.end();
 });
