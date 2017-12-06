@@ -42,8 +42,9 @@ div.optMenu {
 
 div.formulario {
     display: block;
-    width: 40%;
-    background-color: #9900cc;
+    width: 50%;
+    padding: 25px;
+    background-color: #6f0792;
     border-radius: 10px;
     margin: auto;
 }
@@ -62,9 +63,10 @@ div.formTxt {
 div.celdFormulario {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    
     margin: 1%;
     padding: 1%;
+    
 }
 
 div.celdFormularioBtn {
@@ -76,10 +78,16 @@ div.celdFormularioBtn {
 }
 
 input.formBtn {
-    background-color: #730099;
-    border: none;
-    border-radius: 10px;
+    background-color: #bd4ae4;
     color: white;
+    font-family: "Facebluff";
+    font-size: 25px;
+    font-weight: bold;
+
+    margin: 20px auto;
+    border: none;
+    border-radius: 20px;
+    
     width: 30%;
     height: 10%;
 }
