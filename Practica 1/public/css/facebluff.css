@@ -74,6 +74,8 @@ div.celdFormulario {
     
 }
 
+
+
 div.celdFormularioBtn {
     display: flex;
     flex-direction: row;
@@ -100,6 +102,7 @@ input.formBtn {
     
     width: 30%;
     height: 10%;
+    
 }
 
 input.formTxt {
@@ -110,3 +113,36 @@ a.menuLinks {
     color: white;
     font-style: normal;
 }
+
+img.imagenPerfil{
+   /* position: absolute;
+    top: 200px;
+    left: 200px;*/
+    float: left;
+    margin-left: 20%;
+    border: 1px solid rgb(48, 46, 46);
+    border-radius: 4px;
+    padding: 5px;
+    width: 160px;
+    height: 160px;
+    vertical-align: text-top;
+    
+}
+div.profileDif{
+    font-family: "Facebluff";
+    
+    
+}
+
+div.profile{
+    font-family: Calibri;
+    
+}
+
+div.perfil{
+    float:center;
+    padding: 2%;
+}
+
+
+
