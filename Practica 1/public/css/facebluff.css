@@ -8,7 +8,6 @@ p.encPag {
     font-size: 180%;
     text-align: center;
     margin-top: 2%;
-    margin-bottom: 2%;
     font-weight: bold;
     
 }
@@ -28,7 +27,9 @@ img.logo {
 div.menu {
     display: flex;
     flex-direction: row;
-    margin-left: 5%;
+   
+    justify-content: flex-end;
+
 
 }
 
@@ -36,10 +37,12 @@ div.optMenu {
     font-family: "Facebluff";
     font-size: 160%;
     color: white;
-    padding-top: 1%;
-    padding-left: 2%;
-    padding-right: 2%;
+  
     width: 15%;
+    float: center;
+    padding: 1%;
+   
+   
 }
 
 div.formulario {
@@ -115,9 +118,7 @@ a.menuLinks {
 }
 
 img.imagenPerfil{
-   /* position: absolute;
-    top: 200px;
-    left: 200px;*/
+ 
     float: left;
     margin-left: 20%;
     border: 1px solid rgb(48, 46, 46);
@@ -128,9 +129,16 @@ img.imagenPerfil{
     vertical-align: text-top;
     
 }
+img.imgPerfilSmall{
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    
+    float:left;
+}
 div.profileDif{
     font-family: "Facebluff";
-    
+    margin: 10px;
     
 }
 
