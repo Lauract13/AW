@@ -8,6 +8,7 @@ p.encPag {
     font-size: 180%;
     text-align: center;
     margin-top: 2%;
+    margin-bottom: 2%;
     font-weight: bold;
     
 }
@@ -27,9 +28,7 @@ img.logo {
 div.menu {
     display: flex;
     flex-direction: row;
-   
-    justify-content: flex-end;
-
+    margin-left: 5%;
 
 }
 
@@ -37,11 +36,10 @@ div.optMenu {
     font-family: "Facebluff";
     font-size: 160%;
     color: white;
-  
+    padding-top: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
     width: 15%;
-    float: center;
-    padding: 1%;
-   
    
 }
 
@@ -118,7 +116,7 @@ a.menuLinks {
 }
 
 img.imagenPerfil{
- 
+   
     float: left;
     margin-left: 20%;
     border: 1px solid rgb(48, 46, 46);
