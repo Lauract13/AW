@@ -10,6 +10,7 @@ p.encPag {
     margin-top: 2%;
     margin-bottom: 2%;
     font-weight: bold;
+    
 }
 
 img.logo {
@@ -28,6 +29,7 @@ div.menu {
     display: flex;
     flex-direction: row;
     margin-left: 5%;
+
 }
 
 div.optMenu {
@@ -51,9 +53,12 @@ div.formulario {
 
 div.formOpt {
     font-family: Calibri;
+    font-size: 120%;
     color: white;
+    
     justify-content: center;
     width: 30%;
+    
 }
 
 div.formTxt {
@@ -77,16 +82,21 @@ div.celdFormularioBtn {
     padding: 1%;
 }
 
+div.radio{
+    color:white;
+    font-family: Calibri;
+    font-size:110%;
+}
 input.formBtn {
     background-color: #bd4ae4;
     color: white;
     font-family: "Facebluff";
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
 
     margin: 20px auto;
     border: none;
-    border-radius: 20px;
+    border-radius: 13px;
     
     width: 30%;
     height: 10%;

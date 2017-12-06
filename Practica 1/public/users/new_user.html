@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <title>Tu perfil - Facebluff</title>
+    <title>Nuevo Usuario - Facebluff</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../css/facebluff.css" />
 </head>
@@ -17,7 +17,7 @@
             <a href="login.html" class="menuLinks">Nuevo usuario</a>
         </div>
     </div>
-    <p class=encPag>Tu perfil</p>
+    <p class=encPag>Nuevo Usuario</p>
     <div class=formulario>
         <form action="newUserForm" method="POST">
             <div class=celdFormulario>
@@ -34,10 +34,11 @@
             </div>
             <div class=celdFormulario>
                 <div class=formOpt> Sexo: </div>
-                <div>
+                <div class=radio>
                     <input type="radio" name="sexo_campo" value="Masculino" checked> Masculino
                     <input type="radio" name="sexo_campo" value="Femenino"> Femenino
-                    <input type="radio" name="sexo_campo" value="Otro"> Otro</div>
+                    <input type="radio" name="sexo_campo" value="Otro"> Otro
+                </div>
             </div>
             <div class=celdFormulario>
                 <div class=formOpt>Fecha de nacimiento:</div>
@@ -49,7 +50,7 @@
             </div>
 
             <div class=celdFormularioBtn>
-                <input type="submit" value="Modificar Perfil">
+                <input class=formBtn type="submit" value="Crear Usuario">
             </div>
 
         </form>
