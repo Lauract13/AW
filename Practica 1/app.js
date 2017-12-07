@@ -7,6 +7,11 @@ var bodyParser = require("body-parser");
 const morgan = require("morgan");
 const app = express();
 const staticFiles = path.join(__dirname, "public");
+const usersRouter = require("./routes/usersRouter");
+const cookieParser = require("cookie-parser");
+const config = require("./config.js");
+app.use(cookieParser());
+app.use("/users", usersRouter);
 app.use(express.static(staticFiles));
 app.use(morgan("dev"));
 app.set("view engine", "ejs");
@@ -16,17 +21,7 @@ app.get("/", (request, response) => {
     response.redirect("users/login.html");
 });
 
-app.post("/users/loginpost", bodyParser.urlencoded({extended:false}), function(request, response){
-    console.log(request.body);
-    response.end();
-});
-
-app.post("/users/newUserForm", bodyParser.urlencoded({extended:false}), function(request, response){
-    console.log(request.body);
-    response.end();
-});
-
-app.listen(3000, (err) => {
-    if(err)
+app.listen(config.port, (err) => {
+    if (err)
         console.log(err);
 });

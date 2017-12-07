@@ -9,14 +9,31 @@
 
 <body>
     <img class=logo src="../img/Logo.png">
-    <div class=menu>
-        <div class=optMenu>
-            <a href="login.html" class="menuLinks">Entrar</a>
+    <% if (!user) { %>
+        <div class=menu>
+            <div class=optMenu>
+                <a href="login.html" class="menuLinks">Entrar</a>
+            </div>
+            <div class=optMenu>
+                <a href="new_user.html" class="menuLinks">Nuevo usuario</a>
+            </div>
         </div>
-        <div class=optMenu>
-            <a href="new_user.html" class="menuLinks">Nuevo usuario</a>
+    <% } else { %>
+        <div class=menu>
+            <div class=optMenu>
+                <a href="perfil.html" class="menuLinks">Perfil</a>
+            </div>
+            <div class=optMenu>
+                <a href="amigos.html" class="menuLinks">Amigos</a>
+            </div>
+            <div class=optMenu>
+                <a href="preguntas.html" class="menuLinks">Preguntas</a>
+            </div>
+            <div class=optMenu>
+                <a href="desconectar.html" class="menuLinks">Desconectar</a>
+            </div>
         </div>
-    </div>
+    <% } %>
     <p class=encPag>Entrar</p>
     <div class=formulario>
         <form action="loginpost" method="POST">

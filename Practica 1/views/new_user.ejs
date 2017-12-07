@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Nuevo Usuario - Facebluff</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/facebluff.css" />
+</head>
+
+<body>
+    <img class=logo src="../img/Logo.png">
+    <% if (!user) { %>
+        <div class=menu>
+            <div class=optMenu>
+                <a href="login.html" class="menuLinks">Entrar</a>
+            </div>
+            <div class=optMenu>
+                <a href="new_user.html" class="menuLinks">Nuevo usuario</a>
+            </div>
+        </div>
+    <% } else { %>
+        <div class=menu>
+            <div class=optMenu>
+                <a href="perfil.html" class="menuLinks">Perfil</a>
+            </div>
+            <div class=optMenu>
+                <a href="amigos.html" class="menuLinks">Amigos</a>
+            </div>
+            <div class=optMenu>
+                <a href="preguntas.html" class="menuLinks">Preguntas</a>
+            </div>
+            <div class=optMenu>
+                <a href="desconectar.html" class="menuLinks">Desconectar</a>
+            </div>
+        </div>
+    <% } %>
+    <p class=encPag>Nuevo Usuario</p>
+    <div class=formulario>
+        <form action="newUserForm" method="POST">
+            <div class=celdFormulario>
+                <div class=formOpt> Email:</div>
+                <div class=formTxt> <input class=formTxt type="text" name="email"> </div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt> Contraseña:</div>
+                <div class=formTxt> <input class=formTxt type="text" name="password"></div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt> Nombre Completo:</div>
+                <div class=formTxt><input class=formTxt type="text" name="name"></div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt> Sexo: </div>
+                <div class=radio>
+                    <input type="radio" name="gender" value="Masculino" checked> Masculino
+                    <input type="radio" name="gender" value="Femenino"> Femenino
+                    <input type="radio" name="gender" value="Otro"> Otro
+                </div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt>Fecha de nacimiento:</div>
+                <div class=formTxt><input class=formTxt type="date" name="birthDate"></div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt>Imagen de perfil: </div>
+                <div><input type="button" name="image" value="Seleccionar archivo"></div>
+            </div>
+
+            <div class=celdFormularioBtn>
+                <input class=formBtn type="submit" value="Crear Usuario">
+            </div>
+
+        </form>
+    </div>
+
+</body>
+
+
+</html>
