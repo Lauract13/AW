@@ -11,11 +11,12 @@ const usersRouter = require("./routes/usersRouter");
 const cookieParser = require("cookie-parser");
 const config = require("./config.js");
 app.use(cookieParser());
-app.use("/users", usersRouter);
 app.use(express.static(staticFiles));
 app.use(morgan("dev"));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use("/users", usersRouter);
 
 app.get("/", (request, response) => {
     response.redirect("users/login.html");

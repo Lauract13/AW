@@ -10,7 +10,6 @@ p.Pag {
     margin-top: 2%;
     margin-bottom: 2%;
     font-weight: bold;
-    
 }
 
 img.logo {
@@ -29,20 +28,15 @@ div.menu {
     display: flex;
     flex-direction: row;
     margin-left: 5%;
-
-
 }
 
 div.optMenu {
     font-family: "Facebluff";
     font-size: 160%;
     color: white;
-  
     padding-left: 2%;
     padding-right: 2%;
     width: 15%;
-    
-   
 }
 
 div.formulario {
@@ -58,14 +52,14 @@ div.formOpt {
     font-family: Calibri;
     font-size: 120%;
     color: white;
-    
     justify-content: center;
     width: 30%;
-    
 }
-input.searchOpt{
+
+input.searchOpt {
     width: 40%;
 }
+
 div.formTxt {
     width: 70%;
 }
@@ -73,13 +67,9 @@ div.formTxt {
 div.celdFormulario {
     display: flex;
     flex-direction: row;
-    
     margin: 1%;
     padding: 1%;
-    
 }
-
-
 
 div.celdFormularioBtn {
     display: flex;
@@ -89,38 +79,34 @@ div.celdFormularioBtn {
     padding: 1%;
 }
 
-div.radio{
-    color:white;
+div.radio {
+    color: white;
     font-family: Calibri;
-    font-size:110%;
+    font-size: 110%;
 }
+
 input.formBtn {
     background-color: #bd4ae4;
     color: white;
     font-family: "Facebluff";
     font-size: 20px;
     font-weight: bold;
-
     margin: 20px auto;
     border: none;
     border-radius: 13px;
-    
     width: auto;
     height: 10%;
-    
 }
 
-input.amigosBtn{
+input.amigosBtn {
     background-color: #bd4ae4;
     color: white;
     font-family: "Facebluff";
     font-size: 20px;
     font-weight: bold;
-
     margin: 10px auto;
     border: none;
     border-radius: 13px;
-    
     width: auto;
     height: 10%;
 }
@@ -139,18 +125,26 @@ a.menuLinks {
     font-style: normal;
     text-decoration: none;
 }
-p.encPag{
+
+p.encPag {
     font-family: "Facebluff";
     font-size: 180%;
     text-align: center;
     margin-top: 1%;
     margin-bottom: 2%;
     font-weight: bold;
-   
 }
 
-img.imagenPerfil{
-   
+p.errPag {
+    font-family: "Facebluff";
+    font-size: 120%;
+    color: red;
+    text-align: center;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+img.imagenPerfil {
     float: left;
     margin-left: 20%;
     border: 1px solid rgb(48, 46, 46);
@@ -159,28 +153,26 @@ img.imagenPerfil{
     width: 160px;
     height: 160px;
     vertical-align: text-top;
-    
 }
-img.imgPerfilSmall{
+
+img.imgPerfilSmall {
     width: 30px;
     height: 30px;
     vertical-align: middle;
-    
-    float:left;
+    float: left;
 }
-img.imgAmigos{
+
+img.imgAmigos {
     width: 60px;
     height: 60px;
     border: 1px solid rgb(48, 46, 46);
     border-radius: 4px;
     vertical-align: middle;
-    
 }
 
-div.profileDif{
+div.profileDif {
     font-family: "Facebluff";
     margin: 10px;
-    
 }
 
 div.solAmistad {
@@ -189,47 +181,42 @@ div.solAmistad {
     text-align: center;
     font-family: Calibri;
     font-size: 120%;
- 
 }
 
-div.busqueda{
+div.busqueda {
     display: block;
     align-content: center;
     text-align: center;
     font-family: Calibri;
     font-size: 120%;
 }
-div.misAmigos{
+
+div.misAmigos {
     display: block;
     margin-left: 19%;
-    
     font-family: Calibri;
     font-size: 120%;
 }
 
-div.profile{
+div.profile {
     font-family: Calibri;
-    
 }
 
-div.perfil{
-    float:center;
+div.perfil {
+    float: center;
     padding: 2%;
 }
 
-div.preg{
+div.preg {
     margin-top: 1%;
     background: #ecd7b8;
     margin-left: 25%;
     margin-right: 25%;
 }
 
-a.pregLinks{
-    
+a.pregLinks {
     font-family: Calibri;
     font-size: 130%;
-   
-   
     font-weight: bold;
     color: #6f0792;
     text-decoration: none;
