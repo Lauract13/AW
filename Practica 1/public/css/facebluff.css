@@ -124,7 +124,9 @@ input.amigosBtn{
 
 label.nombreSol {
     margin-right: 30%;
+    margin-left: 5px;
 }
+
 input.formTxt {
     width: 100%;
 }
@@ -179,6 +181,13 @@ div.busqueda{
     display: block;
     align-content: center;
     text-align: center;
+    font-family: Calibri;
+    font-size: 120%;
+}
+div.misAmigos{
+    display: block;
+    margin-left: 19%;
+    
     font-family: Calibri;
     font-size: 120%;
 }
