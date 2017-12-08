@@ -134,12 +134,25 @@ img.imgPerfilSmall{
     
     float:left;
 }
+img.imgAmigos{
+    width: 60px;
+    height: 60px;
+    
+    
+    float:left;
+}
 div.profileDif{
     font-family: "Facebluff";
     margin: 10px;
     
 }
-
+div.solAmistad {
+    display: inline-block;
+    
+    font-family: Calibri;
+    font-size: 120%;
+ 
+}
 div.profile{
     font-family: Calibri;
     
