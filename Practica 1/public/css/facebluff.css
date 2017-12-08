@@ -122,7 +122,9 @@ input.amigosBtn{
     height: 10%;
 }
 
-
+label.nombreSol {
+    margin-right: 30%;
+}
 input.formTxt {
     width: 100%;
 }
