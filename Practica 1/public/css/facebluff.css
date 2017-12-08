@@ -138,8 +138,8 @@ img.imgAmigos{
     width: 60px;
     height: 60px;
     
+    vertical-align: middle;
     
-    float:left;
 }
 div.profileDif{
     font-family: "Facebluff";
@@ -147,11 +147,16 @@ div.profileDif{
     
 }
 div.solAmistad {
-    display: inline-block;
-    
+   
+    text-align: center;
     font-family: Calibri;
     font-size: 120%;
  
+}
+div.amigos{
+    display: block;
+    align-content: center;
+   
 }
 div.profile{
     font-family: Calibri;
