@@ -30,6 +30,7 @@ div.menu {
     flex-direction: row;
     margin-left: 5%;
 
+
 }
 
 div.optMenu {
@@ -40,7 +41,8 @@ div.optMenu {
     padding-left: 2%;
     padding-right: 2%;
     width: 15%;
-   
+    
+    text-decoration: none;
 }
 
 div.formulario {
@@ -214,23 +216,20 @@ div.perfil{
     padding: 2%;
 }
 
-
-div.preguntas{
+div.preg{
+    margin-top: 1%;
+    background: #ecd7b8;
     margin-left: 25%;
     margin-right: 25%;
+}
+
+a.pregLinks{
     
     font-family: Calibri;
     font-size: 130%;
-    color: #6f0792;
+   
+   
     font-weight: bold;
-    
-       
-}
-
-div.preg{
-    background: #ecd7b8;
-    margin: auto;
-    
-    
-    
+    color: #6f0792;
+    text-decoration: none;
 }
