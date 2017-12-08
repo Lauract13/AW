@@ -23,23 +23,23 @@
             <p>Desconectar</p>
         </div>
         <div class=optMenu>
-            <img class=imgPerfilSmall src="Mike-01.png">
-            <p>pts</p>
+            <img class=imgPerfilSmall src=<%= user.image %>>
+            <p>50 pts</p>
         </div>
     </div>
     <p class=encPag>Tu perfil</p>
 
     <div class=perfil>
 
-        <img class=imagenPerfil src="Mike-01.png">
+        <img class=imagenPerfil src=<%= user.image %>>
         
         <div class=profileDif>
-            <p>Casper Maria Rodriguez </p>
+            <p><%=user.name %> </p>
         </div>
         <div class=profile>
-            <p>33 años</p>
-            <p>Hombre</p>
-            <p>50 puntos</p>
+            <p><%= user.years %> años</p>
+            <p><%= user.gender %></p>
+            <p><%= user.puntos %> puntos</p>
             
         </div>
        
