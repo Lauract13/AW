@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Preguntas - Facebluff</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/facebluff.css" />
+</head>
+
+<body>
+    <img class=logo src="../img/Logo.png">
+    <div class=menu>
+        <div class=optMenu>
+            <p>Perfil</p>
+        </div>
+        <div class=optMenu>
+            <p>Amigos</p>
+        </div>
+        <div class=optMenu>
+            <p>Preguntas</p>
+        </div>
+        <div class=optMenu>
+            <p>Desconectar</p>
+        </div>
+        <div class=optMenu>
+            <img class=imgPerfilSmall src= <%= user.image %>>
+            <p><%= user.puntos %> pts</p>
+        </div>
+    </div>
+    <p class=encPag>Preguntas seleccionadas aleatoriamente</p>
+    
+    <div class=preguntas>
+        
+        <div class=preg><p>¿Cual es la peor pelicula de la historia?</p></div>
+        <div class=preg><p>¿En qué escuela primaria estudiaste?</p></div>
+        <div class=preg><p>¿Nintendo Switch, PS4, o Xbox One?</p></div>
+        
+        
+    </div> 
+    <p class=encPag>¡Añade tus preguntas!</p>
+    <div class=preguntas>
+         <input class="formBtn" type="button" value="Crear nueva pregunta">
+    </div>
+    
+    
+</body>
+
+
+</html>
