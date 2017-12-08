@@ -177,6 +177,11 @@ div.solAmistad {
     font-size: 120%;
  
 }
+div.amigos{
+    display: block;
+    align-content: center;
+   
+}
 div.busqueda{
     display: block;
     align-content: center;
@@ -191,11 +196,7 @@ div.misAmigos{
     font-family: Calibri;
     font-size: 120%;
 }
-div.amigos{
-    display: block;
-    align-content: center;
-   
-}
+
 div.profile{
     font-family: Calibri;
     

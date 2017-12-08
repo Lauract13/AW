@@ -23,7 +23,7 @@
             <p>Desconectar</p>
         </div>
         <div class=optMenu>
-            <img class=imgPerfilSmall src="Extraterrestrial-01.png">
+            <img class=imgPerfilSmall src= <%= user.image %>>
             <p><%= user.puntos %> pts</p>
         </div>
     </div>
@@ -31,18 +31,17 @@
     
     <div class=solAmistad>
         <div class=amigos>
-            <img class=imgAmigos src="Extraterrestrial-01.png"> 
-            <label class="nombreSol">Bruja piruja</label>
-            <input class=amigosBtn type="button" value="Aceptar"> 
-            <input class=amigosBtn type="button" value="Rechazar"> 
-        </div>
-        <div class=amigos> 
-            <img class=imgAmigos src="Extraterrestrial-01.png">
-            <label class="nombreSol">Bruja piruja</label>
-            <input class=amigosBtn type="button" value="Aceptar">
-            <input class=amigosBtn type="button" value="Rechazar">
-        </div>
-    </div>
+            <% users.forEach(user => { %>
+                <img class=imgAmigos src= <%= user.image %>> 
+                <label class="nombreSol"><%= user.name %></label>
+                <input class=amigosBtn type="button" value="Aceptar"> 
+                <input class=amigosBtn type="button" value="Rechazar"> 
+         
+            }
+           <% }); %>
+         </div>
+        
+    </div> 
     <p class=encPag>Busqueda de amigos</p>
     <div class=busqueda>
         <label>Buscar por nombre:</label>
