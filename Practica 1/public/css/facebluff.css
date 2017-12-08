@@ -103,7 +103,7 @@ input.formBtn {
     border: none;
     border-radius: 13px;
     
-    width: 30%;
+    width: auto;
     height: 10%;
     
 }
@@ -118,7 +118,7 @@ input.amigosBtn{
     border: none;
     border-radius: 13px;
     
-    width: 10%;
+    width: auto;
     height: 10%;
 }
 
@@ -171,17 +171,14 @@ div.profileDif{
 }
 
 div.solAmistad {
-   
+    display: block;
+    align-content: center;
     text-align: center;
     font-family: Calibri;
     font-size: 120%;
  
 }
-div.amigos{
-    display: block;
-    align-content: center;
-   
-}
+
 div.busqueda{
     display: block;
     align-content: center;

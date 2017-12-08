@@ -30,7 +30,7 @@
     <p class=encPag>Solicitudes de amistad</p>
     
     <div class=solAmistad>
-        <div class=amigos>
+        
             <% users.forEach(user => { %>
                 <img class=imgAmigos src= <%= user.image %>> 
                 <label class="nombreSol"><%= user.name %></label>
@@ -39,7 +39,7 @@
          
             }
            <% }); %>
-         </div>
+        
         
     </div> 
     <p class=encPag>Busqueda de amigos</p>

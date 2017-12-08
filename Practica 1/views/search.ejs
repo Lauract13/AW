@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Busqueda - Facebluff</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/facebluff.css" />
+</head>
+
+<body>
+    <img class=logo src="../img/Logo.png">
+    <div class=menu>
+        <div class=optMenu>
+            <p>Perfil</p>
+        </div>
+        <div class=optMenu>
+            <p>Amigos</p>
+        </div>
+        <div class=optMenu>
+            <p>Preguntas</p>
+        </div>
+        <div class=optMenu>
+            <p>Desconectar</p>
+        </div>
+        <div class=optMenu>
+            <img class=imgPerfilSmall src=<%= user.image %>>
+            <p><%= user.puntos %> pts</p>
+        </div>
+    </div>
+    <p class=encPag>Resultados de búsqueda: </p>
+    
+    <div class=solAmistad>
+            <!--ESTO DEBERIA SER UN FOR PARA CADA PETICIÓN DE AMISTAD NO PARA CADA USUARIO PERO DE MOMENTO SE QUEDA ASI -->
+            <% users.forEach(user => { %>
+                <img class=imgAmigos src=<%= user.image %>> 
+                <label class="nombreSol"><%= user.name %></label>
+                <input class=amigosBtn type="button" value="Solicitar Amistad"> 
+            }
+           <% }); %>
+            
+            
+    </div>
+</body>
+
+
+</html>
