@@ -61,7 +61,9 @@ div.formOpt {
     width: 30%;
     
 }
-
+input.searchOpt{
+    width: 40%;
+}
 div.formTxt {
     width: 70%;
 }
@@ -105,6 +107,21 @@ input.formBtn {
     height: 10%;
     
 }
+input.amigosBtn{
+    background-color: #bd4ae4;
+    color: white;
+    font-family: "Facebluff";
+    font-size: 20px;
+    font-weight: bold;
+
+    margin: 10px auto;
+    border: none;
+    border-radius: 13px;
+    
+    width: 10%;
+    height: 10%;
+}
+
 
 input.formTxt {
     width: 100%;
@@ -137,21 +154,31 @@ img.imgPerfilSmall{
 img.imgAmigos{
     width: 60px;
     height: 60px;
-    
+    border: 1px solid rgb(48, 46, 46);
+    border-radius: 4px;
     vertical-align: middle;
     
 }
+
 div.profileDif{
     font-family: "Facebluff";
     margin: 10px;
     
 }
+
 div.solAmistad {
    
     text-align: center;
     font-family: Calibri;
     font-size: 120%;
  
+}
+div.busqueda{
+    display: block;
+    align-content: center;
+    text-align: center;
+    font-family: Calibri;
+    font-size: 120%;
 }
 div.amigos{
     display: block;
