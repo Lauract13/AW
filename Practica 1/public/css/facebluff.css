@@ -42,7 +42,7 @@ div.optMenu {
     padding-right: 2%;
     width: 15%;
     
-    text-decoration: none;
+   
 }
 
 div.formulario {
@@ -137,6 +137,7 @@ input.formTxt {
 a.menuLinks {
     color: white;
     font-style: normal;
+    text-decoration: none;
 }
 p.encPag{
     font-family: "Facebluff";
