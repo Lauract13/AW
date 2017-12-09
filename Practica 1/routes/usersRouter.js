@@ -3,10 +3,10 @@
 const http = require("http");
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 var bodyParser = require("body-parser");
 const morgan = require("morgan");
 const usersRouter = express.Router();
-const staticFiles = path.join(__dirname, "public");
 const mysql = require("mysql");
 const config = require("../config.js");
 const pool = mysql.createPool({
@@ -35,7 +35,7 @@ let logErr = false;
 
 
 usersRouter.get("/desconectar.html", (request, response) => {
-    response.cookie("user", false);
+    // response.cookie("user", false);
     request.session.destroy((err) => {
         if (err) { console.log("Error deleting session."); }
     });
@@ -44,22 +44,45 @@ usersRouter.get("/desconectar.html", (request, response) => {
 });
 
 usersRouter.get("/new_user.html", (request, response) => {
-    let loggedIn = (request.cookies.user == 'true');
+    let loggedIn = (String(request.session.user) !== 'undefined');
+    console.log(request.session.user);
     response.render("new_user.ejs", { user: loggedIn });
     response.end();
 });
 
 usersRouter.get("/login.html", (request, response) => {
-    let loggedIn = (request.cookies.user == 'true');
+    let loggedIn = (String(request.session.user) !== 'undefined');
+    console.log(request.session);
     response.render("login.ejs", { user: loggedIn, error: logErr });
     if (logErr) logErr = false;
     response.end();
 });
 
 usersRouter.get("/perfil.html", (request, response) => {
-    let loggedIn = (request.cookies.user == 'true');
+    let loggedIn = (String(request.session.user) !== 'undefined');
+    // request.session.reload();
+    console.log(request.session.user);
     if (loggedIn) {
-        response.render("perfil.ejs");
+        let str = path.join(__dirname, "..", "public", "icons", String(request.session.image));
+        console.log(str);
+        if (fs.existsSync(str)) {
+            response.render("perfil.ejs", {
+                name: request.session.name,
+                years: request.session.birthDate,
+                gender: request.session.gender,
+                puntos: 0,
+                image: path.join("..", "icons", String(request.session.image))
+            });
+        } else {
+            let noProfPic = path.join("..", "img", "NoProfile.png");
+            response.render("perfil.ejs", {
+                name: request.session.name,
+                years: request.session.birthDate,
+                gender: request.session.gender,
+                puntos: 0,
+                image: path.join("..", "img", "NoProfile.png")
+            });
+        }
     } else {
         response.redirect("/users/login.html");
     }
@@ -88,7 +111,7 @@ usersRouter.post("/loginpost", function(request, response) {
                     console.log(request.session);
                     console.log("Login succeeded.");
                 }
-                response.cookie("user", success);
+                // response.cookie("user", success);
                 if (!success) {
                     response.redirect("/users/login.html");
                 } else {
@@ -124,10 +147,10 @@ usersRouter.post("/newUserForm", function(request, response) {
                     console.log(rows.affectedRows);
                     conn.release();
                 }
+                response.redirect("/users/login.html");
             });
         }
     });
-    response.end();
 });
 
 module.exports = usersRouter;
