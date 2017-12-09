@@ -48,7 +48,11 @@ usersRouter.get("/new_user.html", (request, response) => {
     if (loggedIn) {
         response.render("new_user.ejs", { user: loggedIn });
     } else {
-        response.render("new_user.ejs", { user: loggedIn, puntos: 0 });
+        response.render("new_user.ejs", {
+            user: loggedIn,
+            image: request.session.image,
+            puntos: 0
+        });
     }
     response.end();
 });
@@ -71,29 +75,49 @@ usersRouter.get("/perfil.html", (request, response) => {
     if (loggedIn) {
         let str = path.join(__dirname, "..", "public", "icons", String(request.session.image));
         console.log(str);
-        if (fs.existsSync(str)) {
-            response.render("perfil.ejs", {
-                name: request.session.name,
-                years: request.session.birthDate,
-                gender: request.session.gender,
-                puntos: 0,
-                image: path.join("..", "icons", String(request.session.image))
-            });
-        } else {
-            let noProfPic = path.join("..", "img", "NoProfile.png");
-            response.render("perfil.ejs", {
-                name: request.session.name,
-                years: request.session.birthDate,
-                gender: request.session.gender,
-                puntos: 0,
-                image: path.join("..", "img", "NoProfile.png")
-            });
-        }
+        // if (fs.existsSync(str)) {
+        //     response.render("perfil.ejs", {
+        //         name: request.session.name,
+        //         years: request.session.birthDate,
+        //         gender: request.session.gender,
+        //         puntos: 0,
+        //         image: path.join("..", "icons", String(request.session.image))
+        //     });
+        // } else {
+        //     let noProfPic = path.join("..", "img", "NoProfile.png");
+        //     response.render("perfil.ejs", {
+        //         name: request.session.name,
+        //         years: request.session.birthDate,
+        //         gender: request.session.gender,
+        //         puntos: 0,
+        //         image: path.join("..", "img", "NoProfile.png")
+        //     });
+        // }
+        response.render("perfil.ejs", {
+            name: request.session.name,
+            years: request.session.birthDate,
+            gender: request.session.gender,
+            puntos: 0,
+            image: request.session.image
+        });
     } else {
         response.redirect("/users/login.html");
     }
     response.end();
 });
+
+usersRouter.get("/amigos.html", (request, response) => {
+    let loggedIn = (String(request.session.user) !== 'undefined');
+    if (!loggedIn) {
+        response.redirect("/users/login.html");
+    } else {
+        response.render("amigos.ejs", {
+            user: loggedIn,
+            image: request.session.image,
+            puntos: 0
+        });
+    }
+})
 
 usersRouter.post("/loginpost", function(request, response) {
     pool.getConnection((err, conn) => {
@@ -112,7 +136,12 @@ usersRouter.post("/loginpost", function(request, response) {
                     request.session.user = res[0].email;
                     request.session.name = res[0].name;
                     request.session.gender = res[0].gender;
-                    request.session.image = res[0].image;
+                    let str = path.join(__dirname, "..", "public", "icons", String(res[0].image));
+                    if (fs.existsSync(str)) {
+                        request.session.image = path.join("..", "icons", String(res[0].image));
+                    } else {
+                        request.session.image = path.join("..", "img", "NoProfile.png");
+                    }
                     request.session.birthDate = res[0].birthDate;
                     console.log(request.session);
                     console.log("Login succeeded.");

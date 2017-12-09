@@ -11,20 +11,6 @@
     <img class=logo src="../img/Logo.png">
     <%- include("menuLogged") -%>
     <p class=encPag>Solicitudes de amistad</p>
-    
-    <div class=solAmistad>
-        
-            <% users.forEach(user => { %>
-                <img class=imgAmigos src= <%= user.image %>> 
-                <label class="nombreSol"><%= user.name %></label>
-                <input class=amigosBtn type="button" value="Aceptar"> 
-                <input class=amigosBtn type="button" value="Rechazar"> 
-         
-            }
-           <% }); %>
-        
-        
-    </div> 
     <p class=encPag>Busqueda de amigos</p>
     <div class=busqueda>
         <label>Buscar por nombre:</label>
@@ -34,11 +20,11 @@
     <p class=encPag>Mis amigos</p>
     <div class=misAmigos>
         <div class=friend>
-            <img class=imgAmigos src="Extraterrestrial-01.png">
+            <img class=imgAmigos src="../public/icons/Extraterrestrial-01.png">
             <label class="nombreAmigo">Pepe Botella</label>
         </div>
         <div class=friend>
-            <img class=imgAmigos src="Extraterrestrial-01.png">
+            <img class=imgAmigos src="../public/icons/Extraterrestrial-01.png">
             <label class="nombreAmigo">Mariano Rajoy</label>
         </div>
         
