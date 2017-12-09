@@ -45,16 +45,22 @@ usersRouter.get("/desconectar.html", (request, response) => {
 
 usersRouter.get("/new_user.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
-    console.log(request.session.user);
-    response.render("new_user.ejs", { user: loggedIn });
+    if (loggedIn) {
+        response.render("new_user.ejs", { user: loggedIn });
+    } else {
+        response.render("new_user.ejs", { user: loggedIn, puntos: 0 });
+    }
     response.end();
 });
 
 usersRouter.get("/login.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
-    console.log(request.session);
-    response.render("login.ejs", { user: loggedIn, error: logErr });
-    if (logErr) logErr = false;
+    if (!loggedIn) {
+        response.render("login.ejs", { user: loggedIn, error: logErr, puntos: 0 });
+        if (logErr) logErr = false;
+    } else {
+        response.redirect("/users/perfil.html");
+    }
     response.end();
 });
 

@@ -9,24 +9,7 @@
 
 <body>
     <img class=logo src="../img/Logo.png">
-    <div class=menu>
-        <div class=optMenu>
-            <p>Perfil</p>
-        </div>
-        <div class=optMenu>
-            <p>Amigos</p>
-        </div>
-        <div class=optMenu>
-            <p>Preguntas</p>
-        </div>
-        <div class=optMenu>
-            <p>Desconectar</p>
-        </div>
-        <div class=optMenu>
-            <img class=imgPerfilSmall src=<%= user.image %>>
-            <p><%= user.puntos %> pts</p>
-        </div>
-    </div>
+    <%- include("menuLogged") -%>
     <p class=encPag>Resultados de búsqueda: '<!--aqui falta poner la palabra que se ha buscado--> '</p>
     
     <div class=solAmistad>
