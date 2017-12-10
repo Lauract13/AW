@@ -13,9 +13,11 @@
     <p class=encPag>Solicitudes de amistad</p>
     <p class=encPag>Busqueda de amigos</p>
     <div class=busqueda>
-        <label>Buscar por nombre:</label>
-        <input class=searchOpt type="text" name="search">
-        <input class=amigosBtn type="button" value="Buscar">
+        <form action="search" method="GET">
+            <label>Buscar por nombre:</label>
+            <input class=searchOpt type="text" name="name">
+            <input class=amigosBtn type="submit" value="Buscar">
+        </form>
     </div>
     <p class=encPag>Mis amigos</p>
     <div class=misAmigos>

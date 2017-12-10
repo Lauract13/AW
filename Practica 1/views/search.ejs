@@ -14,11 +14,15 @@
     
     <div class=solAmistad>
             <!--ESTO DEBERIA SER UN FOR PARA CADA PETICIÓN DE AMISTAD NO PARA CADA USUARIO PERO DE MOMENTO SE QUEDA ASI -->
-            <% users.forEach(user => { %>
-                <img class=imgAmigos src=<%= user.image %>> 
-                <label class="nombreSol"><%= user.name %></label>
-                <input class=amigosBtn type="button" value="Solicitar Amistad"> 
-            }
+            <% users.forEach((user) => { %>
+                <form action="addFriend" method="POST">
+                    <div class=celdSearch>
+                        <div class=celdInsSearch><img class=imgAmigos src=<%= user.image %>></div>
+                        <div class=celdInsSearch><label class=nombreSol><%= user.user %></label></div>
+                        <input type="hidden" value="<%= user.email %>">
+                        <div class=celdInsSearch><input class=amigosBtn type="submit" value="Solicitar Amistad"></div> 
+                    </div>
+                </form>
            <% }); %>
             
             
