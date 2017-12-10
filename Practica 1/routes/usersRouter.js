@@ -166,9 +166,33 @@ usersRouter.get("/search", (request, response) => {
     }
 });
 
+usersRouter.post("/addFriend", (request, response) => {
+    pool.getConnection((err, conn) => {
+        if (err) {
+            console.log("Connection error");
+            response.redirect("/users/amigos.html");
+        } else {
+            let sql = "INSERT INTO friends VALUES (?,?)";
+            let user1 = request.session.user;
+            let user2 = request.body.email;
+            conn.query(sql, [user1, user2], (err, rows) => {
+                if (err) {
+                    console.log(err);
+                } else if (rows.affectedRows == 0) {
+                    console.log("Not inserted");
+                }
+                response.redirect("/users/amigos.html");
+            });
+        }
+    });
+});
+
 usersRouter.post("/loginpost", function(request, response) {
     pool.getConnection((err, conn) => {
-        if (err) { console.log("Connection error"); } else {
+        if (err) {
+            console.log("Connection error");
+            response.redirect("/users/login.html");
+        } else {
             let sql = "SELECT email, password, name, gender, image, birthDate ";
             sql += "FROM users WHERE ? = email AND ? = password";
             let email = request.body.email;
@@ -178,6 +202,7 @@ usersRouter.post("/loginpost", function(request, response) {
                 if (res.length < 1 || res.length > 1) {
                     console.log("Login failed.");
                     logErr = true;
+                    response.redirect("/users/login.html");
                 } else {
                     success = true;
                     request.session.user = res[0].email;
@@ -207,7 +232,10 @@ usersRouter.post("/loginpost", function(request, response) {
 usersRouter.post("/newUserForm", function(request, response) {
     console.log(request.body);
     pool.getConnection((err, conn) => {
-        if (err) { console.log("Connection error"); } else {
+        if (err) {
+            console.log("Connection error");
+            response.redirect("/users/new_user.html");
+        } else {
             const sql = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
             let name = request.body.name;
             let email = request.body.email;
@@ -224,6 +252,7 @@ usersRouter.post("/newUserForm", function(request, response) {
             conn.query(sql, [email, password, name, gender, image, birthDate], (err, rows) => {
                 if (err) {
                     console.log("Error de inserción: " + err);
+                    response.redirect("/users/new_user.html");
                 } else {
                     console.log(rows.insertId);
                     console.log(rows.affectedRows);
