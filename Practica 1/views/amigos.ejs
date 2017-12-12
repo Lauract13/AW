@@ -22,6 +22,16 @@
     <p class=encPag>Mis amigos</p>
     <div class=misAmigos>
         <!-- Amigos que ya han aceptado solicitud -->
+        <ul>
+            <% amigos.forEach(f =>{ %>
+            <li id="amigos">
+                <a class="enlace" href="amigo_profile.html">
+                    <img class="usuario" src="/user/imagen/<%= f.id %>">
+                </a>
+                <p class="friend_name"><%= f.name %></p>
+            </li>
+            <% }); %>
+        </ul>
     </div>
 </body>
 

@@ -50,7 +50,10 @@ CREATE TABLE `users` (
 --
 -- Índices para tablas volcadas
 --
-
+CREATE TABLE `amigos` (
+  `email1` varchar(20) NOT NULL,
+  `email2` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 --
 -- Indices de la tabla `users`
 --
