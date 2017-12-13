@@ -10,14 +10,13 @@
 <body>
     <img class=logo src="../img/Logo.png">
     <%- include("menuLogged") -%>
-    <p class=encPag>Resultados de búsqueda: '<!--aqui falta poner la palabra que se ha buscado--> '</p>
+    <p class=encPag>Resultados de búsqueda: '<%= search %>'</p>
     
     <div class=solAmistad>
-            <!--ESTO DEBERIA SER UN FOR PARA CADA PETICIÓN DE AMISTAD NO PARA CADA USUARIO PERO DE MOMENTO SE QUEDA ASI -->
             <% users.forEach((user) => { %>
                 <form action="addFriend" method="POST">
                     <div class=celdSearch>
-                        <div class=celdInsSearch><img class=imgAmigos src=<%= user.image %>></div>
+                        <div class=celdInsSearch><img class=imgAmigos src="/images/<%= user.image %>"></div>
                         <div class=celdInsSearch><label class=nombreSol><%= user.user %></label></div>
                         <input type="hidden" name="email" value="<%= user.email %>">
                         <div class=celdInsSearch><input class=amigosBtn type="submit" value="Solicitar Amistad"></div> 
