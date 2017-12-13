@@ -147,45 +147,6 @@ usersRouter.post("/loginpost", function(request, response) {
             response.redirect("/users/perfil.html");
         }
     });
-    // pool.getConnection((err, conn) => {
-    //     if (err) {
-    //         console.log("Connection error");
-    //         response.redirect("/users/login.html");
-    //     } else {
-    //         let sql = "SELECT email, password, name, gender, image, birthDate ";
-    //         sql += "FROM users WHERE ? = email AND ? = password";
-    //         let email = request.body.email;
-    //         let password = request.body.password;
-    //         conn.query(sql, [email, password], (err, res, fields) => {
-    //             let success = false;
-    //             if (res.length < 1 || res.length > 1) {
-    //                 console.log("Login failed.");
-    //                 logErr = true;
-    //                 response.redirect("/users/login.html");
-    //             } else {
-    //                 success = true;
-    //                 request.session.user = res[0].email;
-    //                 request.session.name = res[0].name;
-    //                 request.session.gender = res[0].gender;
-    //                 let str = path.join(__dirname, "..", "public", "icons", String(res[0].image));
-    //                 if (fs.existsSync(str)) {
-    //                     request.session.image = path.join("..", "icons", String(res[0].image));
-    //                 } else {
-    //                     request.session.image = path.join("..", "img", "NoProfile.png");
-    //                 }
-    //                 request.session.birthDate = res[0].birthDate;
-    //                 if (!success) {
-    //                     response.redirect("/users/login.html");
-    //                 } else {
-    //                     console.log(request.session);
-    //                     console.log("Login succeeded.");
-    //                     response.redirect("/users/perfil.html")
-    //                 }
-    //             }
-    //             // response.cookie("user", success);
-    //         });
-    //     }
-    // });
 });
 
 usersRouter.post("/newUserForm", function(request, response) {
