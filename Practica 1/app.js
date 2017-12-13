@@ -51,7 +51,3 @@ app.listen(config.port, (err) => {
     if (err)
         console.log(err);
 });
-
-module.exports = {
-    pool: pool
-};

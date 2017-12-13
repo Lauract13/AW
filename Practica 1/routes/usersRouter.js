@@ -55,13 +55,12 @@ usersRouter.get("/login.html", (request, response) => {
 usersRouter.get("/perfil.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (loggedIn) {
-        let image = "/images/img/" + request.session.image;
         response.render("perfil.ejs", {
             name: request.session.name,
             years: request.session.birthDate,
             gender: request.session.gender,
             puntos: 0,
-            image: image
+            image: request.session.image
         });
     } else {
         response.redirect("/users/login.html");
@@ -80,7 +79,7 @@ usersRouter.get("/amigos.html", (request, response) => {
             let amigosArray = [];
             console.log(res);
             //array[] = new Struct();
-            
+
         });
         response.render("amigos.ejs", {
             user: loggedIn,
@@ -90,7 +89,7 @@ usersRouter.get("/amigos.html", (request, response) => {
         });
     }
 
-    
+
 });
 
 usersRouter.get("/search", (request, response) => {
@@ -98,7 +97,7 @@ usersRouter.get("/search", (request, response) => {
     if (!loggedIn) {
         response.redirect("/users/login.html");
     } else {
-        dao.search(request.query.name, (res) => {
+        dao.search(request.query.name, (err, res) => {
             response.render("search.ejs", {
                 user: loggedIn,
                 image: request.session.image,
@@ -132,8 +131,8 @@ usersRouter.post("/addFriend", (request, response) => {
 });
 
 usersRouter.post("/loginpost", function(request, response) {
-    dao.readOne(request.body.email, (res) =>{
-        if(!res){
+    dao.readOne(request.body.email, (err, res) => {
+        if (!res) {
             console.log("Login failed.");
             logErr = true;
             response.redirect("/users/login.html");
@@ -150,36 +149,24 @@ usersRouter.post("/loginpost", function(request, response) {
 });
 
 usersRouter.post("/newUserForm", function(request, response) {
-    console.log(request.body);
-    pool.getConnection((err, conn) => {
-        if (err) {
-            console.log("Connection error");
+    let name = request.body.name;
+    let email = request.body.email;
+    let password = request.body.password;
+    let gender = request.body.gender;
+    let birthDate = null;
+    let image = "npp";
+    if (request.body.birthDate !== "") {
+        birthDate = request.body.birthDate;
+    }
+    if (request.body.image) {
+        image = request.body.image;
+    }
+    dao.insert(email, password, name, gender, birthDate, image, (err, id) => {
+        if (err || !id) {
+            console.log(err);
             response.redirect("/users/new_user.html");
         } else {
-            const sql = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
-            let name = request.body.name;
-            let email = request.body.email;
-            let password = request.body.password;
-            let gender = request.body.gender;
-            let birthDate = null;
-            let image = null;
-            if (request.body.birthDate !== "") {
-                birthDate = request.body.birthDate;
-            }
-            if (request.body.image) {
-                image = request.body.image;
-            }
-            conn.query(sql, [email, password, name, gender, image, birthDate], (err, rows) => {
-                if (err) {
-                    console.log("Error de inserción: " + err);
-                    response.redirect("/users/new_user.html");
-                } else {
-                    console.log(rows.insertId);
-                    console.log(rows.affectedRows);
-                    conn.release();
-                }
-                response.redirect("/users/login.html");
-            });
+            response.redirect("/users/login.html");
         }
     });
 });

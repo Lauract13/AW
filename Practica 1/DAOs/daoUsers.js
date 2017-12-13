@@ -2,30 +2,28 @@
 
 const readSQL = "SELECT email, password, name, gender, image, birthDate FROM users WHERE ? = email";
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
+const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
 
-class daoUsers{
+class daoUsers {
 
-    constructor(pool){
+    constructor(pool) {
         this.pool = pool;
     }
 
-    readOne(email, callback){
+    readOne(email, callback) {
         this.pool.getConnection((err, conn) => {
-            if(err) {
-                console.log("Connection error: " + err);
-                callback(null);
-                return ;
+            if (err) {
+                callback("Connection error: " + err, null);
+                return;
             } else {
                 conn.query(readSQL, [email], (err, res, fields) => {
-                    if(err){
-                        console.log("Query error: " + err);
-                        callback(null);
-                        return ;
+                    if (err) {
+                        callback("Query error: " + err, null);
+                        return;
                     } else {
-                        if(res.length > 1 || res.length < 1){
-                            console.log("Length error: " + res.length);
-                            callback(null);
-                            return ;
+                        if (res.length > 1 || res.length < 1) {
+                            callback("Length error: " + res.length, null);
+                            return;
                         } else {
                             let result = {
                                 email: res[0].email,
@@ -35,26 +33,26 @@ class daoUsers{
                                 image: res[0].image,
                                 birthDate: res[0].birthDate
                             };
-                            callback(result);
-                            return ;
-                        }   
+                            callback(null, result);
+                            return;
+                        }
                     }
                 });
             }
         });
     }
 
-    search(name, callback){
+    search(name, callback) {
         this.pool.getConnection((err, conn) => {
-            if (err) { 
-                console.log("Connection error");
-                callback(null);
+            if (err) {
+                callback("Connection error", null);
+                return;
             } else {
                 let search = '%' + name + '%';
                 conn.query(searchSQL, [search], (err, res, fields) => {
                     if (err) {
-                        console.log(err);
-                        callback(null);
+                        callback(err, null);
+                        return;
                     } else {
                         let usersArray = [];
                         if (res.length > 0) {
@@ -67,7 +65,28 @@ class daoUsers{
                                 usersArray.push(aux);
                             });
                         }
-                        callback(usersArray);
+                        callback(null, usersArray);
+                        return;
+                    }
+                });
+            }
+        });
+    }
+
+    insert(mail, pw, name, gender, birthDate, image, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
+                callback("Connection error.", null);
+                return;
+            } else {
+                conn.query(insertSQL, [mail, pw, name, gender, image, birthDate], (err, rows) => {
+                    if (err) {
+                        console.log("Insert error.");
+                        callback("Insert error.", null);
+                        return;
+                    } else {
+                        callback(null, rows.affectedRows);
+                        return;
                     }
                 });
             }
