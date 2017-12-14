@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Modificar perfil - Facebluff</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/facebluff.css" />
+</head>
+
+<body>
+    <img class=logo src="../img/Logo.png">
+    <% if (!user) { %>
+        <%- include("menuNotLogged") -%>
+    <% } else { %>
+        <%- include("menuLogged") -%>
+    <% } %>
+    <p class=encPag>Modificar perfil</p>
+    <div class=formulario>
+        <form action="modPerfil" method="POST">
+            <div class=celdFormulario>
+                <div class=formOpt> Email:</div>
+                <div class=formTxt> <input class=formTxt type="text" name="email" value="<%= data.email %>"> </div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt> Contraseña:</div>
+                <div class=formTxt> <input class=formTxt type="password" name="password"></div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt> Nombre Completo:</div>
+                <div class=formTxt><input class=formTxt type="text" name="name" value="<%= data.name %>"></div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt> Sexo: </div>
+                <div class=radio>
+                    <input type="radio" name="gender" value="Masculino" <% if(data.gender === 0) { %> checked <% } %>> Masculino
+                    <input type="radio" name="gender" value="Femenino" <% if(data.gender === 1) { %> checked <% } %>> Femenino
+                    <input type="radio" name="gender" value="Otro" <% if(data.gender === 2) { %> checked <% } %>> Otro
+                </div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt>Fecha de nacimiento:</div>
+                <div class=formTxt><input class=formTxt type="date" name="birthDate" value="<%= data.birthDate %>"></div>
+            </div>
+            <div class=celdFormulario>
+                <div class=formOpt>Imagen de perfil: </div>
+                <div>
+                    <input type="file" name="image" id="image" value="<%= data.image %>">
+                </div>
+            </div>
+
+            <div class=celdFormularioBtn>
+                <input class=formBtn type="submit" value="Modificar perfil">
+            </div>
+
+        </form>
+    </div>
+
+</body>
+
+
+</html>

@@ -31,12 +31,40 @@ usersRouter.get("/desconectar.html", (request, response) => {
 usersRouter.get("/new_user.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (loggedIn) {
-        response.render("new_user.ejs", { user: loggedIn });
+        response.redirect("/users/perfil.html");
     } else {
         response.render("new_user.ejs", {
             user: loggedIn,
             image: request.session.image,
             puntos: 0
+        });
+    }
+});
+
+usersRouter.get("/mod_perfil.html", (request, response) => {
+    let loggedIn = (String(request.session.user) !== 'undefined');
+    if (!loggedIn) {
+        response.redirect("/users/login.html");
+    } else {
+        let gen = 0;
+        if(request.session.gender === "Femenino"){
+            gen = 1;
+        } else if(request.session.gender === "Otro"){
+            gen = 2;
+        }
+        let data = {
+            email: request.session.user,
+            name: request.session.name,
+            gender: gen,
+            birthDate: request.session.birthDate,
+            image: request.session.image
+        }
+        response.render("mod_perfil.ejs", {
+            user: loggedIn,
+            image: request.session.image,
+            puntos: 0,
+            gen: gen,
+            data: data
         });
     }
 });
@@ -60,10 +88,39 @@ usersRouter.get("/perfil.html", (request, response) => {
             years: request.session.birthDate,
             gender: request.session.gender,
             puntos: 0,
-            image: request.session.image
+            image: request.session.image,
+            myProf: true
         });
     } else {
         response.redirect("/users/login.html");
+    }
+});
+
+usersRouter.get("/profile/:id", (request, response) => {
+    let loggedIn = (String(request.session.user) !== 'undefined');
+    if(!loggedIn){
+        response.redirect("/users/login.html");
+    } else {
+        let id = request.params.id;
+        if(id === request.session.user){
+            response.redirect("/users/perfil.html");
+        } else {
+            response.location("/users/perfil.html");
+            dao.readOne(id, (err, res) => {
+                if(err){
+                    console.log(err);
+                } else {
+                    response.render("perfil.ejs", {
+                        name: res.name,
+                        years: res.birthDate,
+                        gender: res.gender,
+                        puntos: 0,
+                        image: res.image,
+                        myProf: false
+                    });
+                }
+            });
+        }
     }
 });
 
@@ -103,7 +160,8 @@ usersRouter.get("/search", (request, response) => {
                 image: request.session.image,
                 puntos: 0,
                 users: res,
-                search: request.query.name
+                search: request.query.name,
+                myEmail: request.session.user
             });
         });
     }

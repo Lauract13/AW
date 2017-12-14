@@ -130,6 +130,20 @@ input.formBtn {
     height: 10%;
 }
 
+a.formBtn {
+    background-color: #bd4ae4;
+    color: white;
+    font-family: "Facebluff";
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px auto;
+    border: none;
+    border-radius: 13px;
+    width: auto;
+    height: 10%;
+    text-decoration: none;
+}
+
 input.amigosBtn {
     background-color: #bd4ae4;
     color: white;

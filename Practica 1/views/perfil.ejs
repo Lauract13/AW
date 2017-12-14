@@ -26,8 +26,10 @@
             
         </div>
        
-        <input class=formBtn type="button" value="Modificar Perfil">
-            
+        <% if(myProf) { %>
+        <a class=formBtn href="/users/mod_perfil.html">Modificar perfil </a>
+        <% } %>    
+
     </div>
 </body>
 
