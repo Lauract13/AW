@@ -3,23 +3,25 @@
 const readSQL = "SELECT email, password, name, gender, image, birthDate FROM users WHERE ? = email";
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
 const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
-const readAllSQL = "SELECT email,image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE ? = email1)";
+const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, false)";
+const readAllSQL = "SELECT email, image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE ? = email1)";
+const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?"
 class daoUsers {
 
     constructor(pool) {
         this.pool = pool;
     }
-    readAllFriends(email, callback){
-        this.pool.getConnection((err,conn) =>{
-            if(err){
+    readAllFriends(email, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
                 callback("Connection error: " + err, null);
                 return;
-            }else{
-                conn.query(readAllSQL, [email], (err, res, fields) =>{
-                    if(err){
+            } else {
+                conn.query(readAllSQL, [email], (err, res, fields) => {
+                    if (err) {
                         callback("Query error: " + err, null);
                         return;
-                    }else{
+                    } else {
                         let result = {
                             image: res.image,
                             name: res.name
@@ -27,7 +29,7 @@ class daoUsers {
                         callback(null, result);
                         return;
                     }
-                } );
+                });
             }
         });
     }
@@ -104,6 +106,44 @@ class daoUsers {
                     if (err) {
                         console.log("Insert error.");
                         callback("Insert error.", null);
+                        return;
+                    } else {
+                        callback(null, rows.affectedRows);
+                        return;
+                    }
+                });
+            }
+        });
+    }
+
+    addFriend(email1, email2, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
+                callback("Connection error.", null);
+                return;
+            } else {
+                conn.query(insertFriendSQL, [email1, email2], (err, rows) => {
+                    if (err) {
+                        callback("Insert error.", null);
+                        return;
+                    } else {
+                        callback(null, rows.affectedRows);
+                        return;
+                    }
+                });
+            }
+        });
+    }
+
+    confirmFriend(email1, email2, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
+                callback("Connection error.", null);
+                return;
+            } else {
+                conn.query(updateFriendSQL, [email1, email2], (err, rows) => {
+                    if (err) {
+                        callback("Update error.", null);
                         return;
                     } else {
                         callback(null, rows.affectedRows);

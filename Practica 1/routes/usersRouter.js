@@ -96,73 +96,22 @@ usersRouter.get("/perfil.html", (request, response) => {
     }
 });
 
-usersRouter.get("/profile/:id", (request, response) => {
-    let loggedIn = (String(request.session.user) !== 'undefined');
-    if (!loggedIn) {
-        response.redirect("/users/login.html");
-    } else {
-        let id = request.params.id;
-        if (id === request.session.user) {
-            response.redirect("/users/perfil.html");
-        } else {
-            response.location("/users/perfil.html");
-            dao.readOne(id, (err, res) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    response.render("perfil.ejs", {
-                        name: res.name,
-                        years: res.birthDate,
-                        gender: res.gender,
-                        puntos: 0,
-                        image: res.image,
-                        myProf: false
-                    });
-                }
-            });
-        }
-    }
-});
-
 usersRouter.get("/amigos.html", (request, response) => {
-<<<<<<< HEAD
-    pool.getConnection((err, conn) => {
-        if (err) {
-            console.log(err);
-
-        } else {
-            let sql = "SELECT image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE email1 LIKE " + request.session.user.email + ")";
-            let amigosArray = [];
-
-            conn.query(sql, (err, rows, fields) => {
-
-                amigosArray = fields;
-            });
-            response.render("amigos.ejs", {
-                user: request.session.user,
-                image: request.session.image,
-                puntos: 0,
-
-                amigos: amigosArray
-
-
-=======
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (!loggedIn) {
         response.redirect("/users/login.html");
     } else {
-        
+
 
         dao.readAllFriends(request.body.email, (err, rows) => {
             response.render("amigos.ejs", {
                 image: rows.image,
                 name: rows.name
->>>>>>> c63c0a0c0200e74978cafde9b6367c326e129f4b
             });
         });
     }
-   
-   
+
+
 });
 
 usersRouter.get("/search", (request, response) => {
