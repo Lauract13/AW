@@ -25,10 +25,12 @@
         <ul>
             <% amigos.forEach(amigo =>{ %>
             <li id="amigos">
-                
                 <img class="usuario" src="/images/<%= amigo.id %>">
-                
                 <p class="friend_name"><%= amigo.name %></p>
+                <form action="profile" method="POST">
+                    <input type="hidden" name="user">
+                    <input class=amigosBtn type="submit" value="Perfil">
+                </form>
             </li>
             <% }); %>
         </ul>

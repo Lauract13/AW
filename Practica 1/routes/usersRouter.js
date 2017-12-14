@@ -47,9 +47,9 @@ usersRouter.get("/mod_perfil.html", (request, response) => {
         response.redirect("/users/login.html");
     } else {
         let gen = 0;
-        if(request.session.gender === "Femenino"){
+        if (request.session.gender === "Femenino") {
             gen = 1;
-        } else if(request.session.gender === "Otro"){
+        } else if (request.session.gender === "Otro") {
             gen = 2;
         }
         let data = {
@@ -98,16 +98,16 @@ usersRouter.get("/perfil.html", (request, response) => {
 
 usersRouter.get("/profile/:id", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
-    if(!loggedIn){
+    if (!loggedIn) {
         response.redirect("/users/login.html");
     } else {
         let id = request.params.id;
-        if(id === request.session.user){
+        if (id === request.session.user) {
             response.redirect("/users/perfil.html");
         } else {
             response.location("/users/perfil.html");
             dao.readOne(id, (err, res) => {
-                if(err){
+                if (err) {
                     console.log(err);
                 } else {
                     response.render("perfil.ejs", {
@@ -125,26 +125,26 @@ usersRouter.get("/profile/:id", (request, response) => {
 });
 
 usersRouter.get("/amigos.html", (request, response) => {
-    pool.getConnection((err,conn) =>{
-        if(err){
+    pool.getConnection((err, conn) => {
+        if (err) {
             console.log(err);
-            
-        }else{
+
+        } else {
             let sql = "SELECT image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE email1 LIKE " + request.session.user.email + ")";
             let amigosArray = [];
 
             conn.query(sql, (err, rows, fields) => {
-               
+
                 amigosArray = fields;
             });
             response.render("amigos.ejs", {
                 user: request.session.user,
                 image: request.session.image,
                 puntos: 0,
-                
+
                 amigos: amigosArray
-    
-    
+
+
             });
         }
     });
@@ -166,6 +166,24 @@ usersRouter.get("/search", (request, response) => {
             });
         });
     }
+});
+
+usersRouter.post("/profile", (request, response) => {
+    let id = request.body.user;
+    dao.readOne(id, (err, res) => {
+        if (err) {
+            console.log(err);
+        } else {
+            response.render("perfil.ejs", {
+                name: res.name,
+                years: res.birthDate,
+                gender: res.gender,
+                puntos: 0,
+                image: res.image,
+                myProf: false
+            });
+        }
+    });
 });
 
 usersRouter.post("/addFriend", (request, response) => {
