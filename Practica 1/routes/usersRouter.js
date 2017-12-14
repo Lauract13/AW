@@ -134,6 +134,27 @@ usersRouter.get("/search", (request, response) => {
     }
 });
 
+usersRouter.post("/modPerfil", (request, response) => {
+    let name = request.body.name;
+    let email = request.body.email;
+    let password = request.body.password;
+    let gender = request.body.gender;
+    let birthDate = null;
+    let image = "npp";
+    if (request.body.birthDate !== "") {
+        birthDate = request.body.birthDate;
+    }
+    if (request.body.image) {
+        image = request.body.image;
+    }
+    dao.update(email, password, name, gender, birthDate, image, (err, id) => {
+        if (err || !id) {
+            console.log(err);
+        }
+        response.redirect("/users/perfil.html");
+    });
+});
+
 usersRouter.post("/profile", (request, response) => {
     let id = request.body.user;
     dao.readOne(id, (err, res) => {

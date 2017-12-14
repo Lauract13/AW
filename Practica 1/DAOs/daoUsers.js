@@ -3,6 +3,7 @@
 const readSQL = "SELECT email, password, name, gender, image, birthDate FROM users WHERE ? = email";
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
 const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
+const updateSQL = "UPDATE users SET email=?, password=?, name=?, gender=?, birthDate=?, image=? WHERE email=?"
 const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, false)";
 const readAllSQL = "SELECT email, image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE ? = email1)";
 const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?"
@@ -113,6 +114,25 @@ class daoUsers {
         });
     }
 
+    update(email, password, name, gender, birthDate, image, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
+                callback("Connection error.", null);
+                return;
+            } else {
+                conn.query(updateSQL, [email, password, name, gender, birthDate, image], (err, rows) => {
+                    if (err) {
+                        callback("Update error.", null);
+                        return;
+                    } else {
+                        callback(null, rows.affectedRows);
+                        return;
+                    }
+                });
+            }
+        });
+    }
+
     addFriend(email1, email2, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
@@ -138,7 +158,7 @@ class daoUsers {
                 callback("Connection error.", null);
                 return;
             } else {
-                conn.query(updateFriendSQL, [email1, email2], (err, rows) => {
+                conn.query(confirmFriendSQL, [email1, email2], (err, rows) => {
                     if (err) {
                         callback("Update error.", null);
                         return;
