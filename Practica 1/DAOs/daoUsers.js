@@ -3,7 +3,7 @@
 const readSQL = "SELECT email, password, name, gender, image, birthDate FROM users WHERE ? = email";
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
 const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
-const readAllSQL = "SELECT image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE ? = email1)";
+const readAllSQL = "SELECT email,image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE ? = email1)";
 class daoUsers {
 
     constructor(pool) {
@@ -21,8 +21,8 @@ class daoUsers {
                         return;
                     }else{
                         let result = {
-                            image: res[0].image,
-                            name: res[0].name
+                            image: res.image,
+                            name: res.name
                         };
                         callback(null, result);
                         return;
