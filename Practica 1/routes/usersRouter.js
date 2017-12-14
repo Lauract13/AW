@@ -125,6 +125,7 @@ usersRouter.get("/profile/:id", (request, response) => {
 });
 
 usersRouter.get("/amigos.html", (request, response) => {
+<<<<<<< HEAD
     pool.getConnection((err, conn) => {
         if (err) {
             console.log(err);
@@ -145,9 +146,23 @@ usersRouter.get("/amigos.html", (request, response) => {
                 amigos: amigosArray
 
 
+=======
+    let loggedIn = (String(request.session.user) !== 'undefined');
+    if (!loggedIn) {
+        response.redirect("/users/login.html");
+    } else {
+        
+
+        dao.readAllFriends(request.body.email, (err, rows) => {
+            response.render("amigos.ejs", {
+                image: rows.image,
+                name: rows.name
+>>>>>>> c63c0a0c0200e74978cafde9b6367c326e129f4b
             });
-        }
-    });
+        });
+    }
+   
+   
 });
 
 usersRouter.get("/search", (request, response) => {
