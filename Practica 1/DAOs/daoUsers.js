@@ -20,11 +20,8 @@ class daoUsers {
                         callback("Query error: " + err, null);
                         return;
                     }else{
-                        let result = {
-                            image: res.image,
-                            name: res.name
-                        };
-                        callback(null, result);
+                        
+                        callback(null, res);
                         return;
                     }
                 } );
