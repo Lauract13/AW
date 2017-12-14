@@ -125,28 +125,29 @@ usersRouter.get("/profile/:id", (request, response) => {
 });
 
 usersRouter.get("/amigos.html", (request, response) => {
-    let loggedIn = (String(request.session.user) !== 'undefined');
-    console.log(request.session.user);
-    if (!loggedIn) {
-        response.redirect("/users/login.html");
-    } else {
-        let sql = "SELECT email2 FROM amigos WHERE email1 LIKE ?"
-        let amigo = '%' + request.session.user.email + '%';
-        conn.query(sql, [amigo], (err, res, fields) => {
+    pool.getConnection((err,conn) =>{
+        if(err){
+            console.log(err);
+            
+        }else{
+            let sql = "SELECT image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE email1 LIKE " + request.session.user.email + ")";
             let amigosArray = [];
-            console.log(res);
-            //array[] = new Struct();
 
-        });
-        response.render("amigos.ejs", {
-            user: loggedIn,
-            image: request.session.image,
-            puntos: 0
-
-        });
-    }
-
-
+            conn.query(sql, (err, rows, fields) => {
+               
+                amigosArray = fields;
+            });
+            response.render("amigos.ejs", {
+                user: request.session.user,
+                image: request.session.image,
+                puntos: 0,
+                
+                amigos: amigosArray
+    
+    
+            });
+        }
+    });
 });
 
 usersRouter.get("/search", (request, response) => {
