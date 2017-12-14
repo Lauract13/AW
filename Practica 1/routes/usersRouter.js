@@ -70,17 +70,18 @@ usersRouter.get("/perfil.html", (request, response) => {
 usersRouter.get("/amigos.html", (request, response) => {
     pool.getConnection((err,conn) =>{
         if(err){
-            console.log("Connection error");
+            console.log(err);
             
         }else{
             let sql = "SELECT image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE email1 LIKE " + request.session.user.email + ")";
-            
-            conn.query(sql, (err,friends) => {
-                var amigosArray = [];
-                amigosArray = friends;
+            let amigosArray = [];
+
+            conn.query(sql, (err, rows, fields) => {
+               
+                amigosArray = fields;
             });
             response.render("amigos.ejs", {
-                user: loggedIn,
+                user: request.session.user,
                 image: request.session.image,
                 puntos: 0,
                 
