@@ -23,12 +23,12 @@
     <div class=misAmigos>
         <!-- Amigos que ya han aceptado solicitud -->
         <ul>
-            <% amigos.forEach(amigo =>{ %>
+            <% amigos.forEach(a =>{ %>
             <li id="amigos">
                 
-                <img class="usuario" src="/images/<%= amigo.id %>">
+                <img class="usuario" src="/images/<%= a.id %>">
                 
-                <p class="friend_name"><%= amigo.name %></p>
+                <p class="friend_name"><%= a.name %></p>
             </li>
             <% }); %>
         </ul>

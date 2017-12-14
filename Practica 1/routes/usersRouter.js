@@ -75,10 +75,11 @@ usersRouter.get("/amigos.html", (request, response) => {
         }else{
             let sql = "SELECT image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE email1 LIKE " + request.session.user.email + ")";
             let amigosArray = [];
+           
 
-            conn.query(sql, (err, rows, fields) => {
+            conn.query(sql, function (err, result, fields) {
                
-                amigosArray = fields;
+                amigosArray = result;
             });
             response.render("amigos.ejs", {
                 user: request.session.user,
