@@ -68,29 +68,11 @@ usersRouter.get("/perfil.html", (request, response) => {
 });
 
 usersRouter.get("/amigos.html", (request, response) => {
-    pool.getConnection((err,conn) =>{
-        if(err){
-            console.log(err);
-            
-        }else{
-            let sql = "SELECT image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE email1 LIKE " + request.session.user.email + ")";
-            let amigosArray = [];
-           
-
-            conn.query(sql, function (err, result, fields) {
-               
-                amigosArray = result;
-            });
-            response.render("amigos.ejs", {
-                user: request.session.user,
-                image: request.session.image,
-                puntos: 0,
-                
-                amigos: amigosArray
-    
-    
-            });
-        }
+    dao.readAllFriends(request.body.email, (err, rows) => {
+        response.render("amigos.ejs", {
+            image: rows.image,
+            name: rows.name
+        });
     });
 });
 

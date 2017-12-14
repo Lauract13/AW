@@ -3,13 +3,34 @@
 const readSQL = "SELECT email, password, name, gender, image, birthDate FROM users WHERE ? = email";
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
 const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
-
+const readAllSQL = "SELECT image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE ? = email1)";
 class daoUsers {
 
     constructor(pool) {
         this.pool = pool;
     }
-
+    readAllFriends(email, callback){
+        this.pool.getConnection((err,conn) =>{
+            if(err){
+                callback("Connection error: " + err, null);
+                return;
+            }else{
+                conn.query(readAllSQL, [email], (err, res, fields) =>{
+                    if(err){
+                        callback("Query error: " + err, null);
+                        return;
+                    }else{
+                        let result = {
+                            image: res[0].image,
+                            name: res[0].name
+                        };
+                        callback(null, result);
+                        return;
+                    }
+                } );
+            }
+        });
+    }
     readOne(email, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
