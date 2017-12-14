@@ -105,7 +105,9 @@ usersRouter.get("/amigos.html", (request, response) => {
 
         dao.readAllFriends(request.body.email, (err, rows) => {
             response.render("amigos.ejs", {
-                image: rows.image,
+                puntos: 0,
+                image: request.session.image,
+                amigos: rows,
                 name: rows.name
             });
         });

@@ -3,9 +3,13 @@
 const readSQL = "SELECT email, password, name, gender, image, birthDate FROM users WHERE ? = email";
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
 const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
+<<<<<<< HEAD
 const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, false)";
 const readAllSQL = "SELECT email, image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE ? = email1)";
 const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?"
+=======
+const readAllSQL = "SELECT email,image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE email = email1)";
+>>>>>>> 77039713d7f72941d271bcfd2140a02429b7e337
 class daoUsers {
 
     constructor(pool) {
@@ -21,12 +25,18 @@ class daoUsers {
                     if (err) {
                         callback("Query error: " + err, null);
                         return;
+<<<<<<< HEAD
                     } else {
                         let result = {
                             image: res.image,
                             name: res.name
                         };
                         callback(null, result);
+=======
+                    }else{
+                        console.log(res);
+                        callback(null, res);
+>>>>>>> 77039713d7f72941d271bcfd2140a02429b7e337
                         return;
                     }
                 });
