@@ -125,12 +125,21 @@ usersRouter.get("/profile/:id", (request, response) => {
 });
 
 usersRouter.get("/amigos.html", (request, response) => {
-    dao.readAllFriends(request.body.email, (err, rows) => {
-        response.render("amigos.ejs", {
-            image: rows.image,
-            name: rows.name
+    let loggedIn = (String(request.session.user) !== 'undefined');
+    if (!loggedIn) {
+        response.redirect("/users/login.html");
+    } else {
+        
+
+        dao.readAllFriends(request.body.email, (err, rows) => {
+            response.render("amigos.ejs", {
+                image: rows.image,
+                name: rows.name
+            });
         });
-    });
+    }
+   
+   
 });
 
 usersRouter.get("/search", (request, response) => {
