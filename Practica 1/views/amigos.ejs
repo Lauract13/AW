@@ -11,6 +11,22 @@
     <img class=logo src="../img/Logo.png">
     <%- include("menuLogged") -%>
     <p class=encPag>Solicitudes de amistad</p>
+        
+
+        <% requests.forEach(request =>{ %>
+            <div class=misAmigos>
+                <img class="imgAmigos" src="/images/<%= request.image %>">
+            
+                <p><%= request.name %></p>
+            
+                <form action="profile" method="POST">
+                    <input type="hidden" name="user" value="<%= request.email %>">
+            
+                </form>
+            </div>
+            
+        
+        <% }); %>
     <p class=encPag>Busqueda de amigos</p>
     <div class=busqueda>
         <form action="search" method="GET">
@@ -28,7 +44,6 @@
                     <img class="imgAmigos" src="/images/<%= amigo.image %>">
                 
                     <p><%= amigo.name %></p>
-                
                 
                     <form action="profile" method="POST">
                         <input type="hidden" name="user" value="<%= amigo.email %>">

@@ -7,10 +7,33 @@ const updateSQL = "UPDATE users SET email=?, password=?, name=?, gender=?, birth
 const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, false)";
 const readAllSQL = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON ?=friends.email2";
 const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?";
+const readRequests = "SELECT email, name, image FROM users LEFT JOIN friends ON friends.aceptado = 0";
 class daoUsers {
 
     constructor(pool) {
         this.pool = pool;
+    }
+    readRequests(email,callback){
+        this.pool.getConnection((err,conn)=>{
+            if(err){
+                callback("Connection error: " + err, null);
+                return;
+            }else{
+                conn.query(readRequests, [email], (err, res, fields) =>{
+                    if(err){
+                        console.log("ERRORRR");
+                        console.log(err);
+                        callback("Query error: " + err, null);
+                        return;
+                    }else{
+                        console.log("COGIO LOS DATOS WEY");
+                        console.log(res);
+                        callback(null, res);
+                        return;
+                    }
+                });
+            }
+        });
     }
     readAllFriends(email, callback) {
         this.pool.getConnection((err, conn) => {
