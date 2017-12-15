@@ -3,10 +3,10 @@
 const readSQL = "SELECT email, password, name, gender, image, birthDate FROM users WHERE ? = email";
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
 const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
-const updateSQL = "UPDATE users SET email=?, password=?, name=?, gender=?, birthDate=?, image=? WHERE email=?"
+const updateSQL = "UPDATE users SET email=?, password=?, name=?, gender=?, birthDate=?, image=? WHERE email=?";
 const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, false)";
-const readAllSQL = "SELECT email, image, name FROM users WHERE email IN (SELECT email2 FROM friends WHERE ? = email1)";
-const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?"
+const readAllSQL = "SELECT email, image, name FROM users RIGHT JOIN friends ON ? = email2";
+const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?";
 class daoUsers {
 
     constructor(pool) {

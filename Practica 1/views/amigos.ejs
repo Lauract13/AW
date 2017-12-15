@@ -25,7 +25,7 @@
         <ul>
             <% amigos.forEach(amigo =>{ %>
             <li id="amigos">
-                <img class="usuario" src="/images/<%= amigo.image %>">
+                <img class="usuario" src="<%= amigo.image %>">
                 <p class="friend_name"><%= amigo.name %></p>
                 <form action="profile" method="POST">
                     <input type="hidden" name="user" value="<%= amigo.email %>">
