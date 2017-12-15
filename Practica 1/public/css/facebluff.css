@@ -154,7 +154,7 @@ input.amigosBtn {
     border: none;
     border-radius: 13px;
     width: auto;
-    height: 10%;
+    height: auto;
 }
 
 label.nombreSol {
@@ -240,12 +240,10 @@ div.busqueda {
 }
 
 div.misAmigos {
+    display: flex;
+    padding: 1%;
+    margin-left: 25%;
     
-    display: block;
-    
-    text-align: center;
-    
-    margin-left: 19%;
     font-family: Calibri;
     font-size: 120%;
 }
