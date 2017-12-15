@@ -211,6 +211,7 @@ img.imgPerfilSmall {
 img.imgAmigos {
     width: 60px;
     height: 60px;
+    margin-right: 2%;
     border: 1px solid rgb(48, 46, 46);
     border-radius: 4px;
     vertical-align: text-top;
@@ -241,9 +242,9 @@ div.busqueda {
 
 div.misAmigos {
     display: flex;
-    padding: 1%;
-    margin-left: 25%;
-    
+    padding: 5px;
+    margin-left: 22%;
+
     font-family: Calibri;
     font-size: 120%;
 }
