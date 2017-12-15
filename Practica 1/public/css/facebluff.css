@@ -195,17 +195,21 @@ p.errPag {
 img.imagenPerfil {
     float: left;
     margin-left: 20%;
+    margin-right: 4%;
     border: 1px solid rgb(48, 46, 46);
     border-radius: 4px;
-    padding: 5px;
+    padding: 10px;
     width: 160px;
     height: 160px;
-    vertical-align: text-top;
+    
 }
 
+
 img.imgPerfilSmall {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    padding-right: 10px;
 }
 
 img.imgAmigos {
@@ -219,7 +223,8 @@ img.imgAmigos {
 
 div.profileDif {
     font-family: "Facebluff";
-    margin: 10px;
+    padding-bottom: 1px;
+    
 }
 
 div.solAmistad {
@@ -252,11 +257,17 @@ div.misAmigos {
 
 div.profile {
     font-family: Calibri;
+    margin-bottom: 2%;
+    
+}
+div.botonPerfil{
+    margin-left: 45%;
 }
 
 div.perfil {
-    float: center;
-    padding: 2%;
+    
+    padding-top: 2%;
+    
 }
 
 div.preg {
