@@ -213,7 +213,7 @@ img.imgAmigos {
     height: 60px;
     border: 1px solid rgb(48, 46, 46);
     border-radius: 4px;
-    vertical-align: middle;
+    vertical-align: text-top;
 }
 
 div.profileDif {
@@ -240,11 +240,16 @@ div.busqueda {
 }
 
 div.misAmigos {
+    
     display: block;
+    
+    text-align: center;
+    
     margin-left: 19%;
     font-family: Calibri;
     font-size: 120%;
 }
+
 
 div.profile {
     font-family: Calibri;

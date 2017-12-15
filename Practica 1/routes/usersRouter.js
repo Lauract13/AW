@@ -104,8 +104,7 @@ usersRouter.get("/amigos.html", (request, response) => {
         
 
         dao.readAllFriends(request.session.user, (err, rows) => {
-            //null
-            console.log(rows);
+            
             response.render("amigos.ejs", {
                 puntos: 0,
                 image: request.session.image,

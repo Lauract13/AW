@@ -22,18 +22,21 @@
     <p class=encPag>Mis amigos</p>
     <div class=misAmigos>
         <!-- Amigos que ya han aceptado solicitud -->
-        <ul>
+        
             <% amigos.forEach(amigo =>{ %>
-            <li id="amigos">
-                <img class="usuario" src="<%= amigo.image %>">
-                <p class="friend_name"><%= amigo.name %></p>
-                <form action="profile" method="POST">
-                    <input type="hidden" name="user" value="<%= amigo.email %>">
-                    <input class=amigosBtn type="submit" value="Perfil">
-                </form>
-            </li>
+            
+                <img class="imgAmigos" src="/images/<%= amigo.image %>">
+                <div>
+                    <p><%= amigo.name %></p>
+                    <form action="profile" method="POST">
+                        <input type="hidden" name="user" value="<%= amigo.email %>">
+                        <input class=amigosBtn type="submit" value="Perfil">
+                    </form>
+                </div>
+                
+            
             <% }); %>
-        </ul>
+        
     </div>
 </body>
 
