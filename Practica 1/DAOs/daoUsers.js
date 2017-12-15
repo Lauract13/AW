@@ -5,7 +5,7 @@ const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
 const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
 const updateSQL = "UPDATE users SET email=?, password=?, name=?, gender=?, birthDate=?, image=? WHERE email=?";
 const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, false)";
-const readAllSQL = "SELECT email, image, name FROM users RIGHT JOIN friends ON ? = email2";
+const readAllSQL = "SELECT users.email, users.image, users.name FROM users RIGHT JOIN friends ON ?=friends.email2";
 const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?";
 class daoUsers {
 
@@ -19,11 +19,15 @@ class daoUsers {
                 return;
             } else {
                 conn.query(readAllSQL, [email], (err, res, fields) => {
+                    console.log(email);
                     if (err) {
+                        console.log("JODER");
+                        console.log(res);
+                        console.log(err);
                         callback("Query error: " + err, null);
                         return;
                     } else {
-                        console.log(res);
+                       console.log(res);
                         callback(null, res);
                         return;
                     }

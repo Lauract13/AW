@@ -101,14 +101,16 @@ usersRouter.get("/amigos.html", (request, response) => {
     if (!loggedIn) {
         response.redirect("/users/login.html");
     } else {
+        
 
-
-        dao.readAllFriends(request.body.email, (err, rows) => {
+        dao.readAllFriends(request.session.user, (err, rows) => {
+            //null
+            console.log(rows);
             response.render("amigos.ejs", {
                 puntos: 0,
                 image: request.session.image,
-                amigos: rows,
-                name: rows.name
+                amigos: rows
+                
             });
         });
     }
