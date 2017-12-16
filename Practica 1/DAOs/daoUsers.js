@@ -114,15 +114,16 @@ class daoUsers {
         });
     }
 
+    // No puedes actualizar el email, hay que cambiarlo
     update(email, password, name, gender, birthDate, image, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
                 callback("Connection error.", null);
                 return;
             } else {
-                conn.query(updateSQL, [email, password, name, gender, birthDate, image], (err, rows) => {
+                conn.query(updateSQL, [email, password, name, gender, birthDate, image, email], (err, rows) => {
                     if (err) {
-                        callback("Update error.", null);
+                        callback("Update error " + err, null);
                         return;
                     } else {
                         callback(null, rows.affectedRows);
