@@ -17,7 +17,7 @@
         <img class=imagenPerfil src="/images/<%= image %>">
         
         <div class=profileDif>
-            <p><%=name %> </p>
+            <p><%= name %> </p>
         </div>
         <div class=profile>
             <p><%= years %> años</p>
@@ -25,10 +25,13 @@
             <p><%= puntos %> puntos</p>
             
         </div>
-       
-        <% if(myProf) { %>
-        <a class=formBtn href="/users/mod_perfil.html">Modificar perfil </a>
-        <% } %>    
+        <div class=botonPerfil>
+            <% if(myProf) { %>
+                <a class=formBtn href="/users/mod_perfil.html">Modificar perfil </a>
+            <% } %> 
+
+        </div>
+           
 
     </div>
 </body>

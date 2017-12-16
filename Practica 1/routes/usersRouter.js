@@ -96,21 +96,32 @@ usersRouter.get("/perfil.html", (request, response) => {
     }
 });
 
+
 usersRouter.get("/amigos.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (!loggedIn) {
         response.redirect("/users/login.html");
     } else {
-
-
-        dao.readAllFriends(request.body.email, (err, rows) => {
+        dao.readRequests(request.session.user, (err, rows) =>{
             response.render("amigos.ejs", {
                 puntos: 0,
                 image: request.session.image,
-                amigos: rows,
-                name: rows.name
+                requests: rows
             });
         });
+        /*JOSE AQUI ME QUEDE ATASCADA PORQUE NO ENTIENDO BIEN COMO LLAMAR AL DAO DOS VECES DESDE EL MISMO GET Y NO SE SI SE USA SOLO UN RENDER O DOS O QUE PASA */ 
+        /*ADEMAS ES DEMASIADO TARDE YA PARA TOCARLE LOS COJONES A CHEMA, SORRY JAJAJAJ I TRIED*/
+
+        dao.readAllFriends(request.session.user, (err, rows) => {
+            
+            response.render("amigos.ejs", {
+                puntos: 0,
+                image: request.session.image,
+                amigos: rows
+                
+            });
+        });
+
     }
 
 

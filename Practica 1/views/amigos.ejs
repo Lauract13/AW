@@ -11,6 +11,22 @@
     <img class=logo src="../img/Logo.png">
     <%- include("menuLogged") -%>
     <p class=encPag>Solicitudes de amistad</p>
+        
+
+        <% requests.forEach(request =>{ %>
+            <div class=misAmigos>
+                <img class="imgAmigos" src="/images/<%= request.image %>">
+            
+                <p><%= request.name %></p>
+            
+                <form action="profile" method="POST">
+                    <input type="hidden" name="user" value="<%= request.email %>">
+            
+                </form>
+            </div>
+            
+        
+        <% }); %>
     <p class=encPag>Busqueda de amigos</p>
     <div class=busqueda>
         <form action="search" method="GET">
@@ -20,21 +36,25 @@
         </form>
     </div>
     <p class=encPag>Mis amigos</p>
-    <div class=misAmigos>
+    
         <!-- Amigos que ya han aceptado solicitud -->
-        <ul>
+        
             <% amigos.forEach(amigo =>{ %>
-            <li id="amigos">
-                <img class="usuario" src="/images/<%= amigo.image %>">
-                <p class="friend_name"><%= amigo.name %></p>
-                <form action="profile" method="POST">
-                    <input type="hidden" name="user" value="<%= amigo.email %>">
-                    <input class=amigosBtn type="submit" value="Perfil">
-                </form>
-            </li>
+                <div class=misAmigos>
+                    <img class="imgAmigos" src="/images/<%= amigo.image %>">
+                
+                    <p><%= amigo.name %></p>
+                
+                    <form action="profile" method="POST">
+                        <input type="hidden" name="user" value="<%= amigo.email %>">
+                
+                    </form>
+                </div>
+                
+            
             <% }); %>
-        </ul>
-    </div>
+        
+    
 </body>
 
 

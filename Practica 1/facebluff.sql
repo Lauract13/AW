@@ -30,15 +30,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `friends` (
   `email1` varchar(20) NOT NULL,
-  `email2` varchar(20) NOT NULL
+  `email2` varchar(20) NOT NULL,
+  `aceptado` boolean
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `friends`
 --
 
-INSERT INTO `friends` (`email1`, `email2`) VALUES
-('adios@gmail.com', 'holi@gmail.com');
+INSERT INTO `friends` (`email1`, `email2`, `aceptado`) VALUES
+('adios@gmail.com', 'holi@gmail.com', 0),
+('adios@gmail.com', 'jeje@gmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -80,7 +82,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`email`, `password`, `name`, `gender`, `image`, `birthDate`) VALUES
 ('adios@gmail.com', 'aaaaa', 'Jose', 'Masculino', 'Bat-01.png', NULL),
-('holi@gmail.com', 'aaabbbccc', 'Jose Antonio', 'Masculino', 'Diablo-01.png', '2017-12-06');
+('holi@gmail.com', 'aaabbbccc', 'Jose Antonio', 'Masculino', 'Diablo-01.png', '2017-12-06'),
+('jeje@gmail.com', 'aaaa', 'pepe', 'Masculino', 'Diablo-01.png', '2017-12-06');
 
 --
 -- Índices para tablas volcadas
