@@ -4,30 +4,26 @@ const readSQL = "SELECT email, password, name, gender, image, birthDate FROM use
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
 const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
 const updateSQL = "UPDATE users SET email=?, password=?, name=?, gender=?, birthDate=?, image=? WHERE email=?";
-const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, false)";
-const readAllSQL = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON ?=friends.email2";
+const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, ?)";
+const readAllSQL = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON users.email=friends.email2 WHERE friends.accepted=1 AND ?=friends.email1";
 const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?";
-const readRequests = "SELECT email, name, image FROM users LEFT JOIN friends ON friends.aceptado = 0";
+const readRequests = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON users.email=friends.email2 WHERE friends.accepted=0 AND ?=friends.email1";
 class daoUsers {
 
     constructor(pool) {
         this.pool = pool;
     }
-    readRequests(email,callback){
-        this.pool.getConnection((err,conn)=>{
-            if(err){
+    readRequests(email, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
                 callback("Connection error: " + err, null);
                 return;
-            }else{
-                conn.query(readRequests, [email], (err, res, fields) =>{
-                    if(err){
-                        console.log("ERRORRR");
-                        console.log(err);
+            } else {
+                conn.query(readRequests, [email], (err, res, fields) => {
+                    if (err) {
                         callback("Query error: " + err, null);
                         return;
-                    }else{
-                        console.log("COGIO LOS DATOS WEY");
-                        console.log(res);
+                    } else {
                         callback(null, res);
                         return;
                     }
@@ -42,12 +38,12 @@ class daoUsers {
                 return;
             } else {
                 conn.query(readAllSQL, [email], (err, res, fields) => {
-                    
+
                     if (err) {
                         callback("Query error: " + err, null);
                         return;
                     } else {
-                        
+
                         callback(null, res);
                         return;
                     }
@@ -159,12 +155,21 @@ class daoUsers {
     }
 
     addFriend(email1, email2, callback) {
+        console.log(email1);
+        console.log(email2);
         this.pool.getConnection((err, conn) => {
             if (err) {
                 callback("Connection error.", null);
                 return;
             } else {
-                conn.query(insertFriendSQL, [email1, email2], (err, rows) => {
+                conn.query(insertFriendSQL, [email1, email2, 1], (err, rows) => {
+                    if (err) {
+                        callback("Insert error.", null);
+                        return;
+                    }
+                });
+                console.log("hola");
+                conn.query(insertFriendSQL, [email2, email1, 0], (err, rows) => {
                     if (err) {
                         callback("Insert error.", null);
                         return;

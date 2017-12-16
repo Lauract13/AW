@@ -17,11 +17,11 @@
             <div class=misAmigos>
                 <img class="imgAmigos" src="/images/<%= request.image %>">
             
-                <p><%= request.name %></p>
+                <p class=friendName><%= request.name %></p>
             
-                <form action="profile" method="POST">
+                <form action="acceptFriend" method="POST">
                     <input type="hidden" name="user" value="<%= request.email %>">
-            
+                    <input class=amigosBtn type="submit" value="Aceptar">
                 </form>
             </div>
             
@@ -43,11 +43,11 @@
                 <div class=misAmigos>
                     <img class="imgAmigos" src="/images/<%= amigo.image %>">
                 
-                    <p><%= amigo.name %></p>
+                    <p class=friendName><%= amigo.name %></p>
                 
                     <form action="profile" method="POST">
                         <input type="hidden" name="user" value="<%= amigo.email %>">
-                
+                        <input class=amigosBtn type="submit" value="Perfil">
                     </form>
                 </div>
                 

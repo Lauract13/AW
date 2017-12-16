@@ -102,29 +102,18 @@ usersRouter.get("/amigos.html", (request, response) => {
     if (!loggedIn) {
         response.redirect("/users/login.html");
     } else {
-        dao.readRequests(request.session.user, (err, rows) =>{
-            response.render("amigos.ejs", {
-                puntos: 0,
-                image: request.session.image,
-                requests: rows
+        dao.readRequests(request.session.user, (err, reqs) => {
+            console.log(reqs);
+            dao.readAllFriends(request.session.user, (err, friends) => {
+                response.render("amigos.ejs", {
+                    puntos: 0,
+                    image: request.session.image,
+                    amigos: friends,
+                    requests: reqs
+                });
             });
         });
-        /*JOSE AQUI ME QUEDE ATASCADA PORQUE NO ENTIENDO BIEN COMO LLAMAR AL DAO DOS VECES DESDE EL MISMO GET Y NO SE SI SE USA SOLO UN RENDER O DOS O QUE PASA */ 
-        /*ADEMAS ES DEMASIADO TARDE YA PARA TOCARLE LOS COJONES A CHEMA, SORRY JAJAJAJ I TRIED*/
-
-        dao.readAllFriends(request.session.user, (err, rows) => {
-            
-            response.render("amigos.ejs", {
-                puntos: 0,
-                image: request.session.image,
-                amigos: rows
-                
-            });
-        });
-
     }
-
-
 });
 
 usersRouter.get("/search", (request, response) => {
@@ -185,22 +174,27 @@ usersRouter.post("/profile", (request, response) => {
 });
 
 usersRouter.post("/addFriend", (request, response) => {
-    pool.getConnection((err, conn) => {
+    let user1 = request.session.user;
+    let user2 = request.body.email;
+    dao.addFriend(user1, user2, (err, rows) => {
         if (err) {
-            console.log("Connection error");
+            console.log(err);
             response.redirect("/users/amigos.html");
         } else {
-            let sql = "INSERT INTO friends VALUES (?,?)";
-            let user1 = request.session.user;
-            let user2 = request.body.email;
-            conn.query(sql, [user1, user2], (err, rows) => {
-                if (err) {
-                    console.log(err);
-                } else if (rows.affectedRows == 0) {
-                    console.log("Not inserted");
-                }
-                response.redirect("/users/amigos.html");
-            });
+            response.redirect("/users/amigos.html");
+        }
+    });
+});
+
+usersRouter.post("/acceptFriend", (request, response) => {
+    let user1 = request.session.user;
+    let user2 = request.body.user;
+    dao.confirmFriend(user1, user2, (err, rows) => {
+        if (err) {
+            console.log(err);
+            response.redirect("/users/amigos.html");
+        } else {
+            response.redirect("/users/amigos.html");
         }
     });
 });
