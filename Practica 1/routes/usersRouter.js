@@ -21,7 +21,6 @@ let dao = new daoUsers(pool);
 
 
 usersRouter.get("/desconectar.html", (request, response) => {
-    // response.cookie("user", false);
     request.session.destroy((err) => {
         if (err) { console.log("Error deleting session."); }
     });
@@ -31,6 +30,7 @@ usersRouter.get("/desconectar.html", (request, response) => {
 usersRouter.get("/new_user.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (loggedIn) {
+        response.setMsg("Necesitas deslogearte para crear un usuario");
         response.redirect("/users/perfil.html");
     } else {
         response.render("new_user.ejs", {
@@ -44,6 +44,7 @@ usersRouter.get("/new_user.html", (request, response) => {
 usersRouter.get("/mod_perfil.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (!loggedIn) {
+        response.setMsg("Necesitas estar logeado");
         response.redirect("/users/login.html");
     } else {
         let gen = 0;
@@ -74,6 +75,7 @@ usersRouter.get("/login.html", (request, response) => {
     if (!loggedIn) {
         response.render("login.ejs", { user: loggedIn, puntos: 0 });
     } else {
+        response.setMsg("Ya estas logeado");
         response.redirect("/users/perfil.html");
     }
     response.end();
@@ -101,6 +103,7 @@ usersRouter.get("/perfil.html", (request, response) => {
             myProf: true
         });
     } else {
+        response.setMsg("Necesitas estar logeado");
         response.redirect("/users/login.html");
     }
 });
@@ -109,10 +112,10 @@ usersRouter.get("/perfil.html", (request, response) => {
 usersRouter.get("/amigos.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (!loggedIn) {
+        response.setMsg("Necesitas estar logeado")
         response.redirect("/users/login.html");
     } else {
         dao.readRequests(request.session.user, (err, reqs) => {
-            console.log(reqs);
             dao.readAllFriends(request.session.user, (err, friends) => {
                 response.render("amigos.ejs", {
                     puntos: 0,
@@ -128,6 +131,7 @@ usersRouter.get("/amigos.html", (request, response) => {
 usersRouter.get("/search", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (!loggedIn) {
+        response.setMsg("Necesitas estar logeado")
         response.redirect("/users/login.html");
     } else {
         dao.search(request.query.name, (err, res) => {
@@ -173,6 +177,7 @@ usersRouter.post("/modPerfil", (request, response) => {
             request.session.gender = gender;
             request.session.birthDate = birthDate;
             request.session.image = image;
+            response.setMsg("Usuario modificado correctamente");
             response.redirect("/users/perfil.html");
         }
     });
@@ -211,9 +216,10 @@ usersRouter.post("/addFriend", (request, response) => {
     let user2 = request.body.email;
     dao.addFriend(user1, user2, (err, rows) => {
         if (err) {
-            console.log(err);
+            response.setMsg("No se pudo añadir ese amigo");
             response.redirect("/users/amigos.html");
         } else {
+            response.setMsg("Solicitud enviada");
             response.redirect("/users/amigos.html");
         }
     });
@@ -224,9 +230,23 @@ usersRouter.post("/acceptFriend", (request, response) => {
     let user2 = request.body.user;
     dao.confirmFriend(user1, user2, (err, rows) => {
         if (err) {
-            console.log(err);
+            response.setMsg("No se pudo aceptar la solicitud");
             response.redirect("/users/amigos.html");
         } else {
+            response.redirect("/users/amigos.html");
+        }
+    });
+});
+
+usersRouter.post("/rejectFriend", (request, response) => {
+    let user1 = request.session.user;
+    let user2 = request.body.user;
+    dao.rejectFriend(user1, user2, (err, rows) => {
+        if (err) {
+            response.setMsg("No se pudo rechazar la solicitud");
+            response.redirect("/users/amigos.html");
+        } else {
+            response.setMsg("Solicitud rechazada");
             response.redirect("/users/amigos.html");
         }
     });

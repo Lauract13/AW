@@ -29,6 +29,16 @@ p.friendName {
     margin-right: 10%;
 }
 
+p.requestName {
+    font-family: "Facebluff";
+    display: block;
+    text-align: center;
+    justify-content: center;
+    width: 30%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
 img.logo {
     display: block;
     margin-left: auto;
@@ -162,6 +172,38 @@ input.amigosBtn {
     font-weight: bold;
     margin: 10px auto;
     border: none;
+    border-left: 2%;
+    border-right: 2%;
+    border-radius: 13px;
+    width: auto;
+    height: auto;
+}
+
+input.acceptBtn {
+    background-color: green;
+    color: white;
+    font-family: "Facebluff";
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px auto;
+    border: none;
+    border-left: 2%;
+    border-right: 2%;
+    border-radius: 13px;
+    width: auto;
+    height: auto;
+}
+
+input.rejectBtn {
+    background-color: red;
+    color: white;
+    font-family: "Facebluff";
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px auto;
+    border: none;
+    border-left: 2%;
+    border-right: 2%;
     border-radius: 13px;
     width: auto;
     height: auto;

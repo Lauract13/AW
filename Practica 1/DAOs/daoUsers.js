@@ -7,6 +7,7 @@ const updateSQL = "UPDATE users SET password=?, name=?, gender=?, birthDate=?, i
 const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, ?)";
 const readAllSQL = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON users.email=friends.email2 WHERE friends.accepted=1 AND ?=friends.email1";
 const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?";
+const rejectFriendSQL = "DELETE FROM friends WHERE email1=? AND email2=?";
 const readRequests = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON users.email=friends.email2 WHERE friends.accepted=0 AND ?=friends.email1";
 class daoUsers {
 
@@ -154,8 +155,6 @@ class daoUsers {
     }
 
     addFriend(email1, email2, callback) {
-        console.log(email1);
-        console.log(email2);
         this.pool.getConnection((err, conn) => {
             if (err) {
                 callback("Connection error.", null);
@@ -167,7 +166,6 @@ class daoUsers {
                         return;
                     }
                 });
-                console.log("hola");
                 conn.query(insertFriendSQL, [email2, email1, 0], (err, rows) => {
                     if (err) {
                         callback("Insert error.", null);
@@ -194,6 +192,27 @@ class daoUsers {
                     } else {
                         callback(null, rows.affectedRows);
                         return;
+                    }
+                });
+            }
+        });
+    }
+
+    rejectFriend(email1, email2, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
+                callback("Connection error " + err, null);
+            } else {
+                conn.query(rejectFriendSQL, [email1, email2], (err, rows) => {
+                    if (err) {
+                        callback("Update error " + err, null);
+                    }
+                });
+                conn.query(rejectFriendSQL, [email2, email1], (err, rows) => {
+                    if (err) {
+                        callback("Update error " + err, null);
+                    } else {
+                        callback(null, rows.affectedRows);
                     }
                 });
             }
