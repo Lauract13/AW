@@ -165,15 +165,15 @@ class daoUsers {
                         callback("Insert error.", null);
                         return;
                     }
-                });
-                conn.query(insertFriendSQL, [email2, email1, 0], (err, rows) => {
-                    if (err) {
-                        callback("Insert error.", null);
-                        return;
-                    } else {
-                        callback(null, rows.affectedRows);
-                        return;
-                    }
+                    conn.query(insertFriendSQL, [email2, email1, 0], (err, rows) => {
+                        if (err) {
+                            callback("Insert error.", null);
+                            return;
+                        } else {
+                            callback(null, rows.affectedRows);
+                            return;
+                        }
+                    });
                 });
             }
         });
@@ -207,13 +207,13 @@ class daoUsers {
                     if (err) {
                         callback("Update error " + err, null);
                     }
-                });
-                conn.query(rejectFriendSQL, [email2, email1], (err, rows) => {
-                    if (err) {
-                        callback("Update error " + err, null);
-                    } else {
-                        callback(null, rows.affectedRows);
-                    }
+                    conn.query(rejectFriendSQL, [email2, email1], (err, rows) => {
+                        if (err) {
+                            callback("Update error " + err, null);
+                        } else {
+                            callback(null, rows.affectedRows);
+                        }
+                    });
                 });
             }
         });
