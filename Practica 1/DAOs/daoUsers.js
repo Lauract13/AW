@@ -3,7 +3,7 @@
 const readSQL = "SELECT email, password, name, gender, image, birthDate FROM users WHERE ? = email";
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
 const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
-const updateSQL = "UPDATE users SET email=?, password=?, name=?, gender=?, birthDate=?, image=? WHERE email=?";
+const updateSQL = "UPDATE users SET password=?, name=?, gender=?, birthDate=?, image=? WHERE email=?";
 const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, ?)";
 const readAllSQL = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON users.email=friends.email2 WHERE friends.accepted=1 AND ?=friends.email1";
 const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?";
@@ -134,14 +134,13 @@ class daoUsers {
         });
     }
 
-    // No puedes actualizar el email, hay que cambiarlo
     update(email, password, name, gender, birthDate, image, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
                 callback("Connection error.", null);
                 return;
             } else {
-                conn.query(updateSQL, [email, password, name, gender, birthDate, image, email], (err, rows) => {
+                conn.query(updateSQL, [password, name, gender, birthDate, image, email], (err, rows) => {
                     if (err) {
                         callback("Update error " + err, null);
                         return;
@@ -185,12 +184,12 @@ class daoUsers {
     confirmFriend(email1, email2, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
-                callback("Connection error.", null);
+                callback("Connection error " + err, null);
                 return;
             } else {
                 conn.query(confirmFriendSQL, [email1, email2], (err, rows) => {
                     if (err) {
-                        callback("Update error.", null);
+                        callback("Update error " + err, null);
                         return;
                     } else {
                         callback(null, rows.affectedRows);

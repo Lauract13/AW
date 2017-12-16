@@ -10,9 +10,9 @@
 <body>
     <img class=logo src="../img/Logo.png">
     <% if (!user) { %>
-        <%- include("menuNotLogged") -%>
+        <%- include("menuNotLogged") %>
     <% } else { %>
-        <%- include("menuLogged") -%>
+        <%- include("menuLogged") %>
     <% } %>
     <p class=encPag>Entrar</p>
     <div class=formulario>
@@ -30,9 +30,8 @@
             </div>
         </form>
     </div>
-    <% if(error) { %>
-    <p class="errPag"><%= error %></p>
-    <% } %>
+    <%- include("error") %>
+    
 </body>
 
 </html>

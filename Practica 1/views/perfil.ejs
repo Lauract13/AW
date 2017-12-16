@@ -17,12 +17,14 @@
         <img class=imagenPerfil src="/images/<%= image %>">
         
         <div class=profileDif>
-            <p><%= name %> </p>
+            <p class=profName><%= name %> </p>
         </div>
         <div class=profile>
-            <p><%= years %> años</p>
-            <p><%= gender %></p>
-            <p><%= puntos %> puntos</p>
+            <% if(years) { %>
+            <p class=profData><%= years %> años</p>
+            <% } %>
+            <p class=profData><%= gender %></p>
+            <p class=profData><%= puntos %> puntos</p>
             
         </div>
         <div class=botonPerfil>

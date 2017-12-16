@@ -39,9 +39,22 @@ app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use((request, response, next) => {
+    response.setMsg = (msg) => {
+        request.session.msg = msg;
+    };
+
+    response.locals.getMsg = () => {
+        let msg = request.session.msg;
+        delete request.session.msg;
+        return msg;
+    };
+    next();
+});
 app.use(mwSession);
 app.use("/users", usersRouter);
 app.use("/images", imagesRouter);
+
 
 app.get("/", (request, response) => {
     response.redirect("users/login.html");

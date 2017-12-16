@@ -16,7 +16,7 @@ const pool = mysql.createPool({
     password: config.dbPassword,
     database: config.dbName
 });
-let logErr = false;
+
 let dao = new daoUsers(pool);
 
 
@@ -58,7 +58,7 @@ usersRouter.get("/mod_perfil.html", (request, response) => {
             gender: gen,
             birthDate: request.session.birthDate,
             image: request.session.image
-        }
+        };
         response.render("mod_perfil.ejs", {
             user: loggedIn,
             image: request.session.image,
@@ -72,8 +72,7 @@ usersRouter.get("/mod_perfil.html", (request, response) => {
 usersRouter.get("/login.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (!loggedIn) {
-        response.render("login.ejs", { user: loggedIn, error: logErr, puntos: 0 });
-        if (logErr) logErr = false;
+        response.render("login.ejs", { user: loggedIn, puntos: 0 });
     } else {
         response.redirect("/users/perfil.html");
     }
@@ -83,9 +82,19 @@ usersRouter.get("/login.html", (request, response) => {
 usersRouter.get("/perfil.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (loggedIn) {
+        let birthDate = null;
+        if (request.session.birthDate) {
+            birthDate = new Date(request.session.birthDate);
+        }
+        let age = null;
+        if (birthDate) {
+            var ageDifMs = Date.now() - birthDate.getTime();
+            var ageDate = new Date(ageDifMs);
+            age = Math.abs(ageDate.getUTCFullYear() - 1970);
+        }
         response.render("perfil.ejs", {
             name: request.session.name,
-            years: request.session.birthDate,
+            years: age,
             gender: request.session.gender,
             puntos: 0,
             image: request.session.image,
@@ -135,12 +144,18 @@ usersRouter.get("/search", (request, response) => {
 });
 
 usersRouter.post("/modPerfil", (request, response) => {
-    let name = request.body.name;
-    let email = request.body.email;
-    let password = request.body.password;
+    let email = request.session.user;
+    let name = request.session.name;
+    let password = request.session.password;
     let gender = request.body.gender;
-    let birthDate = null;
-    let image = "npp";
+    let birthDate = request.session.birthDate;
+    let image = request.session.image;
+    if (request.body.name) {
+        name = request.body.name;
+    }
+    if (request.body.password) {
+        password = request.body.password;
+    }
     if (request.body.birthDate !== "") {
         birthDate = request.body.birthDate;
     }
@@ -150,8 +165,16 @@ usersRouter.post("/modPerfil", (request, response) => {
     dao.update(email, password, name, gender, birthDate, image, (err, id) => {
         if (err || !id) {
             console.log(err);
+            response.setMsg("No se pudo modificar el usuario");
+            response.redirect("/users/mod_perfil.html");
+        } else {
+            request.session.password = password;
+            request.session.name = name;
+            request.session.gender = gender;
+            request.session.birthDate = birthDate;
+            request.session.image = image;
+            response.redirect("/users/perfil.html");
         }
-        response.redirect("/users/perfil.html");
     });
 });
 
@@ -161,9 +184,19 @@ usersRouter.post("/profile", (request, response) => {
         if (err) {
             console.log(err);
         } else {
+            let birthDate = null;
+            if (res.birthDate) {
+                birthDate = new Date(res.birthDate);
+            }
+            let age = null;
+            if (birthDate) {
+                var ageDifMs = Date.now() - birthDate.getTime();
+                var ageDate = new Date(ageDifMs);
+                age = Math.abs(ageDate.getUTCFullYear() - 1970);
+            }
             response.render("perfil.ejs", {
                 name: res.name,
-                years: res.birthDate,
+                years: age,
                 gender: res.gender,
                 puntos: 0,
                 image: res.image,
@@ -202,16 +235,15 @@ usersRouter.post("/acceptFriend", (request, response) => {
 usersRouter.post("/loginpost", function(request, response) {
     dao.readOne(request.body.email, (err, res) => {
         if (!res) {
-            console.log("Login failed.");
-            logErr = true;
+            response.setMsg("Usuario o contraseña incorrectos");
             response.redirect("/users/login.html");
         } else {
             request.session.user = res.email;
             request.session.name = res.name;
+            request.session.password = res.password;
             request.session.gender = res.gender;
             request.session.image = res.image;
             request.session.birthDate = res.birthDate;
-            console.log("Login succeeded.");
             response.redirect("/users/perfil.html");
         }
     });
@@ -220,24 +252,32 @@ usersRouter.post("/loginpost", function(request, response) {
 usersRouter.post("/newUserForm", function(request, response) {
     let name = request.body.name;
     let email = request.body.email;
-    let password = request.body.password;
-    let gender = request.body.gender;
-    let birthDate = null;
-    let image = "npp";
-    if (request.body.birthDate !== "") {
-        birthDate = request.body.birthDate;
-    }
-    if (request.body.image) {
-        image = request.body.image;
-    }
-    dao.insert(email, password, name, gender, birthDate, image, (err, id) => {
-        if (err || !id) {
-            console.log(err);
-            response.redirect("/users/new_user.html");
-        } else {
-            response.redirect("/users/login.html");
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!email.match(mailformat)) {
+        response.setMsg("Formato de e-mail incorrecto");
+        response.redirect("/users/new_user.html");
+    } else {
+        let password = request.body.password;
+        let gender = request.body.gender;
+        let birthDate = null;
+        let image = "npp";
+        if (request.body.birthDate !== "") {
+            birthDate = request.body.birthDate;
         }
-    });
+        if (request.body.image) {
+            image = request.body.image;
+        }
+        dao.insert(email, password, name, gender, birthDate, image, (err, id) => {
+            if (err || !id) {
+                console.log(err);
+                response.setMsg("No se pudo crear el usuario");
+                response.redirect("/users/new_user.html");
+            } else {
+                response.setMsg("Usuario creado correctamente");
+                response.redirect("/users/login.html");
+            }
+        });
+    }
 });
 
 module.exports = usersRouter;

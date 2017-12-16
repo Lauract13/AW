@@ -193,13 +193,24 @@ p.encPag {
     font-weight: bold;
 }
 
-p.errPag {
+p.msg {
     font-family: "Facebluff";
-    font-size: 120%;
-    color: red;
+    font-size: 150%;
+    color: #bd4ae4;
     text-align: center;
     margin-top: 1%;
     margin-bottom: 2%;
+}
+
+p.profName {
+    font-family: "Facebluff";
+    font-size: 100%;
+    font-weight: bold;
+}
+
+p.profData {
+    font-family: "Facebluff";
+    font-size: 90%;
 }
 
 img.imagenPerfil {

@@ -18,10 +18,6 @@
     <div class=formulario>
         <form action="modPerfil" method="POST">
             <div class=celdFormulario>
-                <div class=formOpt> Email:</div>
-                <div class=formTxt> <input class=formTxt type="text" name="email" value="<%= data.email %>"> </div>
-            </div>
-            <div class=celdFormulario>
                 <div class=formOpt> Contraseña:</div>
                 <div class=formTxt> <input class=formTxt type="password" name="password"></div>
             </div>
@@ -54,7 +50,7 @@
 
         </form>
     </div>
-
+    <%- include("error") %>
 </body>
 
 
