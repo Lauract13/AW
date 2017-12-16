@@ -9,6 +9,7 @@ const app = express();
 const staticFiles = path.join(__dirname, "public");
 const imagesRouter = require("./routes/imagesRouter");
 const usersRouter = require("./routes/usersRouter");
+const preguntasRouter = require("./routes/preguntasRouter");
 const cookieParser = require("cookie-parser");
 const config = require("./config/config.js");
 const mysql = require("mysql");
@@ -54,6 +55,7 @@ app.use((request, response, next) => {
 app.use(mwSession);
 app.use("/users", usersRouter);
 app.use("/images", imagesRouter);
+app.use("/questions", preguntasRouter);
 
 
 app.get("/", (request, response) => {

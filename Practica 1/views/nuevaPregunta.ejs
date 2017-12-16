@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Nueva Pregunta - Facebluff</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/facebluff.css" />
+</head>
+
+<body>
+    <img class=logo src="../img/Logo.png">
+    <%- include("menuLogged") -%>
+    <p class=encPag>Nueva Pregunta</p>
+    <div class=formulario>
+        <form action="newQuestionForm" method="POST" id="questForm">
+            <div class=celdFormulario>
+                <div class=formOpt>Pregunta:</div>
+                <div class=formTxt> <input class=formTxt type="text" name="pregunta"> </div>
+            </div>
+            <div class=celdFormularioTxtArea>
+                <div class=formOpt>Respuestas (una por linea):</div>
+                <div class=formTxt><textarea class=formTxtArea name="respuestas"></textarea> </div>
+            </div>
+            <div class=celdFormularioBtn>
+                <input class=formBtn type="submit" value="Crear pregunta">
+            </div>
+
+        </form>
+    </div>
+    <%- include("error") %>
+
+</body>
+
+
+</html>

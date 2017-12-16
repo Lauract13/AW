@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Preguntas - Facebluff</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/facebluff.css" />
+</head>
+
+<body>
+    <img class=logo src="../img/Logo.png">
+    <%- include("menuLogged") %>
+    <p class=encPag><%= p.pregunta %></p>
+    <% p.respuestas.forEach(r =>{ %>
+        <div class=pregunta>
+            <p><%= r %></p>
+        </div>
+    <% }); %>
+    <div class=pregunta>
+        <p>Otra opcion</p>
+    </div>
+    
+    
+</body>
+
+
+</html>

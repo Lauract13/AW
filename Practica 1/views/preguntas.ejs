@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Preguntas - Facebluff</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/facebluff.css" />
+</head>
+
+<body>
+    <img class=logo src="../img/Logo.png">
+    <%- include("menuLogged") %>
+    <p class=encPag>Preguntas seleccionadas aleatoriamente</p>
+    <% preguntas.forEach(p =>{ %>
+        <div class=pregunta>
+            <a class=pregLinks href="/questions/n<%= p.id %>"><%= p.pregunta %></a>
+        </div>
+    <% }); %>
+    <p class=encPag>¡Añade tus preguntas!</p>
+
+    <div class=celdFormularioBtn>
+        <a class=formBtn href="/questions/nuevaPregunta.html">Crear pregunta</a>
+    </div>
+    
+    
+</body>
+
+
+</html>
