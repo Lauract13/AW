@@ -11,15 +11,25 @@
     <img class=logo src="../img/Logo.png">
     <%- include("menuLogged") %>
     <p class=encPag><%= p.pregunta %></p>
+    <form action="answerQuestion" method="POST">
     <% p.respuestas.forEach(r =>{ %>
+    <% let i = 0; %>
         <div class=pregunta>
-            <p><%= r %></p>
+            <div><input type="radio" name="respuesta" value="<%= i %>"></div> 
+            <div><%= r %></div>
         </div>
+    <% ++i; %>
     <% }); %>
-    <div class=pregunta>
-        <p>Otra opcion</p>
+    <div class=preguntaExtra>
+        <div><input type="radio" name="respuesta" value="extra"></div> 
+        <div>Otra opción:</div>
+        <input class=formTxt type="text" name="extraTxt">
     </div>
-    
+    <input type="hidden" name="idPregunta" value="<%= p.id %>">
+    <div class=celdFormularioBtn>
+        <input class=formBtn type="submit" value="Responder">
+    </div>
+    </form>
     
 </body>
 

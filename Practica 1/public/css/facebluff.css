@@ -269,6 +269,12 @@ p.profData {
     font-size: 90%;
 }
 
+p.questProfData {
+    font-family: Calibri;
+    font-size: 110%;
+    font-weight: bold;
+}
+
 img.imagenPerfil {
     float: left;
     margin-left: 20%;
@@ -342,13 +348,39 @@ div.perfil {
 
 div.pregunta {
     display: flex;
+    justify-content: flex-start;
     padding: 5px;
     margin-left: 22%;
     margin-right: 25%;
     margin-top: 1%;
-    font-family: Calibri;
+    font-family: "Facebluff";
     font-size: 120%;
     background: #ecd7b8;
+}
+
+div.preguntaExtra {
+    display: flex;
+    padding: 5px;
+    margin-left: 22%;
+    margin-right: 25%;
+    margin-top: 1%;
+    font-family: "Facebluff";
+    font-size: 120%;
+    background: #71da76;
+}
+
+div.questPerfDiv {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 30%;
+    padding-right: 30%;
+}
+
+div.questFriendsDiv {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 30%;
 }
 
 a.pregLinks {

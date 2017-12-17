@@ -16,6 +16,14 @@ const pool = mysql.createPool({
     password: config.dbPassword,
     database: config.dbName
 });
+preguntasRouter.use((request, response, next) => {
+    let loggedIn = (String(request.session.user) !== 'undefined');
+    if (!loggedIn) {
+        response.setMsg("Necesitas logearte para acceder");
+        response.redirect("/users/login.html");
+    }
+    next();
+});
 let dao = new daoQuestions(pool);
 
 preguntasRouter.get("/preguntas.html", (request, response) => {
@@ -39,9 +47,50 @@ preguntasRouter.get("/nuevaPregunta.html", (request, response) => {
     });
 });
 
+preguntasRouter.get("/q:id", (request, response) => {
+    dao.readOne(request.params.id, (err, res) => {
+        if (err) {
+            console.log(err);
+            response.setMsg("No se pudo abrir la pregunta");
+            response.redirect("/questions/preguntas.html");
+        } else {
+            let p = {
+                id: request.params.id,
+                pregunta: res.pregunta
+            };
+            dao.readUserInQuestion(request.session.user, request.params.id, (err, res) => {
+                if (err) {
+                    console.log(err);
+                    response.setMsg("No se pudo abrir la pregunta");
+                    response.redirect("/questions/preguntas.html");
+                } else {
+                    let answered = false;
+                    if (res) answered = true;
+                    dao.readUsersInQuestion(request.params.id, (err, res) => {
+                        if (err) {
+                            console.log(err);
+                            response.setMsg("No se pudo abrir la pregunta");
+                            response.redirect("/questions/preguntas.html");
+                        } else {
+                            response.render("perfPregunta", {
+                                image: request.session.image,
+                                puntos: 0,
+                                p: p,
+                                friends: res,
+                                answered: answered
+                            })
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
 preguntasRouter.get("/n:id", (request, response) => {
     dao.readOne(request.params.id, (err, res) => {
         let p = {
+            id: request.params.id,
             pregunta: res.pregunta,
             respuestas: res.respuestas.split(",")
         }
