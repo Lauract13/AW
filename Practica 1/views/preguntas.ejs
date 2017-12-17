@@ -13,7 +13,7 @@
     <p class=encPag>Preguntas seleccionadas aleatoriamente</p>
     <% preguntas.forEach(p =>{ %>
         <div class=pregunta>
-            <a class=pregLinks href="/questions/q<%= p.id %>"><%= p.pregunta %></a>
+            <a class=pregLinks href="/questions/question<%= p.id %>"><%= p.pregunta %></a>
         </div>
     <% }); %>
     <p class=encPag>¡Añade tus preguntas!</p>

@@ -270,8 +270,8 @@ p.profData {
 }
 
 p.questProfData {
-    font-family: Calibri;
-    font-size: 110%;
+    font-family: "Facebluff";
+    font-size: 100%;
     font-weight: bold;
 }
 
@@ -372,15 +372,15 @@ div.preguntaExtra {
 div.questPerfDiv {
     display: flex;
     justify-content: space-between;
-    padding-left: 30%;
-    padding-right: 30%;
+    padding-left: 5%;
+    padding-right: 50%;
 }
 
 div.questFriendsDiv {
     display: flex;
     justify-content: space-between;
-    padding-left: 10%;
-    padding-right: 30%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 a.pregLinks {

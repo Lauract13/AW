@@ -23,11 +23,11 @@ class daoUsers {
                 conn.query(readRequests, [email], (err, res, fields) => {
                     if (err) {
                         callback("Query error: " + err, null);
-                        return;
                     } else {
                         callback(null, res);
-                        return;
                     }
+                    conn.release();
+                    return;
                 });
             }
         });
@@ -39,15 +39,13 @@ class daoUsers {
                 return;
             } else {
                 conn.query(readAllSQL, [email], (err, res, fields) => {
-
                     if (err) {
                         callback("Query error: " + err, null);
-                        return;
                     } else {
-
                         callback(null, res);
-                        return;
                     }
+                    conn.release();
+                    return;
                 });
             }
         });
@@ -61,11 +59,9 @@ class daoUsers {
                 conn.query(readSQL, [email], (err, res, fields) => {
                     if (err) {
                         callback("Query error: " + err, null);
-                        return;
                     } else {
                         if (res.length > 1 || res.length < 1) {
                             callback("Length error: " + res.length, null);
-                            return;
                         } else {
                             let result = {
                                 email: res[0].email,
@@ -76,9 +72,10 @@ class daoUsers {
                                 birthDate: res[0].birthDate
                             };
                             callback(null, result);
-                            return;
                         }
                     }
+                    conn.release();
+                    return;
                 });
             }
         });
@@ -94,7 +91,6 @@ class daoUsers {
                 conn.query(searchSQL, [search], (err, res, fields) => {
                     if (err) {
                         callback(err, null);
-                        return;
                     } else {
                         let usersArray = [];
                         if (res.length > 0) {
@@ -108,8 +104,9 @@ class daoUsers {
                             });
                         }
                         callback(null, usersArray);
-                        return;
                     }
+                    conn.release();
+                    return;
                 });
             }
         });
@@ -123,13 +120,12 @@ class daoUsers {
             } else {
                 conn.query(insertSQL, [mail, pw, name, gender, image, birthDate], (err, rows) => {
                     if (err) {
-                        console.log("Insert error.");
                         callback("Insert error.", null);
-                        return;
                     } else {
                         callback(null, rows.affectedRows);
-                        return;
                     }
+                    conn.release();
+                    return;
                 });
             }
         });
@@ -144,11 +140,11 @@ class daoUsers {
                 conn.query(updateSQL, [password, name, gender, birthDate, image, email], (err, rows) => {
                     if (err) {
                         callback("Update error " + err, null);
-                        return;
                     } else {
                         callback(null, rows.affectedRows);
-                        return;
                     }
+                    conn.release();
+                    return;
                 });
             }
         });
@@ -163,16 +159,17 @@ class daoUsers {
                 conn.query(insertFriendSQL, [email1, email2, 1], (err, rows) => {
                     if (err) {
                         callback("Insert error.", null);
+                        conn.release();
                         return;
                     }
                     conn.query(insertFriendSQL, [email2, email1, 0], (err, rows) => {
                         if (err) {
                             callback("Insert error.", null);
-                            return;
                         } else {
                             callback(null, rows.affectedRows);
-                            return;
                         }
+                        conn.release();
+                        return;
                     });
                 });
             }
@@ -188,11 +185,11 @@ class daoUsers {
                 conn.query(confirmFriendSQL, [email1, email2], (err, rows) => {
                     if (err) {
                         callback("Update error " + err, null);
-                        return;
                     } else {
                         callback(null, rows.affectedRows);
-                        return;
                     }
+                    conn.release();
+                    return;
                 });
             }
         });
@@ -206,6 +203,8 @@ class daoUsers {
                 conn.query(rejectFriendSQL, [email1, email2], (err, rows) => {
                     if (err) {
                         callback("Update error " + err, null);
+                        conn.release();
+                        return;
                     }
                     conn.query(rejectFriendSQL, [email2, email1], (err, rows) => {
                         if (err) {
@@ -213,6 +212,8 @@ class daoUsers {
                         } else {
                             callback(null, rows.affectedRows);
                         }
+                        conn.release();
+                        return;
                     });
                 });
             }

@@ -16,20 +16,18 @@
         <div><p class=questProfData>Ya has respondido a esta pregunta.</p></div>
         <% } else { %>
         <div><p class=questProfData>Aun no has respondido a esta pregunta.</p></div>
-        <div><a class=formBtn href="/questions/n<%=p.id%>"> Contestar pregunta </a></div>
+        <div><a class=formBtn href="/questions/num<%=p.id%>"> Contestar pregunta </a></div>
         <% } %>
     </div>
-    <% if(friends && friends.len > 0) { %>
+    <% if(friends && friends.length > 0) { %>
     <div class=questFriendsDiv><p class=questProfData>Estos amigos han contestado a esta pregunta:</p></div>
-    <li>
-        <% friends.forEach(f =>{ %>
-        <div>
-            <div><img class="imgAmigos" src="/images/<%= f.image %>"></div>
-            <div><p class=requestName><%= f.name %></p></div>
-            <div><a class=pregLinks href="/questions/n<%= p.id %>"> Adivinar </a></div>
-        </div>
+    <% friends.forEach(f =>{ %>
+    <div class=questFriendsDiv>
+        <div><img class="imgAmigos" src="/images/<%= f.image %>"></div>
+        <p class=requestName><%= f.name %></p>
+        <div><a class=pregLinks href="/questions/n<%= p.id %>"> Adivinar </a></div>
+    </div>
     <% }); %>
-    </li>
     <% } else { %>
     <div class=questFriendsDiv><p class=questProfData>Ningun amigo tuyo ha contestado a esta pregunta.</p></div>
     <% } %>

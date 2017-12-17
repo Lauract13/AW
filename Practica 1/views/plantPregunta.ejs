@@ -13,12 +13,10 @@
     <p class=encPag><%= p.pregunta %></p>
     <form action="answerQuestion" method="POST">
     <% p.respuestas.forEach(r =>{ %>
-    <% let i = 0; %>
         <div class=pregunta>
-            <div><input type="radio" name="respuesta" value="<%= i %>"></div> 
+            <div><input type="radio" name="respuesta" value="<%= r %>"></div> 
             <div><%= r %></div>
         </div>
-    <% ++i; %>
     <% }); %>
     <div class=preguntaExtra>
         <div><input type="radio" name="respuesta" value="extra"></div> 
