@@ -25,10 +25,22 @@ preguntasRouter.get("/preguntas.html", (request, response) => {
         if (err) {
             console.log("fuck");
         } else {
+            let preg = [];
+            let bool = [];
+            let leng = res.length;
+            if (leng > 5) leng = 5;
+            for (let i = 0; i < leng; i++) {
+                let ind = Math.floor((Math.random() * res.length));
+                while (bool.indexOf(ind) !== -1) {
+                    ind = Math.floor((Math.random() * res.length));
+                }
+                preg.push(res[ind]);
+                bool.push(ind);
+            }
             response.render("preguntas.ejs", {
                 image: request.session.image,
                 puntos: 0,
-                preguntas: res
+                preguntas: preg
             });
         }
     })
