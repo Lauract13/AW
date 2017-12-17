@@ -1,8 +1,9 @@
 "use strict";
 
-const readSQL = "SELECT email, password, name, gender, image, birthDate FROM users WHERE ? = email";
+const readSQL = "SELECT email, password, name, gender, image, birthDate, points FROM users WHERE ? = email";
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
 const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
+const addPointsSQL = "UPDATE users SET points = points + ? WHERE users.email=?";
 const updateSQL = "UPDATE users SET password=?, name=?, gender=?, birthDate=?, image=? WHERE email=?";
 const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, ?)";
 const readAllSQL = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON users.email=friends.email2 WHERE friends.accepted=1 AND ?=friends.email1";
@@ -69,7 +70,8 @@ class daoUsers {
                                 name: res[0].name,
                                 gender: res[0].gender,
                                 image: res[0].image,
-                                birthDate: res[0].birthDate
+                                birthDate: res[0].birthDate,
+                                points: res[0].points
                             };
                             callback(null, result);
                         }
@@ -121,6 +123,25 @@ class daoUsers {
                 conn.query(insertSQL, [mail, pw, name, gender, image, birthDate], (err, rows) => {
                     if (err) {
                         callback("Insert error.", null);
+                    } else {
+                        callback(null, rows.affectedRows);
+                    }
+                    conn.release();
+                    return;
+                });
+            }
+        });
+    }
+
+    addPoints(points, email, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
+                callback("Connection error.", null);
+                return;
+            } else {
+                conn.query(addPointsSQL, [points, email], (err, rows) => {
+                    if (err) {
+                        callback("Update error " + err, null);
                     } else {
                         callback(null, rows.affectedRows);
                     }

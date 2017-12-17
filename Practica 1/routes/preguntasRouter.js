@@ -39,7 +39,7 @@ preguntasRouter.get("/preguntas.html", (request, response) => {
             }
             response.render("preguntas.ejs", {
                 image: request.session.image,
-                puntos: 0,
+                puntos: request.session.points,
                 preguntas: preg
             });
         }
@@ -49,7 +49,7 @@ preguntasRouter.get("/preguntas.html", (request, response) => {
 preguntasRouter.get("/nuevaPregunta.html", (request, response) => {
     response.render("nuevaPregunta.ejs", {
         image: request.session.image,
-        puntos: 0
+        puntos: request.session.points
     });
 });
 
@@ -71,7 +71,7 @@ preguntasRouter.get("/question:id", (request, response) => {
                     response.redirect("/questions/preguntas.html");
                 } else {
                     let answered = false;
-                    if (res) answered = true;
+                    if (res.email) answered = true;
                     daoQ.readUsersInQuestion(request.session.user, request.params.id, (err, res) => {
                         if (err) {
                             console.log(err);
@@ -80,7 +80,7 @@ preguntasRouter.get("/question:id", (request, response) => {
                         } else {
                             response.render("perfPregunta", {
                                 image: request.session.image,
-                                puntos: 0,
+                                puntos: request.session.points,
                                 p: p,
                                 friends: res,
                                 answered: answered
@@ -107,11 +107,46 @@ preguntasRouter.get("/num:id", (request, response) => {
             }
             response.render("plantPregunta", {
                 image: request.session.image,
-                puntos: 0,
+                puntos: request.session.points,
                 p: p
             });
         }
     });
+});
+
+preguntasRouter.post("/guessQuestion:id", (request, response) => {
+    daoQ.readOne(request.params.id, (err, res) => {
+        if (err) {
+            console.log(err);
+            response.setMsg("No se pudo mostrar la pregunta.");
+            response.redirect("questions/preguntas.html");
+        } else {
+            let resp = [];
+            let bool = [];
+            let totales = res.respuestas.split(",");
+            let leng = totales.length;
+            if (leng > 5) leng = 5;
+            for (let i = 0; i < leng; i++) {
+                let ind = Math.floor((Math.random() * totales.length));
+                while (bool.indexOf(ind) !== -1) {
+                    ind = Math.floor((Math.random() * totales.length));
+                }
+                resp.push(totales[ind]);
+                bool.push(ind);
+            }
+            let p = {
+                id: request.params.id,
+                pregunta: res.pregunta,
+                respuestas: resp
+            };
+            response.render("plantAdivinar", {
+                image: request.session.image,
+                puntos: request.session.points,
+                p: p,
+                userAmigo: request.body.userAmigo
+            });
+        }
+    })
 });
 
 preguntasRouter.post("/newQuestionForm", (request, response) => {
@@ -163,5 +198,43 @@ preguntasRouter.post("/answerQuestion", (request, response) => {
         });
     }
 });
+
+preguntasRouter.post("/answerGuessedQuestion", (request, response) => {
+    daoQ.readUserInQuestion(request.body.idAmigo, request.body.idPregunta, (err, res) => {
+        if (err || !res.email) {
+            response.setMsg("No se pudo responder la pregunta");
+            response.redirect("/questions/preguntas.html");
+        } else {
+            console.log(res.answer);
+            let email1 = request.session.user;
+            let email2 = request.body.idAmigo;
+            let questionId = request.body.idPregunta;
+            let guessed = false;
+            if (request.body.respuesta === res.answer) guessed = true;
+            daoQ.insertGuess(email1, email2, questionId, guessed, (err, rows) => {
+                if (err) {
+                    response.setMsg("No se pudo responder la pregunta");
+                    response.redirect("/questions/preguntas.html");
+                } else {
+                    if (guessed) {
+                        daoU.addPoints(50, email1, (err, rows) => {
+                            if (err) {
+                                response.setMsg("No se pudieron añadir los puntos");
+                                response.redirect("/questions/preguntas.html");
+                            } else {
+                                response.setMsg("¡Has acertado!");
+                                request.session.points += 50;
+                                response.redirect("/questions/preguntas.html");
+                            }
+                        });
+                    } else {
+                        response.setMsg("Has fallado.");
+                        response.redirect("/questions/preguntas.html");
+                    }
+                }
+            });
+        }
+    })
+})
 
 module.exports = preguntasRouter;

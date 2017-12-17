@@ -36,7 +36,7 @@ usersRouter.get("/new_user.html", (request, response) => {
         response.render("new_user.ejs", {
             user: loggedIn,
             image: request.session.image,
-            puntos: 0
+            puntos: request.session.points
         });
     }
 });
@@ -63,7 +63,7 @@ usersRouter.get("/mod_perfil.html", (request, response) => {
         response.render("mod_perfil.ejs", {
             user: loggedIn,
             image: request.session.image,
-            puntos: 0,
+            puntos: request.session.points,
             gen: gen,
             data: data
         });
@@ -73,7 +73,7 @@ usersRouter.get("/mod_perfil.html", (request, response) => {
 usersRouter.get("/login.html", (request, response) => {
     let loggedIn = (String(request.session.user) !== 'undefined');
     if (!loggedIn) {
-        response.render("login.ejs", { user: loggedIn, puntos: 0 });
+        response.render("login.ejs", { user: loggedIn, puntos: request.session.points });
     } else {
         response.setMsg("Ya estas logeado");
         response.redirect("/users/perfil.html");
@@ -98,8 +98,10 @@ usersRouter.get("/perfil.html", (request, response) => {
             name: request.session.name,
             years: age,
             gender: request.session.gender,
-            puntos: 0,
+            puntos: request.session.points,
+            puntosProf: request.session.points,
             image: request.session.image,
+            imageProf: request.session.image,
             myProf: true
         });
     } else {
@@ -118,7 +120,7 @@ usersRouter.get("/amigos.html", (request, response) => {
         dao.readRequests(request.session.user, (err, reqs) => {
             dao.readAllFriends(request.session.user, (err, friends) => {
                 response.render("amigos.ejs", {
-                    puntos: 0,
+                    puntos: request.session.points,
                     image: request.session.image,
                     amigos: friends,
                     requests: reqs
@@ -138,7 +140,7 @@ usersRouter.get("/search", (request, response) => {
             response.render("search.ejs", {
                 user: loggedIn,
                 image: request.session.image,
-                puntos: 0,
+                puntos: request.session.points,
                 users: res,
                 search: request.query.name,
                 myEmail: request.session.user
@@ -203,8 +205,10 @@ usersRouter.post("/profile", (request, response) => {
                 name: res.name,
                 years: age,
                 gender: res.gender,
-                puntos: 0,
-                image: res.image,
+                puntos: request.session.points,
+                puntosProf: res.points,
+                image: request.session.image,
+                imageProf: res.image,
                 myProf: false
             });
         }
@@ -264,6 +268,7 @@ usersRouter.post("/loginpost", function(request, response) {
             request.session.gender = res.gender;
             request.session.image = res.image;
             request.session.birthDate = res.birthDate;
+            request.session.points = res.points;
             response.redirect("/users/perfil.html");
         }
     });

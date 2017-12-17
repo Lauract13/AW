@@ -25,7 +25,16 @@
     <div class=questFriendsDiv>
         <div><img class="imgAmigos" src="/images/<%= f.image %>"></div>
         <p class=requestName><%= f.name %></p>
-        <div><a class=pregLinks href="/questions/n<%= p.id %>"> Adivinar </a></div>
+        <form action="guessQuestion<%= p.id %>" method="POST">
+        <input type="hidden" name="userAmigo" value="<%= f.email %>">
+        <% if (guessed === "no") { %>
+            <div><input class=formBtn type="submit" value=" Adivinar "></div>
+        <% } else if (guessed) { %>
+            <div><p class=questProfData>Has acertado.</p></div>
+        <% } else { %>
+            <div><p class=questProfData>Has fallado.</p></div>
+        <% } %>
+        </form>
     </div>
     <% }); %>
     <% } else { %>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Adivinar - Facebluff</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/facebluff.css" />
+</head>
+
+<body>
+    <img class=logo src="../img/Logo.png">
+    <%- include("menuLogged") %>
+    <p class=encPag><%= p.pregunta %></p>
+    <form action="answerGuessedQuestion" method="POST">
+    <% p.respuestas.forEach(r =>{ %>
+        <div class=pregunta>
+            <div><input type="radio" name="respuesta" value="<%= r %>"></div> 
+            <div><%= r %></div>
+        </div>
+    <% }); %>
+    <input type="hidden" name="idPregunta" value="<%= p.id %>">
+    <input type="hidden" name="idAmigo" value="<%= userAmigo %>">
+    <div class=celdFormularioBtn>
+        <input class=formBtn type="submit" value="Responder">
+    </div>
+    </form>
+    
+</body>
+
+
+</html>
