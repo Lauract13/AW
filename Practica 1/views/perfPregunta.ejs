@@ -21,8 +21,8 @@
     </div>
     <% if(friends && friends.length > 0) { %>
     <div class=questFriendsDiv><p class=questProfData>Estos amigos han contestado a esta pregunta:</p></div>
-    <% friends.forEach(f =>{ %>
     <% let i = 0; %>
+    <% friends.forEach(f =>{ %>
     <div class=questFriendsDiv>
         <div><img class="imgAmigos" src="/images/<%= f.image %>"></div>
         <p class=requestName><%= f.name %></p>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-12-2017 a las 19:28:28
+-- Tiempo de generación: 17-12-2017 a las 23:04:25
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.11
 
@@ -34,19 +34,6 @@ CREATE TABLE `answers` (
   `answer` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `answers`
---
-
-INSERT INTO `answers` (`email`, `question_id`, `answer`) VALUES
-('abc@gmail.com', 1, 'fbhajkvjf'),
-('abc@gmail.com', 2, 'buah tio hasta la polla la verdad'),
-('abc@gmail.com', 3, 'Mira tio vale ya joder'),
-('adios@gmail.com', 1, 'Fuck me'),
-('adios@gmail.com', 2, 'gauybsdg'),
-('adios@gmail.com', 3, 'loco'),
-('holi@gmail.com', 1, 'fhagvkwjç');
-
 -- --------------------------------------------------------
 
 --
@@ -58,16 +45,6 @@ CREATE TABLE `friends` (
   `email2` varchar(20) NOT NULL,
   `accepted` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `friends`
---
-
-INSERT INTO `friends` (`email1`, `email2`, `accepted`) VALUES
-('abc@gmail.com', 'adios@gmail.com', 1),
-('abc@gmail.com', 'dfhdshr', 1),
-('adios@gmail.com', 'abc@gmail.com', 1),
-('dfhdshr', 'abc@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -82,13 +59,6 @@ CREATE TABLE `guessed` (
   `guessed` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `guessed`
---
-
-INSERT INTO `guessed` (`email1`, `email2`, `question_id`, `guessed`) VALUES
-('adios@gmail.com', 'abc@gmail.com', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -101,18 +71,6 @@ CREATE TABLE `questions` (
   `respuestas` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `questions`
---
-
-INSERT INTO `questions` (`id`, `pregunta`, `respuestas`) VALUES
-(1, 'gfdsregaeg', 'fhagvkwjç,fbhajkvjf,gfdsahbg'),
-(2, 'hdfthsth', 'garigbla,gauybsdg,fsauygsf,gfudislhg'),
-(3, 'Hola', 'Que tal,loco,como vas,jaja,Mira tio vale ya joder'),
-(4, 'rdthdrt', 'hsthsh,srthrt'),
-(5, 'awerawef', 'jnhdyh,ftghrdt'),
-(6, 'aseawef', 'mjhgfnhfg,ghkgyuk,dftyhrt');
-
 -- --------------------------------------------------------
 
 --
@@ -124,15 +82,6 @@ CREATE TABLE `sessions` (
   `expires` int(11) UNSIGNED NOT NULL,
   `data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `sessions`
---
-
-INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('-Rgjpxbi-S-Y939NKt0DC6-29TqGl4pS', 1513619795, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":\"adios@gmail.com\",\"name\":\"Jose\",\"password\":\"aaaaa\",\"gender\":\"Masculino\",\"image\":\"Bat-01.png\",\"birthDate\":null,\"points\":80}'),
-('WP2hSMMX9-cC65Mraat96wEQpzP7ssBv', 1513550498, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":\"adios@gmail.com\",\"name\":\"Jose\",\"password\":\"aaaaa\",\"gender\":\"Masculino\",\"image\":\"Bat-01.png\",\"birthDate\":null}');
-
 -- --------------------------------------------------------
 
 --
@@ -148,19 +97,6 @@ CREATE TABLE `users` (
   `birthDate` date DEFAULT NULL,
   `points` int(20) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `users`
---
-
-INSERT INTO `users` (`email`, `password`, `name`, `gender`, `image`, `birthDate`, `points`) VALUES
-('abc@gmail.com', 'aaaaa', 'BIG SHAQ', 'Masculino', 'Frankenstein-01.png', '2014-02-04', 0),
-('adios@gmail.com', 'aaaaa', 'Jose', 'Masculino', 'Bat-01.png', NULL, 80),
-('dfhdshr', 'bbb', 'ASHNEEF', 'Masculino', 'Harley-01.png', NULL, 0),
-('holi@gmail.com', 'aaabbbccc', 'Jose Antonio', 'Masculino', 'Diablo-01.png', '2017-12-06', 0),
-('kkk@gmail.com', 'kkk', 'KKKKK', 'Masculino', 'DLy97FQW0AAQIci.jpg', NULL, 0),
-('lmao@gmail.com', 'lmao', 'PAUL', 'Femenino', 'npp', NULL, 0);
-
 --
 -- Índices para tablas volcadas
 --
@@ -214,7 +150,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas

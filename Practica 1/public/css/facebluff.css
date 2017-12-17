@@ -349,6 +349,7 @@ div.perfil {
 div.pregunta {
     display: flex;
     justify-content: flex-start;
+    flex-wrap: nowrap;
     padding: 5px;
     margin-left: 22%;
     margin-right: 25%;
@@ -390,4 +391,5 @@ a.pregLinks {
     color: #6f0792;
     text-decoration: none;
     padding-left: 5%;
+    white-space: nowrap;
 }

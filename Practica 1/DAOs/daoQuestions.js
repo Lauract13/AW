@@ -3,6 +3,7 @@
 const insertSQL = "INSERT INTO questions (pregunta, respuestas) VALUES (?,?)";
 const insertAnswerSQL = "INSERT INTO answers VALUES (?, ?, ?)";
 const readSQL = "SELECT id, pregunta, respuestas FROM questions WHERE id=?";
+const readAnswerSQL = "SELECT email, question_id, answer FROM answers WHERE email=? AND question_id=?";
 const readGuessSQL = "SELECT email1, email2, question_id, guessed FROM guessed WHERE email1=? AND email2=? AND question_id=?";
 const readUserInQuestionSQL = "SELECT email, question_id, answer FROM answers WHERE email=? AND question_id=?";
 const readUsersInQuestionSQL = "SELECT users.email, users.name, users.image FROM users LEFT JOIN friends ON users.email=friends.email2 INNER JOIN answers ON users.email=answers.email WHERE friends.accepted=1 AND ?=friends.email1 AND answers.question_id=?";
@@ -105,6 +106,27 @@ class daoQuestions {
                         callback("Query error: " + err, null);
                     } else {
                         callback(null, rows.affectedId);
+                    }
+                    conn.release();
+                    return;
+                });
+            }
+        });
+    }
+
+    readAnswer(email, id, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
+                callback("Connection error: " + err, null);
+                return;
+            } else {
+                conn.query(readAnswerSQL, [email, id], (err, res, fields) => {
+                    if (err) {
+                        callback("Query error: " + err, null);
+                    } else if (res.length < 1 || res.length > 1) {
+                        callback("Query length error", null);
+                    } else {
+                        callback(null, res[0]);
                     }
                     conn.release();
                     return;

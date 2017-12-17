@@ -152,29 +152,44 @@ preguntasRouter.post("/guessQuestion:id", (request, response) => {
             response.setMsg("No se pudo mostrar la pregunta.");
             response.redirect("questions/preguntas.html");
         } else {
-            let resp = [];
-            let bool = [];
-            let totales = res.respuestas.split(",");
-            let leng = totales.length;
-            if (leng > 5) leng = 5;
-            for (let i = 0; i < leng; i++) {
-                let ind = Math.floor((Math.random() * totales.length));
-                while (bool.indexOf(ind) !== -1) {
-                    ind = Math.floor((Math.random() * totales.length));
+            daoQ.readAnswer(request.body.userAmigo, request.params.id, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    response.setMsg("No se pudo mostrar la pregunta.");
+                    response.redirect("questions/preguntas.html");
+                } else {
+                    let resp = ["", "", "", ""];
+                    let bool = [];
+                    let ind = Math.floor((Math.random() * 4));
+                    resp[ind] = result.answer;
+                    let posOcupada = resp.indexOf(result.answer);
+                    let totales = res.respuestas.split(",");
+                    bool.push(totales.indexOf(result.answer));
+                    let leng = totales.length;
+                    let pos = 0;
+                    if (leng > 4) leng = 4;
+                    for (let i = 0; i < leng - 1; i++) {
+                        let ind = Math.floor((Math.random() * totales.length));
+                        while (bool.indexOf(ind) !== -1) {
+                            ind = Math.floor((Math.random() * totales.length));
+                        }
+                        if (pos === posOcupada) pos++;
+                        resp[pos] = totales[ind];
+                        bool.push(ind);
+                        pos++;
+                    }
+                    let p = {
+                        id: request.params.id,
+                        pregunta: res.pregunta,
+                        respuestas: resp
+                    };
+                    response.render("plantAdivinar", {
+                        image: request.session.image,
+                        puntos: request.session.points,
+                        p: p,
+                        userAmigo: request.body.userAmigo
+                    });
                 }
-                resp.push(totales[ind]);
-                bool.push(ind);
-            }
-            let p = {
-                id: request.params.id,
-                pregunta: res.pregunta,
-                respuestas: resp
-            };
-            response.render("plantAdivinar", {
-                image: request.session.image,
-                puntos: request.session.points,
-                p: p,
-                userAmigo: request.body.userAmigo
             });
         }
     })
