@@ -71,20 +71,51 @@ preguntasRouter.get("/question:id", (request, response) => {
                     response.redirect("/questions/preguntas.html");
                 } else {
                     let answered = false;
-                    if (res.email) answered = true;
+                    if (res && res.email) answered = true;
                     daoQ.readUsersInQuestion(request.session.user, request.params.id, (err, res) => {
                         if (err) {
                             console.log(err);
                             response.setMsg("No se pudo abrir la pregunta");
                             response.redirect("/questions/preguntas.html");
                         } else {
-                            response.render("perfPregunta", {
-                                image: request.session.image,
-                                puntos: request.session.points,
-                                p: p,
-                                friends: res,
-                                answered: answered
-                            });
+                            let guessed = [];
+                            let i = 0;
+                            let len = 0;
+                            if (res.length > 0) {
+                                len = res.length;
+                                res.forEach(u => {
+                                    daoQ.readGuess(request.session.user, u.email, request.params.id, (err, resultGuess) => {
+                                        if (err || !resultGuess) {
+                                            guessed.push("no");
+                                        } else if (resultGuess && resultGuess.guessed) {
+                                            guessed.push("true");
+                                        } else if (resultGuess && !resultGuess.guessed) {
+                                            guessed.push("false");
+                                        }
+                                        ++i;
+                                        if (i == len) {
+                                            console.log(guessed);
+                                            response.render("perfPregunta", {
+                                                image: request.session.image,
+                                                puntos: request.session.points,
+                                                p: p,
+                                                friends: res,
+                                                answered: answered,
+                                                guessed: guessed
+                                            });
+                                        }
+                                    });
+                                });
+                            } else {
+                                response.render("perfPregunta", {
+                                    image: request.session.image,
+                                    puntos: request.session.points,
+                                    p: p,
+                                    friends: res,
+                                    answered: answered,
+                                    guessed: guessed
+                                });
+                            }
                         }
                     });
                 }

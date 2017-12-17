@@ -22,20 +22,22 @@
     <% if(friends && friends.length > 0) { %>
     <div class=questFriendsDiv><p class=questProfData>Estos amigos han contestado a esta pregunta:</p></div>
     <% friends.forEach(f =>{ %>
+    <% let i = 0; %>
     <div class=questFriendsDiv>
         <div><img class="imgAmigos" src="/images/<%= f.image %>"></div>
         <p class=requestName><%= f.name %></p>
         <form action="guessQuestion<%= p.id %>" method="POST">
         <input type="hidden" name="userAmigo" value="<%= f.email %>">
-        <% if (guessed === "no") { %>
+        <% if (guessed[i] === "no") { %>
             <div><input class=formBtn type="submit" value=" Adivinar "></div>
-        <% } else if (guessed) { %>
+        <% } else if (guessed[i] === "true") { %>
             <div><p class=questProfData>Has acertado.</p></div>
         <% } else { %>
             <div><p class=questProfData>Has fallado.</p></div>
         <% } %>
         </form>
     </div>
+    <% ++i; %>
     <% }); %>
     <% } else { %>
     <div class=questFriendsDiv><p class=questProfData>Ningun amigo tuyo ha contestado a esta pregunta.</p></div>

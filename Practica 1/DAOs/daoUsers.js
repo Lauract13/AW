@@ -2,7 +2,7 @@
 
 const readSQL = "SELECT email, password, name, gender, image, birthDate, points FROM users WHERE ? = email";
 const searchSQL = "SELECT email, name, image FROM users WHERE name LIKE ?";
-const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
+const insertSQL = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, 0)";
 const addPointsSQL = "UPDATE users SET points = points + ? WHERE users.email=?";
 const updateSQL = "UPDATE users SET password=?, name=?, gender=?, birthDate=?, image=? WHERE email=?";
 const insertFriendSQL = "INSERT INTO friends VALUES (?, ?, ?)";
