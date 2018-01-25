@@ -27,28 +27,46 @@
         <button class="tablinks" onclick="open(event,'Familiar')">Familiar</button>
     </div>
     <div id="MisPartidas" class="tabcontent">
-            <form action="" method="POST">
-                    <div class=celdFormulario>
-                        <p class=ident>Identificarse</p>       
-                    </div>
-                    <div class=celdFormulario>
-                        <div class=formOpt>Nombre de usuario:</div>
-                        <div class=formTxt><input class=formTxt type="text" name="nombre" value="Introduce nombre"></div>
-                    </div>
-                    <div class=celdFormulario>
-                        <div class=formOpt>Contraseña:</div>
-                        <div class=formTxt><input class=formTxt type="text" name="pass" value="Introduce contraseña"></div>
-                    </div>
-                    <div class=formBtn>
-                        <input class=formBtnAcpt type="submit" value="Aceptar">
-                    </div>
-                    <div class=formBtn>
-                        <input class=formBtnNewUser type="submit" value="Nuevo Usuario">
-                    </div>
-                </form>
-            </div>
-
     </div>
+    <div>
+            <div class=formularioPerfil>
+                    <form action="" method="POST">
+                            <div class=celdFormulario>
+                                <div>
+                                    <p class=ident>Crear una nueva partida</p>   
+                                </div>
+                                <div class=formPerfil>
+                                    <input class=formTxtPerfil type="text" name="crearPartida" value="Introduce aqui el nombre"></div> 
+                                    <input class=formBtnPerfilCrear type="submit" value="Crear">
+                                </div>  
+                                
+                            </div>
+                            
+                        </form>
+                    </div>
+        
+            </div>
+    </div>
+    <div>
+            <div class=formularioPerfil>
+                    <form action="" method="POST">
+                            <div class=celdFormulario>
+                                <div>
+                                    <p class=ident>Unirse a una partida existente</p>   
+                                </div>
+                                <div class=formPerfil>
+                                    <input class=formTxtPerfil type="text" name="crearPartida" value="Introduce aqui el identificador de la partida"></div> 
+                                    <input class=formBtnPerfilCrear type="submit" value="Unirse">
+                                </div>  
+                                
+                            </div>
+                            
+                        </form>
+                    </div>
+        
+            </div>
+    </div>
+    
     
         
     

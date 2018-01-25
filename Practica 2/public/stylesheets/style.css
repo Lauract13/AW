@@ -47,6 +47,36 @@ div.formulario{
   border-radius: 5px;
   
 }
+input.formBtnPerfilCrear{
+  width: 80px;
+  height: 38px;
+  border-color: rgb(17, 142, 245);
+  background-color: rgb(17, 142, 245);
+  border-radius: 5px;
+  color:white;
+}
+input.formTxtPerfil{
+  color:rgb(175, 174, 174);
+  margin-top: 10px;  
+  height: 30px;
+  border-radius: 5px;
+  width: 900px;
+}
+div.formPerfil{
+  display: inline-block;
+  
+  
+}
+div.formularioPerfil{
+  background-color: rgb(236, 233, 233);
+  margin-top: 30px;
+  margin-left: 160px;
+  margin-right: 160px;
+  color:black;
+  height: 150px;
+  border-radius: 5px;
+  
+}
 div.formOpt{
   justify-content: center;
   
