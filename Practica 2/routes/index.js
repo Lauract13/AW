@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require("body-parser");
 
-app.use(bodyParser.json());
+index.use(bodyParser.json());
 
 const pool = mysql.createPool({
   host: config.dbHost,
@@ -20,19 +20,33 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
-app.post("index", function(request, response){
+index.post("index", function(request, response){
   var nombre = request.body.nombre;
   var passwd = request.body.pass;
 
   if(nombre === undefined || passwd === undefined){
+    response.setMsg("Datos incorrectos");
     response.status(400);
   }else{
-
-    response.status(201);
+    dao.insert(nombre, password, (err) => {
+      if (err) {
+          console.log(err);
+          response.setMsg("No se pudo crear el usuario");
+          response.status(500);
+          response.redirect("/views/index.html");
+      } else {
+          response.setMsg("Usuario creado correctamente");
+          response.status(201);
+          response.redirect("/views/perfil.html");
+      }
+  });
+   
   }
   //users.push(nombre,passwd);
   
   response.end();
+
+  
 
 });
 

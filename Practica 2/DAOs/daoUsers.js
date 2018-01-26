@@ -14,11 +14,11 @@ class daoUsers {
                 callback("Connection error.", null);
                 return;
             } else {
-                conn.query(insertSQL, [login, pw], (err, rows) => {
+                conn.query(insertSQL, [login, pw], (err) => {
                     if (err) {
-                        callback("Insert error.", null);
+                        callback("Insert error.");
                     } else {
-                        callback(null, rows.affectedRows);
+                        callback(null);
                     }
                     conn.release();
                     return;
