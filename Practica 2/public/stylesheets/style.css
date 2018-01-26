@@ -1,8 +1,23 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+div.title{
+  background-color: #333333;
+  color: white;
+  padding-left: 5%;
+  padding-bottom: 1%;
 }
 
-a {
-  color: #00B7FF;
+div.welcome{
+  padding: 5%;
+  background-color: lightgrey;
+  color: black;
+}
+
+div.formRows{
+  padding: 2%;
+}
+
+div.formContainer{
+  background-color: lightgrey;
+  border-radius: 2px;
+  padding-bottom: 2%;
+  margin-top:3%;
 }
