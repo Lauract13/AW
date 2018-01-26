@@ -3,12 +3,12 @@
 const insertSQL = "INSERT INTO usuarios VALUES (?, ?)";
 
 class daoUsers {
-    
+
     constructor(pool) {
-       this.pool = pool;
+        this.pool = pool;
     }
 
-     insert(login, pw, callback) {
+    insert(login, pw, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
                 callback("Connection error.", null);
@@ -28,3 +28,5 @@ class daoUsers {
     }
 
 }
+
+module.exports = daoUsers;
