@@ -6,7 +6,6 @@ div.title {
     height: auto;
 }
 
-
 body {
     margin: 0px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -29,25 +28,32 @@ div.welcome {
     padding-right: 20%;
 }
 
+p.errorTxt {
+    padding-top: 4%;
+    font-size: 150%;
+}
+
 div.formRows {
     padding: 2%;
-    
 }
 
 div.formContainer {
-    background-color:  #333333;
+    background-color: #333333;
     border-radius: 2px;
     padding-bottom: 2%;
     margin-top: 3%;
 }
-.control-label{
-    color:white;
+
+.control-label {
+    color: white;
 }
-.control-labelId{
+
+.control-labelId {
     color: white;
     font-size: 25px;
 }
-.btn-default{
+
+.btn-default {
     background-color: #333333;
-    color:#e6e6e6;
+    color: #e6e6e6;
 }
