@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Mentiroso</title>
+    <title>Juego del Mentiroso</title>
     <link rel='stylesheet' href='stylesheets/bootstrap.min.css' />
     <link rel='stylesheet' href='stylesheets/style.css' />
   </head>
@@ -13,28 +13,31 @@
         <div class="col-xs-12 title"><h3>Juego del mentiroso</h3></div>
       </div>
       <div class="row welcome">
-        <div class="col-xs-offset-2 col-xs-4"><p class="text-center welcomeTxt">¡Bienvenido!</p></div>
-        <div class="col-xs-offset-1 col-xs-4 col-xs-offset-1"><img class="img-responsive welcomeImg" src="images/ImagenPortada.jpg"></div>
+        <div class="col-xs-4 col-xs-offset-1"><p class="text-center welcomeTxt">¡Bienvenido!</p></div>
+        <div class= "col-xs-6 col-xs-offset-1"><img class="img-responsive welcomeImg" src="images/ImagenPortada.jpg"></div>
       </div>
       <div class="container formContainer">
       <form class="form" role="form">
         <div class="form-group formRows">
+            <label class="col-xs-3 control-labelId">Identificarse</label>
+        </div>
+        <div class="form-group formRows">
           <label for="userName" class="col-xs-3 control-label">Nombre de usuario</label>
-          <div class="col-xs-9">
+          <div class="col-xs-10">
             <input class="form-control" id="userName" placeholder="Nombre de usuario" type="text"/>
           </div>
         </div>
         <div class="form-group formRows">
           <label for="password" class="col-xs-3 control-label">Contraseña</label>
-          <div class="col-xs-9">
+          <div class="col-xs-10">
             <input class="form-control" id="password" placeholder="Contraseña" type="password"/>
           </div>
         </div>
         <div class="form-group formRows">
-          <div class="col-xs-offset-3 col-xs-2">
-            <button type="submit" class="btn btn-default">Entrar</button>  
+          <div class="col-xs-1">
+            <button type="submit" class="btn btn-primary">Aceptar</button>  
           </div>
-          <div class="col-xs-2">
+          <div class="col-xs-1">
             <button type="submit" class="btn btn-default">Nuevo usuario</button>
           </div>
         </div>
