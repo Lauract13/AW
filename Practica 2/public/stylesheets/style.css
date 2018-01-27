@@ -33,6 +33,17 @@ div.formRows {
     padding: 2%;
     
 }
+div.formPerfil{
+    background-color:  #e6e6e6;
+    border-radius: 2px;
+    padding-bottom: 2%;
+    margin-top: 3%;
+    
+    
+}
+.control-labelPerfil{
+    font-size: 160%;
+}
 
 div.formContainer {
     background-color:  #333333;
@@ -40,6 +51,7 @@ div.formContainer {
     padding-bottom: 2%;
     margin-top: 3%;
 }
+
 .control-label{
     color:white;
 }
