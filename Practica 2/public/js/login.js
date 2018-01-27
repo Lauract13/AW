@@ -2,6 +2,10 @@
 
 $(() => {
 
+    let authUser = null;
+    let authPassword = null;
+    let base64user = null;
+
     $("#loginBtn").on("click", () => {
         let user = $("#usernameInput").val();
         let password = $("#passwordInput").val();
@@ -14,7 +18,9 @@ $(() => {
                 let response = JSON.parse(jqXHR.responseText);
                 console.log(jqXHR);
                 if (response.found) {
-                    let base64user = btoa(user + ":" + password);
+                    base64user = btoa(user + ":" + password);
+                    authUser = user;
+                    authPassword = password;
                     $.ajax({
                         method: "GET",
                         url: "/users/perfil",
@@ -57,6 +63,29 @@ $(() => {
                 if (jqXHR.status === 400) {
                     $("#errorTxt").text("Usuario ya existente");
                 } else if (jqXHR.status === 500) {
+                    $("#errorTxt").text("No se pudo conectar. Intentalo de nuevo.");
+                }
+            }
+        });
+    });
+
+    $("#newPartidaBtn").on("click", () => {
+        let nombre = $("#nombrePartidaInput").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/partidas/newPartida",
+            beforeSend: function(req) {
+                req.setRequestHeader("Authorization", "Basic " + base64user);
+            },
+            contentType: "application/json",
+            data: JSON.stringify({ nombre: nombre }),
+            success: (data, textStatus, jqXHR) => {
+                $("#errorTxt").text("Creada");
+
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 500) {
                     $("#errorTxt").text("No se pudo conectar. Intentalo de nuevo.");
                 }
             }
