@@ -4,6 +4,8 @@ var index = express.Router();
 var bodyParser = require("body-parser");
 var daoUsers = require("../DAOs/daoUsers.js");
 
+var daoPreguntas = require("../DAOs/daoPartidas.js");
+
 const mysql = require("mysql");
 const config = require("../config/config.js");
 
@@ -15,6 +17,7 @@ const pool = mysql.createPool({
 });
 
 let dao = new daoUsers(pool);
+
 
 
 
