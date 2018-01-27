@@ -14,18 +14,18 @@ let daoPartidas = require("../DAOs/daoPartidas.js");
 let dao = new daoPartidas(pool);
 
 partidas.post("/newPartida", (request, response) => {
-    let nombre = request.body.nombrePartida;
-    console.log(nombre);
+    let nombre = request.body.nombre;
+    
     dao.insert(nombre, (err, res) => {
         if (err) {
-            console.log("fuck");
+            
             response.status(400);
         } else {
             if (res.affectedRows == 1) {
-                console.log("joder");
+                
                 response.status(201);
             } else {
-                console.log("pene");
+                
                 response.status(400);
             }
         }

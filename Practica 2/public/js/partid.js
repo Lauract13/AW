@@ -4,8 +4,8 @@ $(() => {
 
 
     $("#newPartidaBtn").on("click", () => {
-        let nombre = $("#newPartida").val();
-       console.log(nombre);
+        let nombre = $("#nombrePartidaInput").val();
+        
         $.ajax({
             type: "POST",
             url: "/partidas/newPartida",
@@ -13,7 +13,7 @@ $(() => {
             data: JSON.stringify({ nombre: nombre }),
             success: (data, textStatus, jqXHR) => {
                 $("#errorTxt").text("Creada");
-                console.log("ajax");
+                
             },
             error: (jqXHR, textStatus, errorThrown) => {
                 if (jqXHR.status === 500) {
