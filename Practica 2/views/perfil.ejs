@@ -4,10 +4,13 @@
     <title>Juego del Mentiroso</title>
     <link rel='stylesheet' href='stylesheets/bootstrap.min.css' />
     <link rel='stylesheet' href='stylesheets/style.css' />
+ 
+    
   </head>
   <body>
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-10 title"><h3>Juego del mentiroso</h3></div>
@@ -16,41 +19,52 @@
         
       </div>
       <ul class="nav nav-tabs">
-            <li class="active"><a href="#">Mis partidas</a></li>
-            <li><a href="#">Partida amiguetes</a></li>
-            <li><a href="#">Familiar</a></li>
+        <li class="active"><a data-toggle="tab" href="#misPartidas">Mis partidas</a></li>
+        <li><a data-toggle="tab" href="#amiguetes">Partida amiguetes</a></li>
+        <li><a data-toggle="tab" href="#familiar">Familiar</a></li>
             
-          </ul>
-      <div class="container formPerfil">
-      <form class="form" role="form" action="crearPartidaForm" method="POST">
-        <div class="form-group formRows">
-            <label class="col-md-4 control-labelPerfil">Crear una nueva partida</label>
+      </ul>
+      <div class="tab-content">
+        <div id="misPartidas" class="tab-pane fade in active">
+                <div class="container formPerfil">
+                        <form class="form" role="form" action="crearPartidaForm" method="POST">
+                          <div class="form-group formRows">
+                              <label class="col-md-4 control-labelPerfil">Crear una nueva partida</label>
+                          </div>
+                          <div class="form-group formRows">
+                              <div class="col-md-11">
+                                  <input class="form-control" name="nuevaPartida" placeholder="Introduce aqui el nombre" type="text"/>
+                              </div>
+                              <div class="col-md-1">
+                                  <button type="submit" class="btn btn-primary">Crear</button>  
+                              </div>
+                          </div>
+                        </form>
+                        </div>
+                        <div class="container formPerfil">
+                              <form class="form" role="form" action="unirsePartForm" method="POST">
+                                  <div class="form-group formRows">
+                                     <label class="col-md-4 control-labelPerfil">Unirse a una partida existente</label>
+                                  </div>
+                                  <div class="form-group formRows">
+                                      <div class="col-md-11">
+                                          <input class="form-control" name="nuevaPartida" placeholder="Introduce aqui el identificador de la partida" type="text"/>
+                                      </div> 
+                                      <div class="col-md-1">  
+                                          <button type="submit" class="btn btn-primary">Unirse</button>  
+                                      </div>
+                                  </div>
+                              </form>
+                        </div>
         </div>
-        <div class="form-group formRows">
-            <div class="col-md-11">
-                <input class="form-control" name="nuevaPartida" placeholder="Introduce aqui el nombre" type="text"/>
-            </div>
-            <div class="col-md-1">
-                <button type="submit" class="btn btn-primary">Crear</button>  
-            </div>
+        <div id="amiguetes" class="tab-pane fade">
+                <p>pene</p>
         </div>
-      </form>
+        <div id="familiar" class="tab-pane fade">
+                
+        </div>
       </div>
-      <div class="container formPerfil">
-            <form class="form" role="form" action="unirsePartForm" method="POST">
-                <div class="form-group formRows">
-                   <label class="col-md-4 control-labelPerfil">Unirse a una partida existente</label>
-                </div>
-                <div class="form-group formRows">
-                    <div class="col-md-11">
-                        <input class="form-control" name="nuevaPartida" placeholder="Introduce aqui el identificador de la partida" type="text"/>
-                    </div> 
-                    <div class="col-md-1">  
-                        <button type="submit" class="btn btn-primary">Unirse</button>  
-                    </div>
-                </div>
-            </form>
-      </div>
+      
 
       
       </div>
