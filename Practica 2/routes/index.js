@@ -20,37 +20,9 @@ let dao = new daoUsers(pool);
 
 /* GET home page. */
 index.get('/', function(req, res, next) {
-    res.render('perfil');
+    res.render('index');
 });
 
-index.post("/newUserForm", function(request, response) {
-    var nombre = request.body.userName;
-    var passwd = request.body.password;
-  
-    if (nombre === undefined || passwd === undefined) {
-        // falta comprobar que el usuario existe
-        response.status(400);
-    } else {
-        dao.insert(nombre, passwd, (err) => {
-            if (err) {
-                console.log(err);
-                console.log("fea");
-                response.redirect("/views/index.html");
-                response.status(500);
-            } else {
-                console.log("puta");
-                response.redirect("/views/perfil.html");
-                response.status(201);
-            }
-        });
 
-    }
-    //users.push(nombre,passwd);
-
-    response.end();
-
-
-
-});
 
 module.exports = index;
