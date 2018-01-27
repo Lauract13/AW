@@ -1,7 +1,7 @@
 "use strict";
 
 const insertSQL = "INSERT INTO usuarios(login, password) VALUES (?, ?)";
-const readOneSQL = "SELECT login, password FROM usuarios WHERE login = ? AND password = ?";
+const readOneSQL = "SELECT id, login, password FROM usuarios WHERE login = ? AND password = ?";
 
 class daoUsers {
 

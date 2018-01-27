@@ -14,7 +14,24 @@ $(() => {
                 let response = JSON.parse(jqXHR.responseText);
                 console.log(jqXHR);
                 if (response.found) {
-                    $("#errorTxt").text("Encontrado");
+                    let base64user = btoa(user + ":" + password);
+                    $.ajax({
+                        method: "GET",
+                        url: "/users/perfil",
+                        beforeSend: function(req) {
+                            req.setRequestHeader("Authorization", "Basic " + base64user);
+                        },
+                        success: (data, textStatus, jqXHR) => {
+                            if (data.permitido) {
+                                console.log("vamos loco");
+                            } else {
+                                console.log("acceso restringido");
+                            }
+                        },
+                        error: (jqXHR, textStatus, errorThrown) => {
+                            console.log("buah");
+                        }
+                    });
                 } else {
                     $("#errorTxt").text("No encontrado");
                 }
