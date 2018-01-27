@@ -1,5 +1,6 @@
 var express = require('express');
 var index = express.Router();
+
 var bodyParser = require("body-parser");
 var daoUsers = require("../DAOs/daoUsers.js");
 
@@ -22,24 +23,24 @@ index.get('/', function(req, res, next) {
     res.render('index');
 });
 
-index.post("index", function(request, response) {
-    var nombre = request.body.nombre;
-    var passwd = request.body.pass;
-
+index.post("/newUserForm", function(request, response) {
+    var nombre = request.body.userName;
+    var passwd = request.body.password;
+  
     if (nombre === undefined || passwd === undefined) {
-        response.setMsg("Datos incorrectos");
+        // falta comprobar que el usuario existe
         response.status(400);
     } else {
-        dao.insert(nombre, password, (err) => {
+        dao.insert(nombre, passwd, (err) => {
             if (err) {
                 console.log(err);
-                response.setMsg("No se pudo crear el usuario");
-                response.status(500);
+                console.log("fea");
                 response.redirect("/views/index.html");
+                response.status(500);
             } else {
-                response.setMsg("Usuario creado correctamente");
-                response.status(201);
+                console.log("puta");
                 response.redirect("/views/perfil.html");
+                response.status(201);
             }
         });
 
