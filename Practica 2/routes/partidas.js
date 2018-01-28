@@ -35,15 +35,15 @@ partidas.post("/newPartida", (request, response) => {
 partidas.post("/unirsePartida", (request, response) => {
     let idPartida = request.body.idPartida;
     let idJugador = request.body.idJugador;
-    console.log(idPartida);
+    
     dao.unirsePartida(idJugador, idPartida, (err, rows) => {
-        console.log("guarrillaaaaa");
+       
         if (err) {
-            console.log("traviesilloooooo " + err);
+            console.log(err);
             response.status(400);
         } else {
             if (rows.affectedRows == 1) {
-                console.log("yasss");
+               
                 response.status(201);
             } else {
 

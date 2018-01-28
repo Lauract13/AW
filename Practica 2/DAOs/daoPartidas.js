@@ -3,6 +3,7 @@
 const insertSQL = "INSERT INTO partidas(nombre, estado) VALUES (?, ?)";
 const insertJgdrEnPart = "INSERT INTO juega_en(idUsuario, idPartida) VALUES (?,?)";
 
+
 class daoPartidas {
 
     constructor(pool) {
@@ -28,6 +29,7 @@ class daoPartidas {
             }
         });
     }
+    
     unirsePartida(idJugador, idPartida, callback) {
 
         this.pool.getConnection((err, conn) => {
