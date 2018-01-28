@@ -15,8 +15,14 @@ let dao = new daoPartidas(pool);
 
 partidas.post("/newPartida", (request, response) => {
     let nombre = request.body.nombre;
-
-    dao.insert(nombre, (err, res) => {
+    let estado = {
+        estado: "NO INICIADA",
+        cartasJugador: [],
+        cartasEnMesa: [],
+        ultimasCartasEnMesa: ""
+    };
+    let estadoJSON = JSON.stringify(estado);
+    dao.insert(nombre, estadoJSON, (err, res) => {
         if (err) {
 
             response.status(400);
@@ -35,15 +41,15 @@ partidas.post("/newPartida", (request, response) => {
 partidas.post("/unirsePartida", (request, response) => {
     let idPartida = request.body.idPartida;
     let idJugador = request.body.idJugador;
-    
+
     dao.unirsePartida(idJugador, idPartida, (err, rows) => {
-       
+
         if (err) {
             console.log(err);
             response.status(400);
         } else {
             if (rows.affectedRows == 1) {
-               
+
                 response.status(201);
             } else {
 
