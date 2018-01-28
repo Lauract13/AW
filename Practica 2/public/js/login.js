@@ -22,7 +22,7 @@ $(() => {
             },
             data: JSON.stringify({ idPartida: idPartida, idJugador: idJugador }),
             success: (data, textStatus, jqXHR) => {
-                $("#errorTxt").text("Se ha unido a la partida");
+                $("#errorTxtPartida").text("Se ha unido a la partida");
             },
             error: (jqXHR, textStatus, errorThrown) => {
                 if (jqXHR.status === 401) {
@@ -37,7 +37,7 @@ $(() => {
                     $("#profileContainer").addClass("hidden");
                     $("#errorTxt").text("Necesitas hacer login.");
                 } else if (jqXHR.status === 500) {
-                    $("#errorTxt").text("No se pudo conectar. Intentalo de nuevo mas tarde.");
+                    $("#errorTxtPartida").text("No se pudo conectar. Intentalo de nuevo mas tarde.");
                 }
             }
         });
@@ -80,7 +80,7 @@ $(() => {
                             });
                         },
                         error: (jqXHR, textStatus, errorThrown) => {
-                            $("#errorTxt").text("No se pudieron cargar las partidas.");
+                            $("#errorTxtPartida").text("No se pudieron cargar las partidas.");
                         }
                     });
                 } else {
@@ -140,8 +140,7 @@ $(() => {
             contentType: "application/json",
             data: JSON.stringify({ nombre: nombre }),
             success: (data, textStatus, jqXHR) => {
-                $("#errorTxt").text("Creada");
-
+                $("#errorTxtPartida").text("Partida creada con nombre " + nombre);
             },
             error: (jqXHR, textStatus, errorThrown) => {
                 if (jqXHR.status === 401) {
@@ -156,7 +155,7 @@ $(() => {
                     $("#profileContainer").addClass("hidden");
                     $("#errorTxt").text("Necesitas hacer login.");
                 } else if (jqXHR.status === 500) {
-                    $("#errorTxt").text("No se pudo conectar. Intentalo de nuevo.");
+                    $("#errorTxtPartida").text("No se pudo conectar. Intentalo de nuevo.");
                 }
             }
         });
