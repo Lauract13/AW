@@ -1,6 +1,6 @@
 "use strict";
 
-function createTab(id, nombre) {
+function createTab(id, nombre, estado) {
     let html = '<div id="' + id + '" class="tab-pane fade gameTab">\n';
     html += '<div class="infoPart">\n';
     html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
@@ -19,10 +19,12 @@ function createTab(id, nombre) {
     html += '</tr>\n';
     html += '</thead>\n';
     html += '<tbody>\n';
-    html += '<tr>\n';
-    html += '<td>Jugador 1</td>\n';
-    html += '<td>--</td>\n';
-    html += '</tr>\n';
+    for (let i = 0; i < estado.jugadoresEnPartida.length; ++i) {
+        html += '<tr>\n';
+        html += '<td>' + estado.jugadoresEnPartida[i].nomJugador + '</td>\n';
+        html += '<td>' + estado.cartasJugador[i] + '</td>\n';
+        html += '</tr>\n';
+    }
     html += '</tbody>\n';
     html += '</table>\n';
     html += '</div>\n';
@@ -54,7 +56,7 @@ $(() => {
             success: (data, textStatus, jqXHR) => {
                 let tab = '<li class="gameTabList"><a data-toggle="tab" href="#' + idPartida + '">' + data.nomPartida + '</a></li>';
                 $("#tabsPartidas").append(tab);
-                let html = createTab(idPartida, data.nomPartida);
+                let html = createTab(idPartida, data.nomPartida, data.estado);
                 $("#tabContent").append(html);
                 $("#errorTxtPartida").text("Se ha unido a la partida");
             },
@@ -111,7 +113,8 @@ $(() => {
                             data.forEach(d => {
                                 let tab = '<li class="gameTabList"><a data-toggle="tab" href="#' + d.id + '">' + d.nombre + '</a></li>';
                                 $("#tabsPartidas").append(tab);
-                                let html = createTab(d.id, d.nombre);
+                                let estado = JSON.parse(d.estado);
+                                let html = createTab(d.id, d.nombre, estado);
                                 $("#tabContent").append(html);
                             });
                         },
@@ -183,7 +186,7 @@ $(() => {
             success: (data, textStatus, jqXHR) => {
                 let tab = '<li class="gameTabList"><a data-toggle="tab" href="#' + data.idPartida + '">' + nombre + '</a></li>';
                 $("#tabsPartidas").append(tab);
-                let html = createTab(data.idPartida, nombre);
+                let html = createTab(data.idPartida, nombre, data.estado);
                 $("#tabContent").append(html);
                 $("#errorTxtPartida").text("Partida creada con nombre " + nombre);
             },

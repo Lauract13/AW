@@ -37,7 +37,7 @@ partidas.post("/newPartida", (request, response) => {
                 let idPartida = res.insertId;
                 dao.unirsePartida(idJugador, idPartida, estadoJSON, (err, res) => {
                     if (res.affectedRows === 1) {
-                        response.json({ idPartida: idPartida });
+                        response.json({ idPartida: idPartida, estado: estado });
                         response.status(201);
                     } else {
                         response.status(400);
@@ -68,7 +68,7 @@ partidas.post("/unirsePartida", (request, response) => {
                     nomJugador: nomJugador
                 };
                 jugadoresaux.push(newPlayer);
-                console.log(jugadoresaux);
+                estadoaux.cartasJugador.push(0);
 
                 let estado = {
                     estado: estadoaux.estado,
@@ -87,7 +87,7 @@ partidas.post("/unirsePartida", (request, response) => {
                         response.status(400);
                     } else {
                         if (rows.affectedRows == 1) {
-                            response.json({ nomPartida: nomPartida });
+                            response.json({ nomPartida: nomPartida, estado: estado });
                             response.status(201);
                         } else {
 
