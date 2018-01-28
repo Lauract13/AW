@@ -56,7 +56,7 @@ passport.use(new passportHTTP.BasicStrategy({ realm: "Requiere autenticación" }
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/partidas', partidas);
+app.use('/partidas', passport.authenticate("basic", { session: false }), partidas);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

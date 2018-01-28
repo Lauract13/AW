@@ -16,14 +16,27 @@ $(() => {
             url: "/partidas/unirsePartida",
             contentType: "application/json",
             beforeSend: function(req) {
-                req.setRequestHeader("Authorization", "Basic " + base64user);
+                if (base64user) {
+                    req.setRequestHeader("Authorization", "Basic " + base64user);
+                }
             },
             data: JSON.stringify({ idPartida: idPartida, idJugador: idJugador }),
             success: (data, textStatus, jqXHR) => {
                 $("#errorTxt").text("Se ha unido a la partida");
             },
             error: (jqXHR, textStatus, errorThrown) => {
-                if (jqXHR.status === 500) {
+                if (jqXHR.status === 401) {
+                    base64user = null;
+                    authUser = null;
+                    authPassword = null;
+                    authId = null;
+                    $("#titleUser").text("");
+                    $("#titleUser").addClass("hidden");
+                    $("#disconnectBtn").addClass("hidden");
+                    $("#loginContainer").removeClass("hidden");
+                    $("#profileContainer").addClass("hidden");
+                    $("#errorTxt").text("Necesitas hacer login.");
+                } else if (jqXHR.status === 500) {
                     console.log(textStatus + " " + errorThrown);
                     console.log(jqXHR);
                 }
@@ -100,7 +113,9 @@ $(() => {
             type: "POST",
             url: "/partidas/newPartida",
             beforeSend: function(req) {
-                req.setRequestHeader("Authorization", "Basic " + base64user);
+                if (base64user) {
+                    req.setRequestHeader("Authorization", "Basic " + base64user);
+                }
             },
             contentType: "application/json",
             data: JSON.stringify({ nombre: nombre }),
@@ -109,7 +124,18 @@ $(() => {
 
             },
             error: (jqXHR, textStatus, errorThrown) => {
-                if (jqXHR.status === 500) {
+                if (jqXHR.status === 401) {
+                    base64user = null;
+                    authUser = null;
+                    authPassword = null;
+                    authId = null;
+                    $("#titleUser").text("");
+                    $("#titleUser").addClass("hidden");
+                    $("#disconnectBtn").addClass("hidden");
+                    $("#loginContainer").removeClass("hidden");
+                    $("#profileContainer").addClass("hidden");
+                    $("#errorTxt").text("Necesitas hacer login.");
+                } else if (jqXHR.status === 500) {
                     $("#errorTxt").text("No se pudo conectar. Intentalo de nuevo.");
                 }
             }
