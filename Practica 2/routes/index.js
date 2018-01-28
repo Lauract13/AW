@@ -23,8 +23,7 @@ let dao = new daoUsers(pool);
 
 /* GET home page. */
 index.get('/', function(req, res, next) {
-    res.render('index');
-    
+    res.redirect("/index.html");
 });
 
 
