@@ -118,4 +118,18 @@ partidas.get("/partidasJugador", (request, response) => {
     });
 })
 
+partidas.get("/estadoPartida", (request, response) => {
+    let idPartida = request.query.idPartida;
+    dao.estadoPartida(idPartida, (err, res) => {
+        if (err) {
+            response.status(400);
+        } else {
+            response.status(200);
+            console.log(res);
+            response.json({ id: res[0].id, estado: res[0].estado });
+        }
+        response.end();
+    })
+})
+
 module.exports = partidas;

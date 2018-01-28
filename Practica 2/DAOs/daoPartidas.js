@@ -4,7 +4,7 @@ const insertSQL = "INSERT INTO partidas(nombre, estado) VALUES (?, ?)";
 const insertJgdrEnPart = "INSERT INTO juega_en(idUsuario, idPartida) VALUES (?,?)";
 const updateEstado = "UPDATE partidas SET estado=? WHERE id=?";
 const juegaEnSQL = "SELECT partidas.id, partidas.nombre, partidas.estado FROM juega_en LEFT JOIN partidas ON juega_en.idPartida = partidas.id WHERE idUsuario=?";
-const getEstado = "SELECT nombre, estado FROM partidas WHERE partidas.id=?";
+const getEstado = "SELECT id, nombre, estado FROM partidas WHERE partidas.id=?";
 
 class daoPartidas {
 

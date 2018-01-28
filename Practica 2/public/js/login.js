@@ -5,8 +5,12 @@ function createTab(id, nombre, estado) {
     html += '<div class="infoPart">\n';
     html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
     html += '<label class="col-md-9 control-labelPerfil">Partida ' + nombre + '</label>\n';
-    html += '<button type="button" class="col-md-3 btn btn-primary" id="actPartBtn' + id + '">Actualizar Partida</button>\n';
-    html += '<p class="col-md-10">La partida aun no tiene cuatro jugadores</p>\n';
+    html += '<button type="button" class="col-md-3 btn btn-primary actPartBtn" id="' + id + '">Actualizar Partida</button>\n';
+    if (estado.jugadoresEnPartida.length < 4) {
+        html += '<p class="col-md-10" id="fullPlayersTxt' + id + '">La partida aun no tiene cuatro jugadores</p>\n';
+    } else {
+        html += '<p class="col-md-10" id="fullPlayersTxt' + id + '">La partida tiene cuatro jugadores</p>\n';
+    }
     html += '<p class="col-md-10">El identificador de la partida es ' + id + '</p>\n';
     html += '</div>\n';
     html += '<div class="col-md-3 col-md-offset-1 infoJugadores">\n';
@@ -18,9 +22,9 @@ function createTab(id, nombre, estado) {
     html += '<th>Nº Cartas</th>\n';
     html += '</tr>\n';
     html += '</thead>\n';
-    html += '<tbody>\n';
+    html += '<tbody id="tablaJugadoresPartida' + id + '">\n';
     for (let i = 0; i < estado.jugadoresEnPartida.length; ++i) {
-        html += '<tr>\n';
+        html += '<tr class="jugadoresPartida' + id + '">\n';
         html += '<td>' + estado.jugadoresEnPartida[i].nomJugador + '</td>\n';
         html += '<td>' + estado.cartasJugador[i] + '</td>\n';
         html += '</tr>\n';
@@ -31,12 +35,65 @@ function createTab(id, nombre, estado) {
     return html;
 }
 
+function updateTab(id, estado) {
+    if (estado.jugadoresEnPartida.length < 4) {
+        $("#fullPlayersTxt" + id).text("La partida aun no tiene cuatro jugadores");
+    } else {
+        $("#fullPlayersTxt" + id).text("La partida tiene cuatro jugadores");
+    }
+    $(".jugadoresPartida" + id).remove();
+    for (let i = 0; i < estado.jugadoresEnPartida.length; ++i) {
+        let html = '<tr class="jugadoresPartida' + id + '">\n';
+        html += '<td>' + estado.jugadoresEnPartida[i].nomJugador + '</td>\n';
+        html += '<td>' + estado.cartasJugador[i] + '</td>\n';
+        html += '</tr>\n';
+        $("#tablaJugadoresPartida" + id).append(html);
+    }
+}
+
 $(() => {
 
     let authUser = null;
     let authPassword = null;
     let authId = null;
     let base64user = null;
+
+    let actBtns = [];
+
+    $("#tabContent").on("click", ".actPartBtn", (event) => {
+        let target = event.currentTarget;
+        let id = $(target).prop("id");
+        $.ajax({
+            type: "GET",
+            url: "/partidas/estadoPartida",
+            contentType: "application/json",
+            beforeSend: function(req) {
+                if (base64user) {
+                    req.setRequestHeader("Authorization", "Basic " + base64user);
+                }
+            },
+            data: { idPartida: id },
+            success: (data, textStatus, jqXHR) => {
+                updateTab(data.id, JSON.parse(data.estado));
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 401) {
+                    base64user = null;
+                    authUser = null;
+                    authPassword = null;
+                    authId = null;
+                    $("#titleUser").text("");
+                    $("#titleUser").addClass("hidden");
+                    $("#disconnectBtn").addClass("hidden");
+                    $("#loginContainer").removeClass("hidden");
+                    $("#profileContainer").addClass("hidden");
+                    $("#errorTxt").text("Necesitas hacer login.");
+                } else if (jqXHR.status === 500) {
+                    $("#errorTxtPartida").text("No se pudo conectar. Intentalo de nuevo mas tarde.");
+                }
+            }
+        })
+    })
 
     $("#unirseBtn").on("click", () => {
         let idJugador = authId;
