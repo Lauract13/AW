@@ -41,23 +41,11 @@ $(() => {
                     authUser = user;
                     authPassword = password;
                     authId = response.userId;
-                    // $.ajax({
-                    //     method: "GET",
-                    //     url: "/users/perfil",
-                    //     beforeSend: function(req) {
-                    //         req.setRequestHeader("Authorization", "Basic " + base64user);
-                    //     },
-                    //     success: (data, textStatus, jqXHR) => {
-                    //         if (data.permitido) {
-                    //             console.log("vamos loco");
-                    //         } else {
-                    //             console.log("acceso restringido");
-                    //         }
-                    //     },
-                    //     error: (jqXHR, textStatus, errorThrown) => {
-                    //         console.log("buah");
-                    //     }
-                    // });
+                    $("#titleUser").text(user);
+                    $("#titleUser").removeClass("hidden");
+                    $("#disconnectBtn").removeClass("hidden");
+                    $("#loginContainer").addClass("hidden");
+                    $("#profileContainer").removeClass("hidden");
                 } else {
                     $("#errorTxt").text("No encontrado");
                 }
@@ -67,6 +55,18 @@ $(() => {
             }
         });
     });
+
+    $("#disconnectBtn").on("click", () => {
+        base64user = null;
+        authUser = null;
+        authPassword = null;
+        authId = null;
+        $("#titleUser").text("");
+        $("#titleUser").addClass("hidden");
+        $("#disconnectBtn").addClass("hidden");
+        $("#loginContainer").removeClass("hidden");
+        $("#profileContainer").addClass("hidden");
+    })
 
     $("#newUserBtn").on("click", () => {
         let user = $("#usernameInput").val();

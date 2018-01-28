@@ -1,9 +1,10 @@
 div.title {
-    background-color: #333333;
     color: white;
-    padding-left: 5%;
     padding-bottom: 1%;
-    height: auto;
+}
+
+h3.titleTxt {
+    padding-left: 5%;
 }
 
 body {
@@ -14,7 +15,7 @@ body {
 div.welcome {
     background-color: #e6e6e6;
     color: black;
-    height: 10%;
+    height: 8%;
 }
 
 .welcomeTxt {
@@ -67,4 +68,13 @@ div.formContainer {
 .btn-default {
     background-color: #333333;
     color: #e6e6e6;
+}
+
+.disconnectBtn {
+    padding-top: 1%;
+}
+
+div.titleDiv {
+    background-color: #333333;
+    height: auto;
 }
