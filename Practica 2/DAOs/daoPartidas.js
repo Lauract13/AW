@@ -1,7 +1,7 @@
 "use strict";
 
 const insertSQL = "INSERT INTO partidas(nombre, estado) VALUES (?, ?)";
-const insertJgdrEnPart ="INSERT INTO juega_en(idJugador, idPartida) VALUES (?,?)";
+const insertJgdrEnPart = "INSERT INTO juega_en(idUsuario, idPartida) VALUES (?,?)";
 
 class daoPartidas {
 
@@ -28,19 +28,19 @@ class daoPartidas {
             }
         });
     }
-    unirsePartida(idJugador, idPartida, callBack){
-        
-        this.pool.getConnection((err,conn) =>{
-            if(err){
-                
+    unirsePartida(idJugador, idPartida, callback) {
+
+        this.pool.getConnection((err, conn) => {
+            if (err) {
+
                 callback("Connection error.", null);
                 return;
-            }else{
-                conn.query(insertJgdrEnPart,[idJugador, idPartida], (err,res)=>{
-                    if(err){
-                        
+            } else {
+                conn.query(insertJgdrEnPart, [idJugador, idPartida], (err, res) => {
+                    if (err) {
+
                         callback("Insert error:" + err, null);
-                    }else{
+                    } else {
                         callback(null, res);
                     }
                     conn.release();

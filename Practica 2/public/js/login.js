@@ -10,17 +10,22 @@ $(() => {
     $("#unirseBtn").on("click", () => {
         let idJugador = authId;
         let idPartida = $("#unirseId").val();
+        console.log(idPartida);
         $.ajax({
             type: "POST",
             url: "/partidas/unirsePartida",
             contentType: "application/json",
+            beforeSend: function(req) {
+                req.setRequestHeader("Authorization", "Basic " + base64user);
+            },
             data: JSON.stringify({ idPartida: idPartida, idJugador: idJugador }),
             success: (data, textStatus, jqXHR) => {
                 $("#errorTxt").text("Se ha unido a la partida");
             },
             error: (jqXHR, textStatus, errorThrown) => {
                 if (jqXHR.status === 500) {
-                    $("#errorTxt").text("No se pudo conectar. Intentalo de nuevo.");
+                    console.log(textStatus + " " + errorThrown);
+                    console.log(jqXHR);
                 }
             }
         });
@@ -35,7 +40,6 @@ $(() => {
             data: JSON.stringify({ user: user, password: password }),
             success: (data, textStatus, jqXHR) => {
                 let response = JSON.parse(jqXHR.responseText);
-                console.log(jqXHR);
                 if (response.found) {
                     base64user = btoa(user + ":" + password);
                     authUser = user;

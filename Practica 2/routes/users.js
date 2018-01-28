@@ -26,7 +26,7 @@ users.post("/login", (request, response) => {
         } else {
             response.status(200);
             if (res && res.length === 1) {
-                response.json({ found: true });
+                response.json({ found: true, userId: res[0].id });
             } else {
                 response.json({ found: false });
             }
