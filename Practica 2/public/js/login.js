@@ -1,5 +1,34 @@
 "use strict";
 
+function createTab(id, nombre) {
+    let html = '<div id="' + id + '" class="tab-pane fade gameTab">\n';
+    html += '<div class="infoPart">\n';
+    html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
+    html += '<label class="col-md-9 control-labelPerfil">Partida ' + nombre + '</label>\n';
+    html += '<button type="button" class="col-md-3 btn btn-primary" id="actPartBtn' + id + '">Actualizar Partida</button>\n';
+    html += '<p class="col-md-10">La partida aun no tiene cuatro jugadores</p>\n';
+    html += '<p class="col-md-10">El identificador de la partida es ' + id + '</p>\n';
+    html += '</div>\n';
+    html += '<div class="col-md-3 col-md-offset-1 infoJugadores">\n';
+    html += '<p>Jugadores</p>\n';
+    html += '<table class="table table-condensed">\n';
+    html += '<thead>\n';
+    html += '<tr>\n';
+    html += '<th>Jugadores</th>\n';
+    html += '<th>Nº Cartas</th>\n';
+    html += '</tr>\n';
+    html += '</thead>\n';
+    html += '<tbody>\n';
+    html += '<tr>\n';
+    html += '<td>Jugador 1</td>\n';
+    html += '<td>--</td>\n';
+    html += '</tr>\n';
+    html += '</tbody>\n';
+    html += '</table>\n';
+    html += '</div>\n';
+    return html;
+}
+
 $(() => {
 
     let authUser = null;
@@ -9,6 +38,7 @@ $(() => {
 
     $("#unirseBtn").on("click", () => {
         let idJugador = authId;
+        let nombreJugador = authUser;
         let idPartida = $("#unirseId").val();
 
         $.ajax({
@@ -20,8 +50,12 @@ $(() => {
                     req.setRequestHeader("Authorization", "Basic " + base64user);
                 }
             },
-            data: JSON.stringify({ idPartida: idPartida, idJugador: idJugador }),
+            data: JSON.stringify({ idPartida: idPartida, idJugador: idJugador, nomJugador: nombreJugador }),
             success: (data, textStatus, jqXHR) => {
+                let tab = '<li class="gameTabList"><a data-toggle="tab" href="#' + idPartida + '">' + data.nomPartida + '</a></li>';
+                $("#tabsPartidas").append(tab);
+                let html = createTab(idPartida, data.nomPartida);
+                $("#tabContent").append(html);
                 $("#errorTxtPartida").text("Se ha unido a la partida");
             },
             error: (jqXHR, textStatus, errorThrown) => {
@@ -75,33 +109,9 @@ $(() => {
                         data: { id: authId },
                         success: (data, textStatus, jqXHR) => {
                             data.forEach(d => {
-                                let tab = '<li><a data-toggle="tab" href="#' + d.id + '">' + d.nombre + '</a></li>';
+                                let tab = '<li class="gameTabList"><a data-toggle="tab" href="#' + d.id + '">' + d.nombre + '</a></li>';
                                 $("#tabsPartidas").append(tab);
-                                let html = '<div id="' + d.id + '" class="tab-pane fade">\n';
-                                html += '<div class="infoPart">\n';
-                                html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
-                                html += '<label class="col-md-9 control-labelPerfil">Partida ' + d.nombre + '</label>\n';
-                                html += '<button type="button" class="col-md-3 btn btn-primary" id="actPartBtn' + d.id + '">Actualizar Partida</button>\n';
-                                html += '<p class="col-md-10">La partida aun no tiene cuatro jugadores</p>\n';
-                                html += '<p class="col-md-10">El identificador de la partida es ' + d.id + '</p>\n';
-                                html += '</div>\n';
-                                html += '<div class="col-md-3 col-md-offset-1 infoJugadores">\n';
-                                html += '<p>Jugadores</p>\n';
-                                html += '<table class="table table-condensed">\n';
-                                html += '<thead>\n';
-                                html += '<tr>\n';
-                                html += '<th>Jugadores</th>\n';
-                                html += '<th>Nº Cartas</th>\n';
-                                html += '</tr>\n';
-                                html += '</thead>\n';
-                                html += '<tbody>\n';
-                                html += '<tr>\n';
-                                html += '<td>Jugador 1</td>\n';
-                                html += '<td>--</td>\n';
-                                html += '</tr>\n';
-                                html += '</tbody>\n';
-                                html += '</table>\n';
-                                html += '</div>\n';
+                                let html = createTab(d.id, d.nombre);
                                 $("#tabContent").append(html);
                             });
                         },
@@ -124,11 +134,14 @@ $(() => {
         authUser = null;
         authPassword = null;
         authId = null;
+        $("#misPartidas").addClass("active");
         $("#titleUser").text("");
         $("#titleUser").addClass("hidden");
         $("#disconnectBtn").addClass("hidden");
         $("#loginContainer").removeClass("hidden");
         $("#profileContainer").addClass("hidden");
+        $(".gameTab").remove();
+        $(".gameTabList").remove();
     })
 
     $("#newUserBtn").on("click", () => {
@@ -154,6 +167,8 @@ $(() => {
 
     $("#newPartidaBtn").on("click", () => {
         let nombre = $("#nombrePartidaInput").val();
+        let idJugador = authId;
+        let nomJugador = authUser;
 
         $.ajax({
             type: "POST",
@@ -164,8 +179,12 @@ $(() => {
                 }
             },
             contentType: "application/json",
-            data: JSON.stringify({ nombre: nombre }),
+            data: JSON.stringify({ nombre: nombre, idJugador: idJugador, nomJugador: nomJugador }),
             success: (data, textStatus, jqXHR) => {
+                let tab = '<li class="gameTabList"><a data-toggle="tab" href="#' + data.idPartida + '">' + nombre + '</a></li>';
+                $("#tabsPartidas").append(tab);
+                let html = createTab(data.idPartida, nombre);
+                $("#tabContent").append(html);
                 $("#errorTxtPartida").text("Partida creada con nombre " + nombre);
             },
             error: (jqXHR, textStatus, errorThrown) => {

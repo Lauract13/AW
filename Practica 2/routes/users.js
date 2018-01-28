@@ -13,9 +13,6 @@ let daoUsers = require("../DAOs/daoUsers.js");
 
 let dao = new daoUsers(pool);
 
-let globUser = null;
-let globPassword = null;
-
 users.post("/login", (request, response) => {
     let user = request.body.user;
     let password = request.body.password;
