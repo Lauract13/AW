@@ -69,11 +69,8 @@ partidas.post("/unirsePartida", (request, response) => {
         }
         response.end();
     });
-<<<<<<< HEAD
     
 
-=======
->>>>>>> 64d006c385eeb8986a720df56f8509468e3c8df9
 });
 
 partidas.get("/partidasJugador", (request, response) => {
