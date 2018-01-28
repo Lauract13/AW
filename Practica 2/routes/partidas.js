@@ -53,12 +53,18 @@ partidas.post("/unirsePartida", (request, response) => {
         else{
            
             let estadoaux =JSON.parse(rows[0].estado);
+            let jugadoresaux = [];
+           
+            jugadoresaux.push(estadoaux.jugadoresEnPartida);
+                
+            
+            jugadoresaux.push(idJugador);
             
             let estado = {
                 estado: estadoaux.estado,
                 cartasJugador: estadoaux.cartasJugador,
                 cartasEnMesa: estadoaux.cartasEnMesa,
-                jugadoresEnPartida: estadoaux.jugadoresEnPartida +","+ idJugador,
+                jugadoresEnPartida: jugadoresaux,
                 ultimasCartasEnMesa: estadoaux.cartasEnMesa
             };
             

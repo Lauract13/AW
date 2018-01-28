@@ -1,5 +1,8 @@
 {
     "vscode-janus-debug.uploadOnSave": [
-        "users"
+        "users",
+        "daoPartidas",
+        "partidas",
+        "preguntasRouter"
     ]
 }
