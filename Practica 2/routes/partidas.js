@@ -44,31 +44,47 @@ partidas.post("/unirsePartida", (request, response) => {
     let idPartida = request.body.idPartida;
     let idJugador = request.body.idJugador;
 
-    let estado = {
-        estado: "NO INICIADA",
-        cartasJugador: [],
-        cartasEnMesa: [],
-        jugadoresEnPartida: [idJugador],
-        ultimasCartasEnMesa: ""
-    };
-    let estadoJSON = JSON.stringify(estado);
-
-    dao.unirsePartida(idJugador, idPartida, estadoJSON, (err, rows) => {
-
-        if (err) {
+    
+    dao.estadoPartida(idPartida, (err, rows) =>{
+        if(err){
             console.log(err);
             response.status(400);
-        } else {
-            if (rows.affectedRows == 1) {
-
-                response.status(201);
-            } else {
-
-                response.status(400);
-            }
         }
-        response.end();
+        else{
+           
+            let estadoaux =JSON.parse(rows[0].estado);
+            
+            let estado = {
+                estado: estadoaux.estado,
+                cartasJugador: estadoaux.cartasJugador,
+                cartasEnMesa: estadoaux.cartasEnMesa,
+                jugadoresEnPartida: estadoaux.jugadoresEnPartida +","+ idJugador,
+                ultimasCartasEnMesa: estadoaux.cartasEnMesa
+            };
+            
+            let estadoJSON = JSON.stringify(estado);
+            
+            
+            dao.unirsePartida(idJugador, idPartida, estadoJSON, (err, rows) => {
+                
+                        if (err) {
+                            console.log(err);
+                            response.status(400);
+                        } else {
+                            if (rows.affectedRows == 1) {
+                
+                                response.status(201);
+                            } else {
+                
+                                response.status(400);
+                            }
+                        }
+                        response.end();
+                    });
+        }
+       
     });
+    
     
 
 });
