@@ -4,6 +4,7 @@ $(() => {
 
     let authUser = null;
     let authPassword = null;
+    let authId = null;
     let base64user = null;
 
     $("#loginBtn").on("click", () => {
@@ -21,23 +22,24 @@ $(() => {
                     base64user = btoa(user + ":" + password);
                     authUser = user;
                     authPassword = password;
-                    $.ajax({
-                        method: "GET",
-                        url: "/users/perfil",
-                        beforeSend: function(req) {
-                            req.setRequestHeader("Authorization", "Basic " + base64user);
-                        },
-                        success: (data, textStatus, jqXHR) => {
-                            if (data.permitido) {
-                                console.log("vamos loco");
-                            } else {
-                                console.log("acceso restringido");
-                            }
-                        },
-                        error: (jqXHR, textStatus, errorThrown) => {
-                            console.log("buah");
-                        }
-                    });
+                    authId = response.userId;
+                    // $.ajax({
+                    //     method: "GET",
+                    //     url: "/users/perfil",
+                    //     beforeSend: function(req) {
+                    //         req.setRequestHeader("Authorization", "Basic " + base64user);
+                    //     },
+                    //     success: (data, textStatus, jqXHR) => {
+                    //         if (data.permitido) {
+                    //             console.log("vamos loco");
+                    //         } else {
+                    //             console.log("acceso restringido");
+                    //         }
+                    //     },
+                    //     error: (jqXHR, textStatus, errorThrown) => {
+                    //         console.log("buah");
+                    //     }
+                    // });
                 } else {
                     $("#errorTxt").text("No encontrado");
                 }
