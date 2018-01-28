@@ -10,7 +10,7 @@ $(() => {
     $("#unirseBtn").on("click", () => {
         let idJugador = authId;
         let idPartida = $("#unirseId").val();
-        console.log(idPartida);
+        
         $.ajax({
             type: "POST",
             url: "/partidas/unirsePartida",
