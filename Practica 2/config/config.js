@@ -6,4 +6,6 @@ module.exports = {
     dbPassword: "",
     dbHost: "localhost",
     port: 3000,
+    private_key: "mi_clave.pem",
+    cert: "certificado_firmado.crt"
 };

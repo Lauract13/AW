@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require("passport");
 var passportHTTP = require("passport-http");
+var https = require('https');
+var fs = require('fs');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -24,6 +26,13 @@ let daoUsers = require("./DAOs/daoUsers.js");
 let dao = new daoUsers(pool);
 
 var app = express();
+
+/**
+ * Keys and certificate.
+ */
+let cert = fs.readFileSync("./" + config.cert);
+let key = fs.readFileSync("./" + config.private_key);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -54,8 +63,24 @@ passport.use(new passportHTTP.BasicStrategy({ realm: "Requiere autenticación" }
     }
 ));
 
-app.use('/', index);
 app.use('/users', users);
 app.use('/partidas', passport.authenticate("basic", { session: false }), partidas);
+
+app.get("/", (request, response) => {
+    response.redirect("/index.html");
+})
+
+/**
+ * Create HTTPS server.
+ */
+
+var server = https.createServer({
+    key: key,
+    cert: cert
+}, app);
+
+server.listen(config.port, function(err) {
+    console.log("Escuchando en el puerto " + config.port);
+});
 
 module.exports = app;
