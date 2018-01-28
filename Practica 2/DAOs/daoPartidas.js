@@ -2,7 +2,7 @@
 
 const insertSQL = "INSERT INTO partidas(nombre, estado) VALUES (?, ?)";
 const insertJgdrEnPart = "INSERT INTO juega_en(idUsuario, idPartida) VALUES (?,?)";
-
+const updateEstado = "UPDATE partidas SET estado=? WHERE id=?";
 
 class daoPartidas {
 
@@ -30,7 +30,7 @@ class daoPartidas {
         });
     }
     
-    unirsePartida(idJugador, idPartida, callback) {
+    unirsePartida(idJugador, idPartida,estadoJSON, callback) {
 
         this.pool.getConnection((err, conn) => {
             if (err) {
@@ -39,14 +39,17 @@ class daoPartidas {
                 return;
             } else {
                 conn.query(insertJgdrEnPart, [idJugador, idPartida], (err, res) => {
-                    if (err) {
+                    conn.query(updateEstado, [estadoJSON], (err,res) =>{
+                        if (err) {
 
-                        callback("Insert error:" + err, null);
-                    } else {
-                        callback(null, res);
-                    }
-                    conn.release();
-                    return;
+                            callback("Insert error:" + err, null);
+                        } else {
+                            callback(null, res);
+                        }
+                        conn.release();
+                        return;
+                    });
+                    
                 });
             }
         });

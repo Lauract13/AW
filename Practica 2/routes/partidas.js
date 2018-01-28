@@ -19,6 +19,7 @@ partidas.post("/newPartida", (request, response) => {
         estado: "NO INICIADA",
         cartasJugador: [],
         cartasEnMesa: [],
+        jugadoresEnPartida:[],
         ultimasCartasEnMesa: ""
     };
     let estadoJSON = JSON.stringify(estado);
@@ -42,8 +43,17 @@ partidas.post("/unirsePartida", (request, response) => {
     let idPartida = request.body.idPartida;
     let idJugador = request.body.idJugador;
 
-    dao.unirsePartida(idJugador, idPartida, (err, rows) => {
+    let estado = {
+        estado: "NO INICIADA",
+        cartasJugador: [],
+        cartasEnMesa: [],
+        jugadoresEnPartida:[idJugador],
+        ultimasCartasEnMesa: ""
+    };
+    let estadoJSON = JSON.stringify(estado);
 
+    dao.unirsePartida(idJugador, idPartida,estadoJson, (err, rows) => {
+        
         if (err) {
             console.log(err);
             response.status(400);
@@ -58,6 +68,7 @@ partidas.post("/unirsePartida", (request, response) => {
         }
         response.end();
     });
+    
 
 });
 
