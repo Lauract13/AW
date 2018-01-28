@@ -39,6 +39,7 @@ partidas.post("/newPartida", (request, response) => {
         response.end();
     });
 });
+
 partidas.post("/unirsePartida", (request, response) => {
     let idPartida = request.body.idPartida;
     let idJugador = request.body.idJugador;
@@ -68,8 +69,25 @@ partidas.post("/unirsePartida", (request, response) => {
         }
         response.end();
     });
+<<<<<<< HEAD
     
 
+=======
+>>>>>>> 64d006c385eeb8986a720df56f8509468e3c8df9
 });
+
+partidas.get("/partidasJugador", (request, response) => {
+    let idJugador = request.query.id;
+    dao.juegaEn(idJugador, (err, res) => {
+        let partidas = [];
+        if (err) {
+            response.status(400);
+        } else {
+            response.status(200);
+            response.json(res);
+        }
+        response.end();
+    });
+})
 
 module.exports = partidas;

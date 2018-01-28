@@ -43,6 +43,7 @@ $(() => {
             }
         });
     });
+
     $("#loginBtn").on("click", () => {
         let user = $("#usernameInput").val();
         let password = $("#passwordInput").val();
@@ -63,6 +64,23 @@ $(() => {
                     $("#disconnectBtn").removeClass("hidden");
                     $("#loginContainer").addClass("hidden");
                     $("#profileContainer").removeClass("hidden");
+                    $.ajax({
+                        type: "GET",
+                        url: "/partidas/partidasJugador",
+                        contentType: "application/json",
+                        beforeSend: function(req) {
+                            if (base64user) {
+                                req.setRequestHeader("Authorization", "Basic " + base64user);
+                            }
+                        },
+                        data: { id: authId },
+                        success: (data, textStatus, jqXHR) => {
+                            data.forEach(d => {
+                                let tab = '<li><a data-toggle="tab" href="#' + d.id + '">' + d.nombre + '</a></li>';
+                                $("#tabsPartidas").append(tab);
+                            });
+                        }
+                    });
                 } else {
                     $("#errorTxt").text("No encontrado");
                 }
