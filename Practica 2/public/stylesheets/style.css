@@ -49,6 +49,7 @@ div.formPerfil {
     font-size: 160%;
 }
 
+
 div.formContainer {
     background-color: #333333;
     border-radius: 2px;
@@ -77,4 +78,29 @@ div.formContainer {
 div.titleDiv {
     background-color: #333333;
     height: auto;
+}
+div.infoPart{
+    justify-content: space-between;
+}
+div.datosPartida{
+    
+    
+    background-color: #e6e6e6;
+    border-radius: 3px;
+    
+    padding-bottom: 2%;
+    padding: 2%;
+    margin-top: 3%;
+    
+}
+
+
+div.infoJugadores{
+    border-radius: 3px;
+    padding-bottom: 2%;
+    padding: 2%;
+    margin-top: 3%;
+    background-color: #e6e6e6;
+   
+    
 }
