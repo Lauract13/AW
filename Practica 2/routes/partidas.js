@@ -53,7 +53,7 @@ partidas.post("/unirsePartida", (request, response) => {
     };
     let estadoJSON = JSON.stringify(estado);
 
-    dao.unirsePartida(idJugador, idPartida, estadoJson, (err, rows) => {
+    dao.unirsePartida(idJugador, idPartida, estadoJSON, (err, rows) => {
 
         if (err) {
             console.log(err);
@@ -69,11 +69,8 @@ partidas.post("/unirsePartida", (request, response) => {
         }
         response.end();
     });
-<<<<<<< HEAD
     
 
-=======
->>>>>>> ea249db37ef372c556d7aaba22727286f3cd1557
 });
 
 partidas.get("/partidasJugador", (request, response) => {

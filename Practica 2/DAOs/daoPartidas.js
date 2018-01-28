@@ -30,14 +30,9 @@ class daoPartidas {
             }
         });
     }
-<<<<<<< HEAD
     
+
     unirsePartida(idJugador, idPartida,estadoJSON, callback) {
-
-=======
-
-    unirsePartida(idJugador, idPartida, estadoJSON, callback) {
->>>>>>> ea249db37ef372c556d7aaba22727286f3cd1557
 
         this.pool.getConnection((err, conn) => {
             if (err) {
@@ -46,16 +41,28 @@ class daoPartidas {
                 return;
             } else {
                 conn.query(insertJgdrEnPart, [idJugador, idPartida], (err, res) => {
-                    conn.query(updateEstado, [estadoJSON], (err, res) => {
-                        if (err) {
+                    
+                    if (err) {
 
-                            callback("Insert error:" + err, null);
-                        } else {
-                            callback(null, res);
-                        }
+                        callback("Insert error:" + err, null);
                         conn.release();
                         return;
-                    });
+                    } else {
+                        conn.query(updateEstado, [estadoJSON, idPartida], (err, res) => {
+                            console.log(estadoJSON);
+                            if(err){
+                                callback("Insert error:" + err, null);
+                                 
+                            }else{
+                                callback(null, res);
+                            }
+                            conn.release();
+                            return;
+                        });
+                        
+                    }
+                   
+                   
 
                 });
             }
