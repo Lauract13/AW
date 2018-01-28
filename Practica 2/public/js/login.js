@@ -22,7 +22,7 @@ $(() => {
             },
             data: JSON.stringify({ idPartida: idPartida, idJugador: idJugador }),
             success: (data, textStatus, jqXHR) => {
-                $("#errorTxt").text("Se ha unido a la partida");
+                $("#errorTxtPartida").text("Se ha unido a la partida");
             },
             error: (jqXHR, textStatus, errorThrown) => {
                 if (jqXHR.status === 401) {
@@ -37,7 +37,7 @@ $(() => {
                     $("#profileContainer").addClass("hidden");
                     $("#errorTxt").text("Necesitas hacer login.");
                 } else if (jqXHR.status === 500) {
-                    $("#errorTxt").text("No se pudo conectar. Intentalo de nuevo mas tarde.");
+                    $("#errorTxtPartida").text("No se pudo conectar. Intentalo de nuevo mas tarde.");
                 }
             }
         });
@@ -77,10 +77,36 @@ $(() => {
                             data.forEach(d => {
                                 let tab = '<li><a data-toggle="tab" href="#' + d.id + '">' + d.nombre + '</a></li>';
                                 $("#tabsPartidas").append(tab);
+                                let html = '<div id="' + d.id + '" class="tab-pane fade">\n';
+                                html += '<div class="infoPart">\n';
+                                html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
+                                html += '<label class="col-md-9 control-labelPerfil">Partida ' + d.nombre + '</label>\n';
+                                html += '<button type="button" class="col-md-3 btn btn-primary" id="actPartBtn' + d.id + '">Actualizar Partida</button>\n';
+                                html += '<p class="col-md-10">La partida aun no tiene cuatro jugadores</p>\n';
+                                html += '<p class="col-md-10">El identificador de la partida es ' + d.id + '</p>\n';
+                                html += '</div>\n';
+                                html += '<div class="col-md-3 col-md-offset-1 infoJugadores">\n';
+                                html += '<p>Jugadores</p>\n';
+                                html += '<table class="table table-condensed">\n';
+                                html += '<thead>\n';
+                                html += '<tr>\n';
+                                html += '<th>Jugadores</th>\n';
+                                html += '<th>Nº Cartas</th>\n';
+                                html += '</tr>\n';
+                                html += '</thead>\n';
+                                html += '<tbody>\n';
+                                html += '<tr>\n';
+                                html += '<td>Jugador 1</td>\n';
+                                html += '<td>--</td>\n';
+                                html += '</tr>\n';
+                                html += '</tbody>\n';
+                                html += '</table>\n';
+                                html += '</div>\n';
+                                $("#tabContent").append(html);
                             });
                         },
                         error: (jqXHR, textStatus, errorThrown) => {
-                            $("#errorTxt").text("No se pudieron cargar las partidas.");
+                            $("#errorTxtPartida").text("No se pudieron cargar las partidas.");
                         }
                     });
                 } else {
@@ -140,8 +166,7 @@ $(() => {
             contentType: "application/json",
             data: JSON.stringify({ nombre: nombre }),
             success: (data, textStatus, jqXHR) => {
-                $("#errorTxt").text("Creada");
-
+                $("#errorTxtPartida").text("Partida creada con nombre " + nombre);
             },
             error: (jqXHR, textStatus, errorThrown) => {
                 if (jqXHR.status === 401) {
@@ -156,7 +181,7 @@ $(() => {
                     $("#profileContainer").addClass("hidden");
                     $("#errorTxt").text("Necesitas hacer login.");
                 } else if (jqXHR.status === 500) {
-                    $("#errorTxt").text("No se pudo conectar. Intentalo de nuevo.");
+                    $("#errorTxtPartida").text("No se pudo conectar. Intentalo de nuevo.");
                 }
             }
         });
