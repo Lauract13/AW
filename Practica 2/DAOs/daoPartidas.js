@@ -2,11 +2,8 @@
 
 const insertSQL = "INSERT INTO partidas(nombre, estado) VALUES (?, ?)";
 const insertJgdrEnPart = "INSERT INTO juega_en(idUsuario, idPartida) VALUES (?,?)";
-<<<<<<< HEAD
 const updateEstado = "UPDATE partidas SET estado=? WHERE id=?";
-=======
 const juegaEnSQL = "SELECT partidas.id, partidas.nombre, partidas.estado FROM juega_en LEFT JOIN partidas ON juega_en.idPartida = partidas.id WHERE idUsuario=?";
->>>>>>> 64d006c385eeb8986a720df56f8509468e3c8df9
 
 class daoPartidas {
 
@@ -33,13 +30,8 @@ class daoPartidas {
             }
         });
     }
-<<<<<<< HEAD
-    
-    unirsePartida(idJugador, idPartida,estadoJSON, callback) {
-=======
 
-    unirsePartida(idJugador, idPartida, callback) {
->>>>>>> 64d006c385eeb8986a720df56f8509468e3c8df9
+    unirsePartida(idJugador, idPartida, estadoJSON, callback) {
 
         this.pool.getConnection((err, conn) => {
             if (err) {
@@ -48,7 +40,7 @@ class daoPartidas {
                 return;
             } else {
                 conn.query(insertJgdrEnPart, [idJugador, idPartida], (err, res) => {
-                    conn.query(updateEstado, [estadoJSON], (err,res) =>{
+                    conn.query(updateEstado, [estadoJSON], (err, res) => {
                         if (err) {
 
                             callback("Insert error:" + err, null);
@@ -58,7 +50,7 @@ class daoPartidas {
                         conn.release();
                         return;
                     });
-                    
+
                 });
             }
         });

@@ -10,7 +10,7 @@ $(() => {
     $("#unirseBtn").on("click", () => {
         let idJugador = authId;
         let idPartida = $("#unirseId").val();
-        
+
         $.ajax({
             type: "POST",
             url: "/partidas/unirsePartida",
@@ -37,8 +37,7 @@ $(() => {
                     $("#profileContainer").addClass("hidden");
                     $("#errorTxt").text("Necesitas hacer login.");
                 } else if (jqXHR.status === 500) {
-                    console.log(textStatus + " " + errorThrown);
-                    console.log(jqXHR);
+                    $("#errorTxt").text("No se pudo conectar. Intentalo de nuevo mas tarde.");
                 }
             }
         });
@@ -79,6 +78,9 @@ $(() => {
                                 let tab = '<li><a data-toggle="tab" href="#' + d.id + '">' + d.nombre + '</a></li>';
                                 $("#tabsPartidas").append(tab);
                             });
+                        },
+                        error: (jqXHR, textStatus, errorThrown) => {
+                            $("#errorTxt").text("No se pudieron cargar las partidas.");
                         }
                     });
                 } else {
