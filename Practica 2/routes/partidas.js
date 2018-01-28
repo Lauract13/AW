@@ -31,6 +31,28 @@ partidas.post("/newPartida", (request, response) => {
         }
         response.end();
     });
-})
+});
+partidas.post("/unirsePartida", (request, response)=>{
+    let idPartida = request.body.idPartida;
+    let idJugador = request.body.idJugador;
+    console.log(idPartida);
+    dao.insertJgdrEnPart(idJugador, idPartida, (err,rows) =>{
+        console.log("guarrillaaaaa");
+        if (err) {
+            console.log("traviesilloooooo");
+            response.status(400);
+        } else {
+            if (res.affectedRows == 1) {
+                console.log("yasss");
+                response.status(201);
+            } else {
+                
+                response.status(400);
+            }
+        }
+        response.end();
+    });
+    
+});
 
 module.exports = partidas;

@@ -7,6 +7,24 @@ $(() => {
     let authId = null;
     let base64user = null;
 
+    $("#unirseBtn").on("click", () => {
+        let idJugador = authId;
+        let idPartida = $("#unirseId").val();
+        $.ajax({
+            type: "POST",
+            url: "/partidas/unirsePartida",
+            contentType: "application/json",
+            data: JSON.stringify({ idPartida: idPartida, idJugador: idJugador }),
+            success: (data, textStatus, jqXHR) => {
+                $("#errorTxt").text("Se ha unido a la partida");
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 500) {
+                    $("#errorTxt").text("No se pudo conectar. Intentalo de nuevo.");
+                }
+            }
+        });
+    });
     $("#loginBtn").on("click", () => {
         let user = $("#usernameInput").val();
         let password = $("#passwordInput").val();
