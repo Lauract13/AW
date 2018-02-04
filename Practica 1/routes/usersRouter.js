@@ -10,6 +10,8 @@ const usersRouter = express.Router();
 const daoUsers = require("../DAOs/daoUsers.js");
 const mysql = require("mysql");
 const config = require("../config/config.js");
+const multer = require("multer");
+const multerFactory = multer({dest:path.join(__dirname, "uploads")});
 const pool = mysql.createPool({
     host: config.dbHost,
     user: config.dbUser,
@@ -300,6 +302,24 @@ usersRouter.post("/newUserForm", function(request, response) {
             } else {
                 response.setMsg("Usuario creado correctamente");
                 response.redirect("/users/login.html");
+            }
+        });
+    }
+});
+
+usersRouter.post("/subirFotos", multerFactory.single('image'), (request, response) =>{
+    let nombreFichero = null;
+
+    if(request.file && request.body.texto.trim()!==""){
+        nombreFichero ="/uploads/"+request.file.filename;
+        request.session.puntos = request.session.puntos - 100;
+        var texto = request.body.texto.trim();
+        daoU.subirFoto(request.session.user, nombreFichero, texto, (err)=>{
+            if(err){
+                response.status(500);
+                
+            }else{
+                response.redirect("/perfil");
             }
         });
     }
