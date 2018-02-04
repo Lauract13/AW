@@ -330,10 +330,11 @@ usersRouter.post("/subirFotos", multerFactory.single('image'), (request, respons
         var texto = request.body.texto.trim();
         dao.subirFoto(request.session.user, nombreFichero, texto, (err) => {
             if (err) {
+                response.setMsg("Error al subir la foto");
                 response.status(500);
-
+                response.redirect("/users/subirFotos.html")
             } else {
-                response.redirect("/perfil");
+                response.redirect("/users/perfil.html");
             }
         });
     }

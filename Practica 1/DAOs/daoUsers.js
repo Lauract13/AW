@@ -10,7 +10,7 @@ const readAllSQL = "SELECT users.email, users.image, users.name FROM users LEFT 
 const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?";
 const rejectFriendSQL = "DELETE FROM friends WHERE email1=? AND email2=?";
 const readRequests = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON users.email=friends.email2 WHERE friends.accepted=0 AND ?=friends.email1";
-const insertFoto = "INSERT INTO  VALUES (?,?,?)";
+const insertFoto = "INSERT INTO fotos VALUES (?,?,?)";
 const readFotosUser = "SELECT foto, descripcion FROM fotos WHERE email = ?";
 
 class daoUsers {
@@ -19,16 +19,16 @@ class daoUsers {
         this.pool = pool;
     }
 
-    readFotosUser(email, callback){
-        this.pool.getConnection((err, conn) =>{
-            if(err){
+    readFotosUser(email, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
                 callback("Connection error: " + err, null);
                 return;
-            }else{
-                conn.query(readFotosUser, [email], (err,res) =>{
-                    if(err){
+            } else {
+                conn.query(readFotosUser, [email], (err, res) => {
+                    if (err) {
                         callack("Query error: " + err, null);
-                    }else{
+                    } else {
                         callback(null, res);
                     }
                     conn.release();
@@ -55,7 +55,7 @@ class daoUsers {
             }
         });
     }
-   
+
     readAllFriends(email, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
@@ -106,23 +106,23 @@ class daoUsers {
             }
         });
     }
-    subirFoto(email,foto,descripcion, callback){
-        this.pool.getConnection((err,conn) =>{
-            if(err){
+    subirFoto(email, foto, descripcion, callback) {
+        this.pool.getConnection((err, conn) => {
+            if (err) {
                 callback("Connection error", null);
                 return;
-            }else{
-                conn.query(insertFoto,[email,foto,descripcion],(err, result) =>{
-                    if(err){
-                        callback(err,null);
-                    }else{
+            } else {
+                conn.query(insertFoto, [email, foto, descripcion], (err, result) => {
+                    if (err) {
+                        callback(err, null);
+                    } else {
                         callback(null, result);
                     }
                 });
             }
         });
     }
-    
+
     search(name, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
