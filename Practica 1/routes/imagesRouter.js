@@ -18,18 +18,28 @@ const pool = mysql.createPool({
 });
 const dao = new daoUsers(pool);
 const iconsDir = path.join(__dirname, "..", "public", "icons");
+const uploadsDir = path.join(iconsDir, "uploads");
 const noProfileImg = path.join(__dirname, "..", "public", "img", "NoProfile.png");
 
 imagesRouter.get("/:id", (request, response) => {
-    if(request.params.id === "npp"){
+    if (request.params.id === "npp") {
         response.sendFile(noProfileImg);
     } else {
         let image = path.join(iconsDir, request.params.id);
-        if(fs.existsSync(image)){
+        if (fs.existsSync(image)) {
             response.sendFile(image);
         } else {
             response.sendFile(noProfileImg);
         }
+    }
+});
+
+imagesRouter.get("/uploads/:id", (request, response) => {
+    let image = path.join(uploadsDir, request.params.id);
+    if (fs.existsSync(image)) {
+        response.sendFile(image);
+    } else {
+        response.sendFile(noProfileImg);
     }
 });
 

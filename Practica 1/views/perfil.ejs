@@ -24,19 +24,27 @@
             <p class=profData><%= years %> años</p>
             <% } %>
             <p class=profData><%= gender %></p>
-            <p class=profData><%= puntosProf %> puntos</p>
-            
+            <p class=profData><%= puntosProf %> puntos</p>  
         </div>
         <div class=botonPerfil>
             <% if(myProf) { %>
                 <a class=formBtn href="/users/mod_perfil.html">Modificar perfil </a>
                 <a class=formBtn href="/users/subirFotos.html">Subir Fotos</a>
-            <% } %> 
-                
+            <% } %>      
         </div>
-        
-           
-
+        <div class="gallery">
+            <% let i = 0; %>
+            <% photos.forEach(p => { %>
+            <% if(i % 4 === 0) { %>
+            <div>
+            <% } %>
+            <div><img class="imgGallery" src="/images/<%= p %>"></div>
+            <% if(i % 4 === 0) { %>
+            </div>
+            <% } %>
+            <% ++i; %>
+            <% }); %>
+        </div>      
     </div>
     <%- include("error") %>
 </body>

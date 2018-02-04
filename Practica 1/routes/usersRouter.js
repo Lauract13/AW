@@ -105,7 +105,8 @@ usersRouter.get("/perfil.html", (request, response) => {
             puntosProf: request.session.points,
             image: request.session.image,
             imageProf: request.session.image,
-            myProf: true
+            myProf: true,
+            photos: request.session.photos
         });
     } else {
         response.setMsg("Necesitas estar logeado");
@@ -204,16 +205,25 @@ usersRouter.post("/profile", (request, response) => {
                 var ageDate = new Date(ageDifMs);
                 age = Math.abs(ageDate.getUTCFullYear() - 1970);
             }
-            response.render("perfil.ejs", {
-                name: res.name,
-                years: age,
-                gender: res.gender,
-                puntos: request.session.points,
-                puntosProf: res.points,
-                image: request.session.image,
-                imageProf: res.image,
-                myProf: false
-            });
+            dao.readFotosUser(id, (err, res) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(photos);
+                    response.render("perfil.ejs", {
+                        name: res.name,
+                        years: age,
+                        gender: res.gender,
+                        puntos: request.session.points,
+                        puntosProf: res.points,
+                        image: request.session.image,
+                        imageProf: res.image,
+                        myProf: false,
+                        photos: request.session.photos
+                    });
+                }
+            })
+
         }
     });
 });
@@ -272,7 +282,19 @@ usersRouter.post("/loginpost", function(request, response) {
             request.session.image = res.image;
             request.session.birthDate = res.birthDate;
             request.session.points = res.points;
-            response.redirect("/users/perfil.html");
+            dao.readFotosUser(request.body.email, (err, res) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    let photos = [];
+                    res.forEach(r => {
+                        photos.push(r.foto);
+                    });
+                    console.log(photos);
+                    request.session.photos = photos;
+                    response.redirect("/users/perfil.html");
+                }
+            })
         }
     });
 });
@@ -325,8 +347,8 @@ usersRouter.post("/subirFotos", multerFactory.single('image'), (request, respons
     let nombreFichero = null;
 
     if (request.file && request.body.texto.trim() !== "") {
-        nombreFichero = "./uploads/" + request.file.filename;
-        request.session.puntos = request.session.puntos - 10;
+        nombreFichero = "uploads/" + request.file.filename;
+        request.session.puntos = request.session.puntos - 100;
         var texto = request.body.texto.trim();
         dao.subirFoto(request.session.user, nombreFichero, texto, (err) => {
             if (err) {
@@ -334,6 +356,7 @@ usersRouter.post("/subirFotos", multerFactory.single('image'), (request, respons
                 response.status(500);
                 response.redirect("/users/subirFotos.html")
             } else {
+                request.session.photos.push(nombreFichero);
                 response.redirect("/users/perfil.html");
             }
         });
