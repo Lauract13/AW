@@ -11,7 +11,8 @@ const daoUsers = require("../DAOs/daoUsers.js");
 const mysql = require("mysql");
 const config = require("../config/config.js");
 const multer = require("multer");
-const multerFactory = multer({dest:path.join(__dirname, "uploads")});
+const uploadsFolder = path.join(__dirname, "..", "public", "icons", "uploads");
+const multerFactory = multer({ dest: uploadsFolder });
 const pool = mysql.createPool({
     host: config.dbHost,
     user: config.dbUser,
@@ -307,18 +308,31 @@ usersRouter.post("/newUserForm", function(request, response) {
     }
 });
 
-usersRouter.post("/subirFotos", multerFactory.single('image'), (request, response) =>{
+usersRouter.get("/subirFotos.html", (request, response) => {
+    let loggedIn = (String(request.session.user) !== 'undefined');
+    if (loggedIn) {
+        response.render("subirFotos.ejs", {
+            image: request.session.image,
+            puntos: request.session.points
+        });
+    } else {
+        response.setMsg("Necesitas estar logeado");
+        response.redirect("/users/login.html");
+    }
+})
+
+usersRouter.post("/subirFotos", multerFactory.single('image'), (request, response) => {
     let nombreFichero = null;
 
-    if(request.file && request.body.texto.trim()!==""){
-        nombreFichero ="/uploads/"+request.file.filename;
-        request.session.puntos = request.session.puntos - 100;
+    if (request.file && request.body.texto.trim() !== "") {
+        nombreFichero = "./uploads/" + request.file.filename;
+        request.session.puntos = request.session.puntos - 10;
         var texto = request.body.texto.trim();
-        daoUsers.subirFoto(request.session.user, nombreFichero, texto, (err)=>{
-            if(err){
+        daoUsers.subirFoto(request.session.user, nombreFichero, texto, (err) => {
+            if (err) {
                 response.status(500);
-                
-            }else{
+
+            } else {
                 response.redirect("/perfil");
             }
         });

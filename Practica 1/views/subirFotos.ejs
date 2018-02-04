@@ -8,18 +8,27 @@
 </head>
 
 <body>
-    <div>
+    <img class=logo src="../img/Logo.png">
+    <%- include("menuLogged") -%>
+    <p class="encPag">Subir fotos</p>
+    <div class="formulario">
         <form class="formFotos" method="POST" action="subirFotos" enctype="multipart/form-data">
             <div class="line">
-                <label>Imagen</label>
-                <input id ="image" name="image" type="file"/>
-                <label>Descripcion:</label>
-                <input id="texto" name="texto" type ="text">
+                <div class="celdFormulario">
+                    <div class="formOpt"><label>Imagen: </label></div>
+                    <div><input id ="image" name="image" type="file"/></div>
+                </div>
+                <div class="celdFormulario">
+                    <div class="formOpt"><label>Descripcion: </label></div>
+                    <div class="formTxt"><input class="formTxt" id="texto" name="texto" type ="text"></div>
+                </div>
             </div>
-        <input type="submit" value="Aceptar" id="conectar">
+            <div class=celdFormularioBtn>
+                <input class="formBtn" type="submit" value="Aceptar" id="conectar">
+            </div>
         </form>
     </div>
-
+    <%- include("error") -%>
 </body>
 </html>
 
