@@ -13,6 +13,7 @@ const readRequests = "SELECT users.email, users.image, users.name FROM users LEF
 const insertFoto = "INSERT INTO fotos VALUES (?,?,?)";
 const readFotosUser = "SELECT foto, descripcion FROM fotos WHERE email = ?";
 
+
 class daoUsers {
 
     constructor(pool) {
@@ -106,19 +107,27 @@ class daoUsers {
             }
         });
     }
-    subirFoto(email, foto, descripcion, callback) {
+    subirFoto(email, foto, descripcion, puntos,callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
                 callback("Connection error", null);
                 return;
             } else {
-                conn.query(insertFoto, [email, foto, descripcion], (err, result) => {
-                    if (err) {
+                conn.query(addPointsSQL, [puntos, email], (err, res) =>{
+                    if(err){
+                       
                         callback(err, null);
-                    } else {
-                        callback(null, result);
                     }
+                    conn.query(insertFoto, [email, foto, descripcion], (err, res) => {
+                        if (err) {
+                            console.log(err);
+                            callback(err, null);
+                        } else {
+                            callback(null, res);
+                        }
+                    });
                 });
+              
             }
         });
     }
