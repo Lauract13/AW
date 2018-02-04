@@ -10,12 +10,32 @@ const readAllSQL = "SELECT users.email, users.image, users.name FROM users LEFT 
 const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?";
 const rejectFriendSQL = "DELETE FROM friends WHERE email1=? AND email2=?";
 const readRequests = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON users.email=friends.email2 WHERE friends.accepted=0 AND ?=friends.email1";
-const insertFoto = "INSERT INTO fotos VALUES (?,?,?)";
+const insertFoto = "INSERT INTO  VALUES (?,?,?)";
+const readFotosUser = "SELECT foto, descripcion FROM fotos WHERE email = ?";
 
 class daoUsers {
 
     constructor(pool) {
         this.pool = pool;
+    }
+
+    readFotosUser(email, callback){
+        this.pool.getConnection((err, conn) =>{
+            if(err){
+                callback("Connection error: " + err, null);
+                return;
+            }else{
+                conn.query(readFotosUser, [email], (err,res) =>{
+                    if(err){
+                        callack("Query error: " + err, null);
+                    }else{
+                        callback(null, res);
+                    }
+                    conn.release();
+                    return;
+                })
+            }
+        });
     }
     readRequests(email, callback) {
         this.pool.getConnection((err, conn) => {
@@ -35,6 +55,7 @@ class daoUsers {
             }
         });
     }
+   
     readAllFriends(email, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
@@ -53,6 +74,7 @@ class daoUsers {
             }
         });
     }
+
     readOne(email, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {
@@ -100,6 +122,7 @@ class daoUsers {
             }
         });
     }
+    
     search(name, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {

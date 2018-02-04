@@ -4,6 +4,7 @@
         "daoPartidas",
         "partidas",
         "preguntasRouter",
-        "usersRouter"
+        "usersRouter",
+        "daoUsers"
     ]
 }
