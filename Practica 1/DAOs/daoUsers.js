@@ -10,6 +10,8 @@ const readAllSQL = "SELECT users.email, users.image, users.name FROM users LEFT 
 const confirmFriendSQL = "UPDATE friends SET accepted=1 WHERE email1=? AND email2=?";
 const rejectFriendSQL = "DELETE FROM friends WHERE email1=? AND email2=?";
 const readRequests = "SELECT users.email, users.image, users.name FROM users LEFT JOIN friends ON users.email=friends.email2 WHERE friends.accepted=0 AND ?=friends.email1";
+const insertFoto = "INSERT INTO fotos (email, foto, texto) VALUES (?,?,?)";
+
 class daoUsers {
 
     constructor(pool) {
@@ -82,7 +84,22 @@ class daoUsers {
             }
         });
     }
-
+    subirFoto(email,foto,descripcion, callback){
+        this.pool.getConnection((err,conn) =>{
+            if(err){
+                callback("Connection error", null);
+                return;
+            }else{
+                conn.query(insertFoto,[email,foto,descripcion],(err, result) =>{
+                    if(err){
+                        callack(err,null);
+                    }else{
+                        callback(null, result);
+                    }
+                });
+            }
+        });
+    }
     search(name, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {

@@ -30,20 +30,11 @@
         <div class=botonPerfil>
             <% if(myProf) { %>
                 <a class=formBtn href="/users/mod_perfil.html">Modificar perfil </a>
+                <a class=formBtn href=>Subir Fotos</a>
             <% } %> 
-
+                
         </div>
-        <div>
-            <form class="formFotos" method="POST" action="subirFotos" enctype="multipart/form-data">
-                <div class="line">
-                    <label>Imagen</label>
-                    <input id ="image" name="image" type="file"/>
-                    <label>Descripcion:</label>
-                    <input id="texto" name="texto" type ="text">
-                </div>
-            <input type="submit" value="Aceptar" id="conectar">
-            </form>
-        </div>
+        
            
 
     </div>
