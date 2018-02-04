@@ -327,8 +327,9 @@ usersRouter.post("/subirFotos", multerFactory.single('image'), (request, respons
     if (request.file && request.body.texto.trim() !== "") {
         nombreFichero = "./uploads/" + request.file.filename;
         request.session.puntos = request.session.puntos - 10;
+        
         var texto = request.body.texto.trim();
-        dao.subirFoto(request.session.user, nombreFichero, texto, (err) => {
+        dao.subirFoto(request.session.user, nombreFichero, texto,  request.session.puntos, (err) => {
             if (err) {
                 response.setMsg("Error al subir la foto");
                 response.status(500);

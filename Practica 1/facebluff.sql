@@ -111,11 +111,7 @@ CREATE TABLE `users` (
 --
 -- Índices para tablas volcadas
 --
---
--- Indices de la tabla `fotos`
---
-ALTER TABLE `fotos`
-  ADD PRIMARY KEY (`email`);
+
 --
 -- Indices de la tabla `answers`
 --
