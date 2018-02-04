@@ -42,7 +42,7 @@ CREATE TABLE `answers` (
 
 CREATE TABLE `fotos` (
   `email` varchar(20) NOT NULL,
-  `foto`  varchar(30) DEFAULT NULL,
+  `foto`  BLOB,
   `descripcion` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------

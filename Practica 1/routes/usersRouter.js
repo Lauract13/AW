@@ -347,14 +347,8 @@ usersRouter.post("/subirFotos", multerFactory.single('image'), (request, respons
     let nombreFichero = null;
 
     if (request.file && request.body.texto.trim() !== "") {
-<<<<<<< HEAD
         nombreFichero = "uploads/" + request.file.filename;
         request.session.puntos = request.session.puntos - 100;
-=======
-        nombreFichero = "./uploads/" + request.file.filename;
-        request.session.puntos = request.session.puntos - 10;
-        
->>>>>>> 177628a3bc9634833e2829b00ff8778d559ed762
         var texto = request.body.texto.trim();
         dao.subirFoto(request.session.user, nombreFichero, texto,  request.session.puntos, (err) => {
             if (err) {

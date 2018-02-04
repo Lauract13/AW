@@ -120,7 +120,7 @@ class daoUsers {
                     }
                     conn.query(insertFoto, [email, foto, descripcion], (err, res) => {
                         if (err) {
-                            console.log(err);
+                           
                             callback(err, null);
                         } else {
                             callback(null, res);
