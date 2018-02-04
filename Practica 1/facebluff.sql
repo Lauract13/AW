@@ -33,7 +33,18 @@ CREATE TABLE `answers` (
   `question_id` int(20) NOT NULL,
   `answer` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- -----------------------------------------------------------
 
+--
+-- Estructura de tabla para la tabla `fotos`
+--
+
+
+CREATE TABLE `fotos` (
+  `email` varchar(20) NOT NULL,
+  `foto`  varchar(30) DEFAULT NULL,
+  `descripcion` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
 
 --
@@ -100,7 +111,11 @@ CREATE TABLE `users` (
 --
 -- Índices para tablas volcadas
 --
-
+--
+-- Indices de la tabla `fotos`
+--
+ALTER TABLE `fotos`
+  ADD PRIMARY KEY (`email`);
 --
 -- Indices de la tabla `answers`
 --
