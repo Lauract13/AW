@@ -328,7 +328,7 @@ usersRouter.post("/subirFotos", multerFactory.single('image'), (request, respons
         nombreFichero = "./uploads/" + request.file.filename;
         request.session.puntos = request.session.puntos - 10;
         var texto = request.body.texto.trim();
-        daoUsers.subirFoto(request.session.user, nombreFichero, texto, (err) => {
+        dao.subirFoto(request.session.user, nombreFichero, texto, (err) => {
             if (err) {
                 response.status(500);
 

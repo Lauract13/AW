@@ -114,7 +114,7 @@ class daoUsers {
             }else{
                 conn.query(insertFoto,[email,foto,descripcion],(err, result) =>{
                     if(err){
-                        callack(err,null);
+                        callback(err,null);
                     }else{
                         callback(null, result);
                     }
