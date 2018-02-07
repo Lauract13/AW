@@ -91,9 +91,14 @@ partidas.post("/unirsePartida", (request, response) => {
                         "5_C","5_D", "5_H","5_S", "6_C", "6_D","6_H","6_S", "7_C", "7_D","7_H","7_S","8_C", "8_D", "8_H","8_S",
                         "9_C","9_D","9_H","9_S", "10_C", "10_D","10_H","10_S","A_C", "A_D","A_H","A_S","J_C", "J_D","J_H","J_S",
                         "Q_C","Q_D","Q_H","Q_S","K_C","K_D", "K_H","K_S"];
-
+                        let cartasaux = cartas;
                         for(i = 0; i < 4; i++){
-                            estadoaux.cartasJugador[i].cartas = ["2_C" , "2_D", "2_H", "2_S", "3_C", "3_D", "3_H"];
+                            for(j = 0; j < 13; j++){
+                                let ind = Math.floor((Math.random() * 52));
+                                estadoaux.cartasJugador[i].cartas[j] = cartasaux[ind];
+                                cartasaux.pop(cartasaux[ind]);
+                            }
+                            //estadoaux.cartasJugador[i].cartas = ["2_C" , "2_D", "2_H", "2_S", "3_C", "3_D", "3_H"];
                             
                         }
                         estadoaux.estado = "INICIADA";
