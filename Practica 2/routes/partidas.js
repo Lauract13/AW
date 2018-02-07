@@ -26,10 +26,10 @@ partidas.post("/newPartida", (request, response) => {
             nomJugador: nomJugador
         }],
         //ultimasCartasEnMesa
-        ultimoMovimiento: [{
+        ultimoMovimiento: {
             idJug : idJugador,
-            cartasJugadas: 0
-        }]
+            cartasJugadas: [0]
+        }
     };
     let estadoJSON = JSON.stringify(estado);
     dao.insert(nombre, estadoJSON, (err, res) => {

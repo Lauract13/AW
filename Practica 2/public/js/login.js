@@ -32,6 +32,17 @@ function createTab(id, nombre, estado) {
     html += '</tbody>\n';
     html += '</table>\n';
     html += '</div>\n';
+
+    html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
+    html += '<label class="col-md-9 control-labelPerfil">Cartas en la mesa</label>\n';
+   
+    for(let j = 0; j < estado.ultimoMovimiento.cartasJugadas.length; j++){
+        html += '<p class="col-md-10">' + estado.ultimoMovimiento.cartasJugadas[j] + '</p>\n';
+    }
+    
+    html += '</div>\n';
+
+
     return html;
 }
 
