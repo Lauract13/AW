@@ -25,7 +25,11 @@ partidas.post("/newPartida", (request, response) => {
             idJugador: idJugador,
             nomJugador: nomJugador
         }],
-        ultimasCartasEnMesa: ""
+        //ultimasCartasEnMesa
+        ultimoMovimiento: [{
+            idJug : idJugador,
+            cartasJugadas: 0
+        }]
     };
     let estadoJSON = JSON.stringify(estado);
     dao.insert(nombre, estadoJSON, (err, res) => {
@@ -63,39 +67,61 @@ partidas.post("/unirsePartida", (request, response) => {
                 let nomPartida = rows[0].nombre;
                 let estadoaux = JSON.parse(rows[0].estado);
                 let jugadoresaux = estadoaux.jugadoresEnPartida;
-                let newPlayer = {
-                    idJugador: idJugador,
-                    nomJugador: nomJugador
-                };
-                jugadoresaux.push(newPlayer);
-                estadoaux.cartasJugador.push(0);
+                if(jugadoresaux.length === 4){
+                    response.status(400);
+                }else{
+                   
+                    let newPlayer = {
+                        idJugador: idJugador,
+                        nomJugador: nomJugador
+                    };
+                    jugadoresaux.push(newPlayer);
+                    estadoaux.cartasJugador.push(0);
+                    if(jugadoresaux.length === 4){
+                        //let ind = Math.floor((Math.random() * 4));
+                        let cartas = ["2_C" , "2_D", "2_H", "2_S", "3_C", "3_D", "3_H", "3_S", "4_C","4_D","4_H","4_S",
+                        "5_C","5_D", "5_H","5_S", "6_C", "6_D","6_H","6_S", "7_C", "7_D","7_H","7_S","8_C", "8_D", "8_H","8_S",
+                        "9_C","9_D","9_H","9_S", "10_C", "10_D","10_H","10_S","A_C", "A_D","A_H","A_S","J_C", "J_D","J_H","J_S",
+                        "Q_C","Q_D","Q_H","Q_S","K_C","K_D", "K_H","K_S"];
 
-                let estado = {
-                    estado: estadoaux.estado,
-                    cartasJugador: estadoaux.cartasJugador,
-                    cartasEnMesa: estadoaux.cartasEnMesa,
-                    jugadoresEnPartida: jugadoresaux,
-                    ultimasCartasEnMesa: estadoaux.cartasEnMesa
-                };
-
-                let estadoJSON = JSON.stringify(estado);
-
-
-                dao.unirsePartida(idJugador, idPartida, estadoJSON, (err, rows) => {
-                    if (err) {
-                        console.log(err);
-                        response.status(400);
-                    } else {
-                        if (rows.affectedRows == 1) {
-                            response.json({ nomPartida: nomPartida, estado: estado });
-                            response.status(201);
-                        } else {
-
-                            response.status(400);
+                        for(i = 0; i < 4; i++){
+                            estadoaux.cartasJugador[i] = ["2_C" , "2_D", "2_H", "2_S", "3_C", "3_D", "3_H", "3_S", "4_C","4_D","4_H","4_S",
+                            "5_C","5_D", "5_H","5_S", "6_C"];
+                            
                         }
+                        estadoaux.estado = "INICIADA";
+                        console.log(estadoaux.cartasJugador);
+
+                        
                     }
-                    response.end();
-                });
+                    let estado = {
+                        estado: estadoaux.estado,
+                        cartasJugador: estadoaux.cartasJugador,
+                        cartasEnMesa: estadoaux.cartasEnMesa,
+                        jugadoresEnPartida: jugadoresaux,
+                        ultimoMovimiento: estadoaux.ultimoMovimiento
+                    };
+    
+                    let estadoJSON = JSON.stringify(estado);
+    
+    
+                    dao.unirsePartida(idJugador, idPartida, estadoJSON, (err, rows) => {
+                        if (err) {
+                            console.log(err);
+                            response.status(400);
+                        } else {
+                            if (rows.affectedRows == 1) {
+                                response.json({ nomPartida: nomPartida, estado: estado });
+                                response.status(201);
+                            } else {
+    
+                                response.status(400);
+                            }
+                        }
+                        response.end();
+                    });
+                }
+                
             }
         }
     });

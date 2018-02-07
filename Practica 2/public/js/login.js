@@ -26,7 +26,7 @@ function createTab(id, nombre, estado) {
     for (let i = 0; i < estado.jugadoresEnPartida.length; ++i) {
         html += '<tr class="jugadoresPartida' + id + '">\n';
         html += '<td>' + estado.jugadoresEnPartida[i].nomJugador + '</td>\n';
-        html += '<td>' + estado.cartasJugador[i] + '</td>\n';
+        html += '<td>' + estado.cartasJugador[i].length + '</td>\n';
         html += '</tr>\n';
     }
     html += '</tbody>\n';

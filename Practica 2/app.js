@@ -68,6 +68,7 @@ app.use('/partidas', passport.authenticate("basic", { session: false }), partida
 
 app.get("/", (request, response) => {
     response.redirect("/index.html");
+    console.log("HOLI");
 })
 
 /**
@@ -80,6 +81,7 @@ var server = https.createServer({
 }, app);
 
 server.listen(config.port, function(err) {
+    
     console.log("Escuchando en el puerto " + config.port);
 });
 
