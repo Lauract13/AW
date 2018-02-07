@@ -45,7 +45,16 @@ function createTab(id, nombre, estado) {
         for (let j = 0; j < estado.cartasEnMesa.length; j++) {
             html += '<p class="col-md-10">' + estado.cartasEnMesa[j] + '</p>\n';
         }
-        html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + "dice que ha colocado " + estado.ultimoMovimiento.cartasJugadas.length + '</p>\n';
+        if(estado.ultimoMovimiento.cartasJugadas.length == 1){
+            html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + " dice que ha colocado un " + estado.ultimoMovimiento.cartasJugadas[1]+ '</p>\n';
+            
+        }else if(estado.ultimoMovimiento.cartasJugadas.length == 2){
+            html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + " dice que ha colocado dos " + estado.ultimoMovimiento.cartasJugadas[1]+ '</p>\n';
+            
+        }else if(estado.ultimoMovimiento.cartasJugadas.length == 3){
+            html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + " dice que ha colocado tres " + estado.ultimoMovimiento.cartasJugadas[1]+ '</p>\n';
+            
+        }
 
         html += '</div>\n';
 
@@ -54,9 +63,7 @@ function createTab(id, nombre, estado) {
         for (let k = 0; k < estado.cartasJugador[1].cartas.length; k++) {
             html += '<img src="../images/' + estado.cartasJugador[1].cartas[k] + '.png" >\n';
         }
-        /**
-         * Falta por meter un if en estas dos instrucciones para comprobar si es el turno del jugador actual o no.
-         */
+        
         
         if(authUser == estado.turno){
             html += '<button type="button" class="col-md-3 btn btn-primary actPartBtn">Jugar cartas seleccionadas</button>\n';
