@@ -104,7 +104,7 @@ CREATE TABLE `users` (
   `password` varchar(20) NOT NULL,
   `name` varchar(20) NOT NULL,
   `gender` varchar(20) NOT NULL,
-  `image` varchar(30) DEFAULT NULL,
+  `image` BLOB,
   `birthDate` date DEFAULT NULL,
   `points` int(20) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

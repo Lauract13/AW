@@ -97,6 +97,7 @@ usersRouter.get("/perfil.html", (request, response) => {
             var ageDate = new Date(ageDifMs);
             age = Math.abs(ageDate.getUTCFullYear() - 1970);
         }
+       
         response.render("perfil.ejs", {
             name: request.session.name,
             years: age,
@@ -299,7 +300,7 @@ usersRouter.post("/loginpost", function(request, response) {
     });
 });
 
-usersRouter.post("/newUserForm", function(request, response) {
+usersRouter.post("/newUserForm",multerFactory.single('image'),function(request, response) {
     let name = request.body.name;
     let email = request.body.email;
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -314,8 +315,10 @@ usersRouter.post("/newUserForm", function(request, response) {
         if (request.body.birthDate !== "") {
             birthDate = request.body.birthDate;
         }
-        if (request.body.image) {
-            image = request.body.image;
+        if (request.file) {
+            image = request.file.filename;
+            console.log(request.file.filename);
+            console.log("puta");
         }
         dao.insert(email, password, name, gender, birthDate, image, (err, id) => {
             if (err || !id) {

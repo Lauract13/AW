@@ -5,7 +5,7 @@ let authPassword = null;
 let authId = null;
 let base64user = null;
 
-let selectedCards = [];
+let  selectedCards= [];
 
 function createTab(id, nombre, estado) {
     console.log(estado);
@@ -75,9 +75,15 @@ function createTab(id, nombre, estado) {
         }
 
 
+<<<<<<< HEAD
         if (currentUserPos == estado.turno) {
             html += '<div class="col-md-offset-3 col-md-3 cardRow"><button type="button" class="btn btn-primary actPartBtn">Jugar cartas seleccionadas</button></div>\n';
             html += '<div class="col-md-5 col-md-offset-1 cardRow"><button type="button" class="btn btn-danger actPartBtn">¡Mentiroso!</button></div>\n';
+=======
+        if (authUser == estado.turno) {
+            html += '<div class="col-md-offset-3 col-md-3 cardRow"><button type="button" id="jugarBtn" class="btn btn-primary actPartBtn">Jugar cartas seleccionadas</button></div>\n';
+            html += '<div class="col-md-5 col-md-offset-1 cardRow"><button type="button" id="mentirosoBtn" class="btn btn-danger actPartBtn">¡Mentiroso!</button></div>\n';
+>>>>>>> 496e151a91255d123c38bf4c68e8e904b7de2714
         } else {
             html += '<div class="col-md-12 cardRow"><p class="text-center">Aun no es tu turno</p></div>\n';
         }
@@ -140,7 +146,8 @@ $(() => {
                     selectedCards.splice(ind, 1);
                     $(target).removeClass("cardSelected");
                 }
-                console.log(selectedCards);
+
+                
             },
             error: (jqXHR, textStatus, errorThrown) => {
                 if (jqXHR.status === 401) {
@@ -160,7 +167,7 @@ $(() => {
             }
         });
     })
-
+   
     $("#tabContent").on("click", ".actPartBtn", (event) => {
         let target = event.currentTarget;
         let id = $(target).prop("id");
@@ -195,7 +202,7 @@ $(() => {
             }
         })
     })
-
+   
     $("#unirseBtn").on("click", () => {
         let idJugador = authId;
         let nombreJugador = authUser;
@@ -304,7 +311,58 @@ $(() => {
         $(".gameTab").remove();
         $(".gameTabList").remove();
     })
+    $("#jugarBtn").on("click", () =>{
+        var encontrado = false;
+        var cont = 0;
+        //cambiar turno, cambiar mis cartas, cambiar cartas en la mesa, cambiar ultimo movimiento
+        if(estado.turno == 4){
+            estado.turno == 1;
+        }else{
+            estado.turno = estado.turno + 1;
+        }
+        estado.ultimoMovimiento.idJugador = authId;
+        estado.ultimoMovimiento.cartas = selectedCards;
+        estado.cartasEnMesa = selectedCards;
 
+        while(!encontrado){
+            if(estado.cartasJugador[cont].idJugador == authId){
+                //splice
+                estado.cartasJugador[cont].cartas = estado.cartasJugador[cont].cartas - selectedCards;
+                encontrado = true;
+            }else{
+                cont++;
+            }
+        }
+        
+         $.ajax({
+             type: "POST",
+             url: "/partidas/actualizarPartida",
+             contentType:"application/json",
+             data:JSON.stringify({estado:estado}),
+             success: (data, textStatus, jqHRK)=>{
+                $("#errorTxt").text("Bien jugado");
+             },
+             error:(jqXHR, textStatus, errorThrown)=>{
+                if (jqXHR.status === 401) {
+                    base64user = null;
+                    authUser = null;
+                    authPassword = null;
+                    authId = null;
+                    $("#titleUser").text("");
+                    $("#titleUser").addClass("hidden");
+                    $("#disconnectBtn").addClass("hidden");
+                    $("#loginContainer").removeClass("hidden");
+                    $("#profileContainer").addClass("hidden");
+                    $("#errorTxt").text("Necesitas hacer login.");
+                } else if (jqXHR.status === 500) {
+                    $("#errorTxtPartida").text("No se pudo conectar. Intentalo de nuevo mas tarde.");
+                }
+             }   
+         });
+
+
+        
+    });
     $("#newUserBtn").on("click", () => {
         let user = $("#usernameInput").val();
         let password = $("#passwordInput").val();
