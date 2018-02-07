@@ -5,9 +5,13 @@ let authPassword = null;
 let authId = null;
 let base64user = null;
 
+let selectedCards = [];
+
 function createTab(id, nombre, estado) {
+    console.log(estado);
+    let currentUserPos = null;
     let html = '<div id="' + id + '" class="tab-pane fade gameTab">\n';
-    html += '<div class="infoPart">\n';
+    html += '<div class="row infoPart">\n';
     html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
     html += '<label class="col-md-9 control-labelPerfil">Partida ' + nombre + '</label>\n';
     html += '<button type="button" class="col-md-3 btn btn-primary actPartBtn" id="' + id + '">Actualizar Partida</button>\n';
@@ -18,7 +22,7 @@ function createTab(id, nombre, estado) {
     }
     html += '<p class="col-md-10">El identificador de la partida es ' + id + '</p>\n';
     html += '</div>\n';
-    html += '<div class="col-md-3 col-md-offset-1 infoJugadores">\n';
+    html += '<div class="col-md-3 col-md-offset-2 infoJugadores">\n';
     html += '<p>Jugadores</p>\n';
     html += '<table class="table table-condensed">\n';
     html += '<thead>\n';
@@ -33,6 +37,7 @@ function createTab(id, nombre, estado) {
         html += '<td>' + estado.jugadoresEnPartida[i].nomJugador + '</td>\n';
         html += '<td>' + estado.cartasJugador[i].cartas.length + '</td>\n';
         html += '</tr>\n';
+        if (estado.cartasJugador[i].idJugador === authId) currentUserPos = i;
     }
     html += '</tbody>\n';
     html += '</table>\n';
@@ -40,31 +45,36 @@ function createTab(id, nombre, estado) {
 
     if (estado.jugadoresEnPartida.length === 4) {
         html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
-        html += '<label class="col-md-9 control-labelPerfil">Cartas en la mesa</label>\n';
+        html += '<label class="col-md-12 control-labelPerfil">Cartas en la mesa</label>\n';
 
         for (let j = 0; j < estado.cartasEnMesa.length; j++) {
-            html += '<p class="col-md-10">' + estado.cartasEnMesa[j] + '</p>\n';
+            html += '<p class="col-md-12">' + estado.cartasEnMesa[j] + '</p>\n';
         }
-        html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + "dice que ha colocado " + estado.ultimoMovimiento.cartasJugadas.length + '</p>\n';
+        html += '<p class="col-md-12">' + estado.ultimoMovimiento.idJugador + "dice que ha colocado " + estado.ultimoMovimiento.cartasJugadas.length + '</p>\n';
 
         html += '</div>\n';
+        html += '<div class="col-md-5"></div>\n';
 
-        html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
-        html += '<label class="col-md-12 control-labelPerfil">Tus cartas</label>\n';
-        for (let k = 0; k < estado.cartasJugador[1].cartas.length; k++) {
-            html += '<img src="../images/' + estado.cartasJugador[1].cartas[k] + '.png" >\n';
+        html += '<div id="cartasDiv" class="col-md-offset-1 col-md-10 col-md-offset-1 datosPartida">\n';
+        html += '<label class="col-md-11 control-labelPerfil">Tus cartas</label>\n';
+        let offset = 0;
+        for (let k = 0; k < estado.cartasJugador[currentUserPos].cartas.length; k++) {
+            html += '<div class="col-md-3 cardRow">'
+            html += '<img class="cartasJugador" id="' + k + ' ' + id + ' ' + currentUserPos + '" src="../images/' + estado.cartasJugador[currentUserPos].cartas[k] + '.png" >\n';
+            html += '</div>';
         }
         /**
          * Falta por meter un if en estas dos instrucciones para comprobar si es el turno del jugador actual o no.
          */
-        html += '<button type="button" class="col-md-3 btn btn-primary actPartBtn">Jugar cartas seleccionadas</button>\n';
-        html += '<button type="button" class="col-md-3 btn btn-danger actPartBtn">¡Mentiroso!</button>\n';
+        html += '<div class="col-md-offset-3 col-md-3 cardRow"><button type="button" class="btn btn-primary actPartBtn">Jugar cartas seleccionadas</button></div>\n';
+        html += '<div class="col-md-5 col-md-offset-1 cardRow"><button type="button" class="btn btn-danger actPartBtn">¡Mentiroso!</button></div>\n';
 
         html += '</div>\n';
     }
     html += '</div>\n';
     html += '</div>\n';
 
+    console.log(html);
     return html;
 }
 
@@ -87,6 +97,55 @@ function updateTab(id, estado) {
 $(() => {
 
     let actBtns = [];
+
+    $("#tabContent").on("click", ".cartasJugador", (event) => {
+        let target = event.currentTarget;
+        console.log(target);
+        let ids = $(target).prop("id").split(" ");
+        let cardId = ids[0];
+        let gameId = ids[1];
+        let userPos = ids[2];
+        let selected = $(target).hasClass("cardSelected");
+        $.ajax({
+            type: "GET",
+            url: "/partidas/estadoPartida",
+            contentType: "application/json",
+            beforeSend: function(req) {
+                if (base64user) {
+                    req.setRequestHeader("Authorization", "Basic " + base64user);
+                }
+            },
+            data: { idPartida: gameId },
+            success: (data, textStatus, jqXHR) => {
+                let estado = JSON.parse(data.estado);
+                if (!selected) {
+                    selectedCards.push(estado.cartasJugador[userPos].cartas[cardId]);
+                    $(target).addClass("cardSelected");
+                } else {
+                    let ind = selectedCards.indexOf(estado.cartasJugador[userPos].cartas[cardId]);
+                    selectedCards.splice(ind, 1);
+                    $(target).removeClass("cardSelected");
+                }
+                console.log(selectedCards);
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 401) {
+                    base64user = null;
+                    authUser = null;
+                    authPassword = null;
+                    authId = null;
+                    $("#titleUser").text("");
+                    $("#titleUser").addClass("hidden");
+                    $("#disconnectBtn").addClass("hidden");
+                    $("#loginContainer").removeClass("hidden");
+                    $("#profileContainer").addClass("hidden");
+                    $("#errorTxt").text("Necesitas hacer login.");
+                } else if (jqXHR.status === 500) {
+                    $("#errorTxtPartida").text("No se pudo conectar. Intentalo de nuevo mas tarde.");
+                }
+            }
+        });
+    })
 
     $("#tabContent").on("click", ".actPartBtn", (event) => {
         let target = event.currentTarget;
