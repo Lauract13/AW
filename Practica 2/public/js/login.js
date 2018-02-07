@@ -75,7 +75,7 @@ function createTab(id, nombre, estado) {
         }
 
 
-        if (authUser == estado.turno) {
+        if (currentUserPos == estado.turno) {
             html += '<div class="col-md-offset-3 col-md-3 cardRow"><button type="button" class="btn btn-primary actPartBtn">Jugar cartas seleccionadas</button></div>\n';
             html += '<div class="col-md-5 col-md-offset-1 cardRow"><button type="button" class="btn btn-danger actPartBtn">¡Mentiroso!</button></div>\n';
         } else {
