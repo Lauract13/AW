@@ -36,10 +36,21 @@ function createTab(id, nombre, estado) {
     html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
     html += '<label class="col-md-9 control-labelPerfil">Cartas en la mesa</label>\n';
    
-    for(let j = 0; j < estado.ultimoMovimiento.cartasJugadas.length; j++){
-        html += '<p class="col-md-10">' + estado.ultimoMovimiento.cartasJugadas[j] + '</p>\n';
+    for(let j = 0; j < estado.cartasEnMesa.length; j++){
+        html += '<p class="col-md-10">' + estado.cartasEnMesa[j] + '</p>\n';
     }
+    html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + "dice que ha colocado " + estado.ultimoMovimiento.cartasJugadas.length + '</p>\n';
     
+    html += '</div>\n';
+
+    html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
+    html += '<label class="col-md-12 control-labelPerfil">Tus cartas</label>\n';
+    for(let k = 0; k < estado.cartasJugador[1].cartas.length; k++){
+        html += '<img src="../images/' + estado.cartasJugador[1].cartas[k] + '.png" >\n';
+    }
+    html += '<button type="button" class="col-md-3 btn btn-primary actPartBtn">Jugar cartas seleccionadas</button>\n';
+    html += '<button type="button" class="col-md-3 btn btn-danger actPartBtn">¡Mentiroso!</button>\n';
+   
     html += '</div>\n';
 
 
