@@ -30,7 +30,23 @@ class daoPartidas {
             }
         });
     }
-
+    actualizarPartida(estado,id, callback){
+        this.pool.getConnection((err, conn) =>{
+            if(err){
+                callback("Connection error.", null);
+            }else{
+                conn.query(updateEstado, [estado, id], (err, res) =>{
+                    if (err) {
+                        callback("Update error: " + err, null);
+                    } else {
+                        callback(null, res);
+                    }
+                    conn.release();
+                    return;
+                });
+            }
+        })
+    }
     insert(nombre, estado, callback) {
         this.pool.getConnection((err, conn) => {
             if (err) {

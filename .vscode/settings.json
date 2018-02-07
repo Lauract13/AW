@@ -5,6 +5,8 @@
         "partidas",
         "preguntasRouter",
         "usersRouter",
-        "daoUsers"
+        "daoUsers",
+        "app",
+        "login"
     ]
 }

@@ -13,6 +13,19 @@ let daoPartidas = require("../DAOs/daoPartidas.js");
 
 let dao = new daoPartidas(pool);
 
+partidas.post("/actualizarPartida", (request, response) =>{
+    let estadoJSON = JSON.stringify(request.body.estado);
+    let nombre = request.body.nombre;
+    dao.actualizarPartida(estadoJSON,nombre, (err, rows)=>{
+        if(err){
+            response.status(400);
+        }else{
+            response.status(201);
+        }
+    });
+
+    
+});
 partidas.post("/newPartida", (request, response) => {
     let nombre = request.body.nombre;
     let idJugador = request.body.idJugador;
