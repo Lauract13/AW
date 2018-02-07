@@ -1,5 +1,10 @@
 "use strict";
 
+let authUser = null;
+let authPassword = null;
+let authId = null;
+let base64user = null;
+
 function createTab(id, nombre, estado) {
     let html = '<div id="' + id + '" class="tab-pane fade gameTab">\n';
     html += '<div class="infoPart">\n';
@@ -33,26 +38,32 @@ function createTab(id, nombre, estado) {
     html += '</table>\n';
     html += '</div>\n';
 
-    html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
-    html += '<label class="col-md-9 control-labelPerfil">Cartas en la mesa</label>\n';
-   
-    for(let j = 0; j < estado.cartasEnMesa.length; j++){
-        html += '<p class="col-md-10">' + estado.cartasEnMesa[j] + '</p>\n';
-    }
-    html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + "dice que ha colocado " + estado.ultimoMovimiento.cartasJugadas.length + '</p>\n';
-    
-    html += '</div>\n';
+    if (estado.jugadoresEnPartida.length === 4) {
+        html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
+        html += '<label class="col-md-9 control-labelPerfil">Cartas en la mesa</label>\n';
 
-    html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
-    html += '<label class="col-md-12 control-labelPerfil">Tus cartas</label>\n';
-    for(let k = 0; k < estado.cartasJugador[1].cartas.length; k++){
-        html += '<img src="../images/' + estado.cartasJugador[1].cartas[k] + '.png" >\n';
-    }
-    html += '<button type="button" class="col-md-3 btn btn-primary actPartBtn">Jugar cartas seleccionadas</button>\n';
-    html += '<button type="button" class="col-md-3 btn btn-danger actPartBtn">¡Mentiroso!</button>\n';
-   
-    html += '</div>\n';
+        for (let j = 0; j < estado.cartasEnMesa.length; j++) {
+            html += '<p class="col-md-10">' + estado.cartasEnMesa[j] + '</p>\n';
+        }
+        html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + "dice que ha colocado " + estado.ultimoMovimiento.cartasJugadas.length + '</p>\n';
 
+        html += '</div>\n';
+
+        html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
+        html += '<label class="col-md-12 control-labelPerfil">Tus cartas</label>\n';
+        for (let k = 0; k < estado.cartasJugador[1].cartas.length; k++) {
+            html += '<img src="../images/' + estado.cartasJugador[1].cartas[k] + '.png" >\n';
+        }
+        /**
+         * Falta por meter un if en estas dos instrucciones para comprobar si es el turno del jugador actual o no.
+         */
+        html += '<button type="button" class="col-md-3 btn btn-primary actPartBtn">Jugar cartas seleccionadas</button>\n';
+        html += '<button type="button" class="col-md-3 btn btn-danger actPartBtn">¡Mentiroso!</button>\n';
+
+        html += '</div>\n';
+    }
+    html += '</div>\n';
+    html += '</div>\n';
 
     return html;
 }
@@ -74,11 +85,6 @@ function updateTab(id, estado) {
 }
 
 $(() => {
-
-    let authUser = null;
-    let authPassword = null;
-    let authId = null;
-    let base64user = null;
 
     let actBtns = [];
 
