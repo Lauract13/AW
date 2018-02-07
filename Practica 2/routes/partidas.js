@@ -19,7 +19,10 @@ partidas.post("/newPartida", (request, response) => {
     let nomJugador = request.body.nomJugador;
     let estado = {
         estado: "NO INICIADA",
-        cartasJugador: [0],
+        cartasJugador: [{
+            idJugador: idJugador,
+            cartas: [0]
+        }],
         cartasEnMesa: [0],
         jugadoresEnPartida: [{
             idJugador: idJugador,
@@ -27,9 +30,10 @@ partidas.post("/newPartida", (request, response) => {
         }],
         //ultimasCartasEnMesa
         ultimoMovimiento: {
-            idJug : idJugador,
+            idJugador : idJugador,
             cartasJugadas: [0]
-        }
+        },
+        turno: idJugador
     };
     let estadoJSON = JSON.stringify(estado);
     dao.insert(nombre, estadoJSON, (err, res) => {
@@ -76,7 +80,11 @@ partidas.post("/unirsePartida", (request, response) => {
                         nomJugador: nomJugador
                     };
                     jugadoresaux.push(newPlayer);
-                    estadoaux.cartasJugador.push(0);
+                    let jugador = {
+                        idJugador: idJugador,
+                        cartas: [0]
+                    }
+                    estadoaux.cartasJugador.push(jugador);
                     if(jugadoresaux.length === 4){
                         //let ind = Math.floor((Math.random() * 4));
                         let cartas = ["2_C" , "2_D", "2_H", "2_S", "3_C", "3_D", "3_H", "3_S", "4_C","4_D","4_H","4_S",
@@ -85,7 +93,7 @@ partidas.post("/unirsePartida", (request, response) => {
                         "Q_C","Q_D","Q_H","Q_S","K_C","K_D", "K_H","K_S"];
 
                         for(i = 0; i < 4; i++){
-                            estadoaux.cartasJugador[i] = ["2_C" , "2_D", "2_H", "2_S", "3_C", "3_D", "3_H", "3_S", "4_C","4_D","4_H","4_S",
+                            estadoaux.cartasJugador[i].cartas = ["2_C" , "2_D", "2_H", "2_S", "3_C", "3_D", "3_H", "3_S", "4_C","4_D","4_H","4_S",
                             "5_C","5_D", "5_H","5_S", "6_C"];
                             
                         }
