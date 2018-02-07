@@ -13,18 +13,18 @@ let daoPartidas = require("../DAOs/daoPartidas.js");
 
 let dao = new daoPartidas(pool);
 
-partidas.post("/actualizarPartida", (request, response) =>{
+partidas.post("/actualizarPartida", (request, response) => {
     let estadoJSON = JSON.stringify(request.body.estado);
     let nombre = request.body.nombre;
-    dao.actualizarPartida(estadoJSON,nombre, (err, rows)=>{
-        if(err){
+    dao.actualizarPartida(estadoJSON, nombre, (err, rows) => {
+        if (err) {
             response.status(400);
-        }else{
+        } else {
             response.status(201);
         }
     });
 
-    
+
 });
 partidas.post("/newPartida", (request, response) => {
     let nombre = request.body.nombre;
@@ -35,17 +35,19 @@ partidas.post("/newPartida", (request, response) => {
         turno: idJugador,
         cartasJugador: [{
             idJugador: idJugador,
-            cartas: [0]
+            cartas: []
         }],
-        cartasEnMesa: [0],
+        cartasEnMesa: {
+            cartas: [],
+            tipo: "no"
+        },
         jugadoresEnPartida: [{
             idJugador: idJugador,
             nomJugador: nomJugador
         }],
-        //ultimasCartasEnMesa
         ultimoMovimiento: {
-            idJugador : idJugador,
-            cartasJugadas: [0]
+            idJugador: idJugador,
+            cartasJugadas: []
         }
     };
     let estadoJSON = JSON.stringify(estado);
@@ -84,10 +86,10 @@ partidas.post("/unirsePartida", (request, response) => {
                 let nomPartida = rows[0].nombre;
                 let estadoaux = JSON.parse(rows[0].estado);
                 let jugadoresaux = estadoaux.jugadoresEnPartida;
-                if(jugadoresaux.length === 4){
+                if (jugadoresaux.length === 4) {
                     response.status(400);
-                }else{
-                   
+                } else {
+
                     let newPlayer = {
                         idJugador: idJugador,
                         nomJugador: nomJugador
@@ -98,28 +100,29 @@ partidas.post("/unirsePartida", (request, response) => {
                         cartas: [0]
                     }
                     estadoaux.cartasJugador.push(jugador);
-                    if(jugadoresaux.length === 4){
-                        
-                        let cartas = ["2_C" , "2_D", "2_H", "2_S", "3_C", "3_D", "3_H", "3_S", "4_C","4_D","4_H","4_S",
-                        "5_C","5_D", "5_H","5_S", "6_C", "6_D","6_H","6_S", "7_C", "7_D","7_H","7_S","8_C", "8_D", "8_H","8_S",
-                        "9_C","9_D","9_H","9_S", "10_C", "10_D","10_H","10_S","A_C", "A_D","A_H","A_S","J_C", "J_D","J_H","J_S",
-                        "Q_C","Q_D","Q_H","Q_S","K_C","K_D", "K_H","K_S"];
+                    if (jugadoresaux.length === 4) {
+
+                        let cartas = ["2_C", "2_D", "2_H", "2_S", "3_C", "3_D", "3_H", "3_S", "4_C", "4_D", "4_H", "4_S",
+                            "5_C", "5_D", "5_H", "5_S", "6_C", "6_D", "6_H", "6_S", "7_C", "7_D", "7_H", "7_S", "8_C", "8_D", "8_H", "8_S",
+                            "9_C", "9_D", "9_H", "9_S", "10_C", "10_D", "10_H", "10_S", "A_C", "A_D", "A_H", "A_S", "J_C", "J_D", "J_H", "J_S",
+                            "Q_C", "Q_D", "Q_H", "Q_S", "K_C", "K_D", "K_H", "K_S"
+                        ];
                         let cartasaux = cartas;
-                        for(i = 0; i < 4; i++){
-                            for(j = 0; j < 13; j++){
-                             
+                        for (i = 0; i < 4; i++) {
+                            for (j = 0; j < 13; j++) {
+
                                 let ind = Math.floor((Math.random() * cartasaux.length));
                                 estadoaux.cartasJugador[i].cartas[j] = cartasaux[ind];
                                 cartasaux.pop(cartasaux[ind]);
-                               
+
                             }
-                           
-                            
+
+
                         }
                         estadoaux.estado = "INICIADA";
-                        
 
-                        
+
+
                     }
                     let estado = {
                         estado: estadoaux.estado,
@@ -129,10 +132,10 @@ partidas.post("/unirsePartida", (request, response) => {
                         jugadoresEnPartida: jugadoresaux,
                         ultimoMovimiento: estadoaux.ultimoMovimiento
                     };
-    
+
                     let estadoJSON = JSON.stringify(estado);
-    
-    
+
+
                     dao.unirsePartida(idJugador, idPartida, estadoJSON, (err, rows) => {
                         if (err) {
                             console.log(err);
@@ -142,14 +145,14 @@ partidas.post("/unirsePartida", (request, response) => {
                                 response.json({ nomPartida: nomPartida, estado: estado });
                                 response.status(201);
                             } else {
-    
+
                                 response.status(400);
                             }
                         }
                         response.end();
                     });
                 }
-                
+
             }
         }
     });

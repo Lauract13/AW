@@ -5,7 +5,7 @@ let authPassword = null;
 let authId = null;
 let base64user = null;
 
-let  selectedCards= [];
+let selectedCards = [];
 
 function createTab(id, nombre, estado) {
     console.log(estado);
@@ -47,19 +47,8 @@ function createTab(id, nombre, estado) {
         html += '<div class="col-md-6 col-md-offset-1 datosPartida">\n';
         html += '<label class="col-md-12 control-labelPerfil">Cartas en la mesa</label>\n';
 
-        for (let j = 0; j < estado.cartasEnMesa.length; j++) {
-            html += '<p class="col-md-12">' + estado.cartasEnMesa[j] + '</p>\n';
-        }
-
-        if (estado.ultimoMovimiento.cartasJugadas.length == 1) {
-            html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + " dice que ha colocado un " + estado.ultimoMovimiento.cartasJugadas[1] + '</p>\n';
-
-        } else if (estado.ultimoMovimiento.cartasJugadas.length == 2) {
-            html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + " dice que ha colocado dos " + estado.ultimoMovimiento.cartasJugadas[1] + '</p>\n';
-
-        } else if (estado.ultimoMovimiento.cartasJugadas.length == 3) {
-            html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + " dice que ha colocado tres " + estado.ultimoMovimiento.cartasJugadas[1] + '</p>\n';
-
+        if (estado.cartasEnMesa.cartas.length > 0) {
+            html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + " dice que ha colocado " + estado.ultimoMovimiento.cartasJugadas.length + ' ' + estado.cartasEnMesa.tipo + '</p>\n';
         }
 
         html += '</div>\n';
@@ -75,15 +64,10 @@ function createTab(id, nombre, estado) {
         }
 
 
-<<<<<<< HEAD
         if (currentUserPos == estado.turno) {
-            html += '<div class="col-md-offset-3 col-md-3 cardRow"><button type="button" class="btn btn-primary actPartBtn">Jugar cartas seleccionadas</button></div>\n';
-            html += '<div class="col-md-5 col-md-offset-1 cardRow"><button type="button" class="btn btn-danger actPartBtn">¡Mentiroso!</button></div>\n';
-=======
-        if (authUser == estado.turno) {
-            html += '<div class="col-md-offset-3 col-md-3 cardRow"><button type="button" id="jugarBtn" class="btn btn-primary actPartBtn">Jugar cartas seleccionadas</button></div>\n';
-            html += '<div class="col-md-5 col-md-offset-1 cardRow"><button type="button" id="mentirosoBtn" class="btn btn-danger actPartBtn">¡Mentiroso!</button></div>\n';
->>>>>>> 496e151a91255d123c38bf4c68e8e904b7de2714
+            html += '<div class="col-md-offset-2 col-md-2 cardRow"><button type="button" id="jugarBtn" class="btn btn-primary ' + id + '">Jugar cartas seleccionadas</button></div>\n';
+            if (estado.cartasEnMesa.cartas.length === 0) html += '<div class="col-md-offset-2 col-md-2 cardRow"><input type="text" id="tipoCarta ' + id + '"></div>\n';
+            html += '<div class="col-md-5 col-md-offset-1 cardRow"><button type="button" id="mentirosoBtn ' + id + '" class="btn btn-danger">¡Mentiroso!</button></div>\n';
         } else {
             html += '<div class="col-md-12 cardRow"><p class="text-center">Aun no es tu turno</p></div>\n';
         }
@@ -147,7 +131,7 @@ $(() => {
                     $(target).removeClass("cardSelected");
                 }
 
-                
+
             },
             error: (jqXHR, textStatus, errorThrown) => {
                 if (jqXHR.status === 401) {
@@ -167,7 +151,7 @@ $(() => {
             }
         });
     })
-   
+
     $("#tabContent").on("click", ".actPartBtn", (event) => {
         let target = event.currentTarget;
         let id = $(target).prop("id");
@@ -201,8 +185,10 @@ $(() => {
                 }
             }
         })
-    })
-   
+    });
+
+
+
     $("#unirseBtn").on("click", () => {
         let idJugador = authId;
         let nombreJugador = authUser;
@@ -310,39 +296,77 @@ $(() => {
         $("#profileContainer").addClass("hidden");
         $(".gameTab").remove();
         $(".gameTabList").remove();
-    })
-    $("#jugarBtn").on("click", () =>{
-        var encontrado = false;
-        var cont = 0;
-        //cambiar turno, cambiar mis cartas, cambiar cartas en la mesa, cambiar ultimo movimiento
-        if(estado.turno == 4){
-            estado.turno == 1;
-        }else{
-            estado.turno = estado.turno + 1;
-        }
-        estado.ultimoMovimiento.idJugador = authId;
-        estado.ultimoMovimiento.cartas = selectedCards;
-        estado.cartasEnMesa = selectedCards;
+    });
 
-        while(!encontrado){
-            if(estado.cartasJugador[cont].idJugador == authId){
-                //splice
-                estado.cartasJugador[cont].cartas = estado.cartasJugador[cont].cartas - selectedCards;
-                encontrado = true;
-            }else{
-                cont++;
-            }
-        }
-        
-         $.ajax({
-             type: "POST",
-             url: "/partidas/actualizarPartida",
-             contentType:"application/json",
-             data:JSON.stringify({estado:estado}),
-             success: (data, textStatus, jqHRK)=>{
-                $("#errorTxt").text("Bien jugado");
-             },
-             error:(jqXHR, textStatus, errorThrown)=>{
+    $("#tabContent").on("click", "#jugarBtn", (event) => {
+        let gameId = $(event.currentTarget).prop("class").split(" ")[2];
+        console.log(gameId);
+        $.ajax({
+            type: "GET",
+            url: "/partidas/estadoPartida",
+            contentType: "application/json",
+            beforeSend: function(req) {
+                if (base64user) {
+                    req.setRequestHeader("Authorization", "Basic " + base64user);
+                }
+            },
+            data: { idPartida: gameId },
+            success: (data, textStatus, jqXHR) => {
+                let estado = JSON.parse(data.estado);
+
+                var encontrado = false;
+                var index = -1;
+                //cambiar turno, cambiar mis cartas, cambiar cartas en la mesa, cambiar ultimo movimiento
+                for (let i = 0; i < estado.jugadoresEnPartida.length; i++) {
+                    if (estado.jugadoresEnPartida[i].idJugador === authId) index = i;
+                }
+                estado.turno++;
+                if (estado.turno == 4) {
+                    estado.turno == 0;
+                }
+                estado.ultimoMovimiento.idJugador = authId;
+                estado.ultimoMovimiento.cartas = selectedCards;
+                selectedCards.forEach(c => {
+                    let ind = estado.cartasJugador[index].cartas.indexOf(c);
+                    estado.cartasJugador[index].cartas.splice(ind, 1);
+                    estado.cartasEnMesa.cartas.push(c);
+                });
+                selectedCards = [];
+
+                $.ajax({
+                    type: "POST",
+                    url: "/partidas/actualizarPartida",
+                    contentType: "application/json",
+                    beforeSend: function(req) {
+                        if (base64user) {
+                            req.setRequestHeader("Authorization", "Basic " + base64user);
+                        }
+                    },
+                    data: JSON.stringify({ estado: estado }),
+                    success: (data, textStatus, jqHRK) => {
+                        console.log("aaa");
+                        $("#errorTxt").text("Bien jugado");
+                    },
+                    error: (jqXHR, textStatus, errorThrown) => {
+                        if (jqXHR.status === 401) {
+                            base64user = null;
+                            authUser = null;
+                            authPassword = null;
+                            authId = null;
+                            $("#titleUser").text("");
+                            $("#titleUser").addClass("hidden");
+                            $("#disconnectBtn").addClass("hidden");
+                            $("#loginContainer").removeClass("hidden");
+                            $("#profileContainer").addClass("hidden");
+                            $("#errorTxt").text("Necesitas hacer login.");
+                        } else if (jqXHR.status === 500) {
+                            $("#errorTxtPartida").text("No se pudo conectar. Intentalo de nuevo mas tarde.");
+                        }
+                    }
+                });
+
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
                 if (jqXHR.status === 401) {
                     base64user = null;
                     authUser = null;
@@ -357,11 +381,11 @@ $(() => {
                 } else if (jqXHR.status === 500) {
                     $("#errorTxtPartida").text("No se pudo conectar. Intentalo de nuevo mas tarde.");
                 }
-             }   
-         });
+            }
+        });
 
 
-        
+
     });
     $("#newUserBtn").on("click", () => {
         let user = $("#usernameInput").val();
