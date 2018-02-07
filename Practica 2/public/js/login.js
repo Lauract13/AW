@@ -50,7 +50,17 @@ function createTab(id, nombre, estado) {
         for (let j = 0; j < estado.cartasEnMesa.length; j++) {
             html += '<p class="col-md-12">' + estado.cartasEnMesa[j] + '</p>\n';
         }
-        html += '<p class="col-md-12">' + estado.ultimoMovimiento.idJugador + "dice que ha colocado " + estado.ultimoMovimiento.cartasJugadas.length + '</p>\n';
+
+        if (estado.ultimoMovimiento.cartasJugadas.length == 1) {
+            html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + " dice que ha colocado un " + estado.ultimoMovimiento.cartasJugadas[1] + '</p>\n';
+
+        } else if (estado.ultimoMovimiento.cartasJugadas.length == 2) {
+            html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + " dice que ha colocado dos " + estado.ultimoMovimiento.cartasJugadas[1] + '</p>\n';
+
+        } else if (estado.ultimoMovimiento.cartasJugadas.length == 3) {
+            html += '<p class="col-md-10">' + estado.ultimoMovimiento.idJugador + " dice que ha colocado tres " + estado.ultimoMovimiento.cartasJugadas[1] + '</p>\n';
+
+        }
 
         html += '</div>\n';
         html += '<div class="col-md-5"></div>\n';
@@ -63,11 +73,15 @@ function createTab(id, nombre, estado) {
             html += '<img class="cartasJugador" id="' + k + ' ' + id + ' ' + currentUserPos + '" src="../images/' + estado.cartasJugador[currentUserPos].cartas[k] + '.png" >\n';
             html += '</div>';
         }
-        /**
-         * Falta por meter un if en estas dos instrucciones para comprobar si es el turno del jugador actual o no.
-         */
-        html += '<div class="col-md-offset-3 col-md-3 cardRow"><button type="button" class="btn btn-primary actPartBtn">Jugar cartas seleccionadas</button></div>\n';
-        html += '<div class="col-md-5 col-md-offset-1 cardRow"><button type="button" class="btn btn-danger actPartBtn">¡Mentiroso!</button></div>\n';
+
+
+        if (authUser == estado.turno) {
+            html += '<div class="col-md-offset-3 col-md-3 cardRow"><button type="button" class="btn btn-primary actPartBtn">Jugar cartas seleccionadas</button></div>\n';
+            html += '<div class="col-md-5 col-md-offset-1 cardRow"><button type="button" class="btn btn-danger actPartBtn">¡Mentiroso!</button></div>\n';
+        } else {
+            html += '<div class="col-md-12 cardRow"><p class="text-center">Aun no es tu turno</p></div>\n';
+        }
+
 
         html += '</div>\n';
     }
