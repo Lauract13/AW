@@ -57,8 +57,13 @@ function createTab(id, nombre, estado) {
         /**
          * Falta por meter un if en estas dos instrucciones para comprobar si es el turno del jugador actual o no.
          */
-        html += '<button type="button" class="col-md-3 btn btn-primary actPartBtn">Jugar cartas seleccionadas</button>\n';
-        html += '<button type="button" class="col-md-3 btn btn-danger actPartBtn">¡Mentiroso!</button>\n';
+        if(id === estado.turno){
+            html += '<button type="button" class="col-md-3 btn btn-primary actPartBtn">Jugar cartas seleccionadas</button>\n';
+            html += '<button type="button" class="col-md-3 btn btn-danger actPartBtn">¡Mentiroso!</button>\n';
+        }else{
+            html += '<p class="col-md-10">Aun no es tu turno</p>\n';
+        }
+       
 
         html += '</div>\n';
     }

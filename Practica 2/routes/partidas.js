@@ -19,6 +19,7 @@ partidas.post("/newPartida", (request, response) => {
     let nomJugador = request.body.nomJugador;
     let estado = {
         estado: "NO INICIADA",
+        turno: idJugador,
         cartasJugador: [{
             idJugador: idJugador,
             cartas: [0]
@@ -32,8 +33,7 @@ partidas.post("/newPartida", (request, response) => {
         ultimoMovimiento: {
             idJugador : idJugador,
             cartasJugadas: [0]
-        },
-        turno: idJugador
+        }
     };
     let estadoJSON = JSON.stringify(estado);
     dao.insert(nombre, estadoJSON, (err, res) => {
@@ -103,6 +103,7 @@ partidas.post("/unirsePartida", (request, response) => {
                     }
                     let estado = {
                         estado: estadoaux.estado,
+                        turno: estadoaux.turno,
                         cartasJugador: estadoaux.cartasJugador,
                         cartasEnMesa: estadoaux.cartasEnMesa,
                         jugadoresEnPartida: jugadoresaux,
